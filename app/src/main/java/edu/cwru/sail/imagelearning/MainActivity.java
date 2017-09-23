@@ -1,11 +1,13 @@
 package edu.cwru.sail.imagelearning;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Environment;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ImageView;
 
 import com.squareup.picasso.Picasso;
@@ -42,6 +44,15 @@ public class MainActivity extends Activity {
 		}
 
 
+	}
+
+	public boolean browseFolder(MenuItem item) {
+		Log.d("here we go:", "Clicked on button");
+		Intent i = new Intent(Intent.ACTION_PICK,
+				android.provider.MediaStore.Images.Media.INTERNAL_CONTENT_URI);
+		final int ACTIVITY_SELECT_IMAGE = 1234;
+		startActivityForResult(i, ACTIVITY_SELECT_IMAGE);
+		return true;
 	}
 
 	@Override
