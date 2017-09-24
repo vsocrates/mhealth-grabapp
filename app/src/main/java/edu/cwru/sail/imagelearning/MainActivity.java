@@ -99,8 +99,9 @@ public class MainActivity extends Activity {
 
 				//Get ImageURi and load with help of picasso
 				//Uri selectedImageURI = data.getData()
-				Picasso.with(this).load(data.getData()).resize(1000, 1000)
-						.into(iv);
+				iv.setImageURI(data.getData());
+//				Picasso.with(this).load(data.getData()).resize(1000, 1000)
+//						.into(iv);
 
 		}
 

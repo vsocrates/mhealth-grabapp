@@ -22,6 +22,8 @@ public class DrawingImageView extends ImageView {
 
     private Paint paint = new Paint();
 
+    private Canvas mCanvas;
+
     private VelocityTracker mVelocityTracker = null;
 
     public DrawingImageView(Context context) {
@@ -111,6 +113,7 @@ public class DrawingImageView extends ImageView {
 
             case MotionEvent.ACTION_CANCEL:
                 mVelocityTracker.recycle();
+                mVelocityTracker = null;
                 break;
         }
         return true;
