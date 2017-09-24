@@ -17,7 +17,7 @@ import java.io.File;
 public class MainActivity extends Activity {
 
 	private ImageView iv;
-	private final String imgDir = Environment.getExternalStorageDirectory().toString() + "/DCIM/sample1";
+	private final String imgDir = Environment.getExternalStorageDirectory().toString() + "/DCIM/";
 	//Make sure that this part is dynamically defined by the Browse Folder and
 	// your CSV file name is "THE_SAME_FOLDER_NAME.csv"
 
@@ -52,6 +52,16 @@ public class MainActivity extends Activity {
 				android.provider.MediaStore.Images.Media.INTERNAL_CONTENT_URI);
 		final int ACTIVITY_SELECT_IMAGE = 1234;
 		startActivityForResult(i, ACTIVITY_SELECT_IMAGE);
+		//String imgDir = Environment.getExternalStorageDirectory().toString() + "/Downloads/carrying_p25_001_19.png";
+		String imgDir = Environment.getRootDirectory().toString() + "/Downloads/carrying_p25_001_19.png";
+		File img = new File(imgDir);
+		if (img.exists()){
+			Log.d("ImageExists","Yes Image exists");
+		}
+		else {
+			Log.d("ImageExists", "No Image does not exist");
+		}
+		Log.d("CheckFile", "imgDir");
 		return true;
 	}
 
