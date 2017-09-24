@@ -1,10 +1,10 @@
 package edu.cwru.sail.imagelearning;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Matrix;
-import android.content.Intent;
 import android.os.Bundle;
 import android.os.Environment;
 import android.util.Log;
@@ -12,7 +12,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
-import android.widget.ImageView;
 
 import com.squareup.picasso.Picasso;
 
@@ -20,7 +19,7 @@ import java.io.File;
 
 public class MainActivity extends Activity {
 
-	private ImageView iv;
+	private DrawingImageView iv;
 	private final String imgDir = Environment.getExternalStorageDirectory().toString() + "/DCIM/sample1";
 	//Make sure that this part is dynamically defined by the Browse Folder and
 	// your CSV file name is "THE_SAME_FOLDER_NAME.csv"
@@ -32,7 +31,7 @@ public class MainActivity extends Activity {
 
 		Log.d("here we go: ", imgDir);
 
-		iv = (ImageView) findViewById(R.id.imageView);
+		iv = (DrawingImageView) findViewById(R.id.imageView);
 
 		File img = new File(imgDir+File.separator+"smile1.jpg");
 
@@ -47,7 +46,9 @@ public class MainActivity extends Activity {
 					.into(iv);
 			Bitmap b = Bitmap.createBitmap(1000, 1000, Bitmap.Config.ARGB_8888);
 			Canvas c = new Canvas(b);
+			Log.d("canvas size:1 ", Integer.toString(b.getWidth()));
 			c.drawBitmap(b, new Matrix(), null);
+			Log.d("canvas size:2 ", Integer.toString(b.getWidth()));
 
 //		}
 
