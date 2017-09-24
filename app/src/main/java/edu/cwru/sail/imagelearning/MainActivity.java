@@ -26,7 +26,8 @@ import java.io.File;
 public class MainActivity extends Activity {
 
 	private DrawingImageView iv;
-	private final String imgDir = Environment.getExternalStorageDirectory().toString() + "/DCIM/sample1";
+	private final String imgDir = Environment.getExternalStorageDirectory().toString() + "/DCIM/";
+
 	//Make sure that this part is dynamically defined by the Browse Folder and
 	// your CSV file name is "THE_SAME_FOLDER_NAME.csv"
 
@@ -41,7 +42,7 @@ public class MainActivity extends Activity {
 
 		File img = new File(imgDir+File.separator+"smile1.jpg");
 
-//		if (img.exists()) {
+	if (img.exists()) {
 			//Loading Image from URL
 			Picasso.with(this)
 					.load("https://www.simplifiedcoding.net/wp-content/uploads/2015/10/advertise.png")
@@ -51,7 +52,7 @@ public class MainActivity extends Activity {
 					.resize(1000, 1000)                        // optional
 					.into(iv);
 
-//		}
+		}
 
 		Log.d("about to get into it", "it");
 
@@ -63,8 +64,37 @@ public class MainActivity extends Activity {
 		Intent i = new Intent(Intent.ACTION_PICK,
 				android.provider.MediaStore.Images.Media.INTERNAL_CONTENT_URI);
 		final int ACTIVITY_SELECT_IMAGE = 1234;
+		//startActivityForResult(i, ACTIVITY_SELECT_IMAGE);
+		i.setAction(Intent.ACTION_GET_CONTENT);
 		startActivityForResult(i, ACTIVITY_SELECT_IMAGE);
+//		//String imgDir = Environment.getExternalStorageDirectory().toString() + "/Downloads/carrying_p25_001_19.png";
+//		String imgDir = Environment.getRootDirectory().toString() + "/Downloads/carrying_p25_001_19.png";
+//		File img = new File(imgDir);
+//		if (img.exists()){
+//			Log.d("ImageExists","Yes Image exists");
+//		}
+//		else {
+//			Log.d("ImageExists", "No Image does not exist");
+//		}
+		Log.d("CheckFile", "imgDir");
 		return true;
+	}
+
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		Log.d("Hello", "its me");
+		super.onActivityResult(requestCode, resultCode, data);
+		if (resultCode == RESULT_OK) {
+			if (requestCode == 1234) {
+
+				//Get ImageURi and load with help of picasso
+				//Uri selectedImageURI = data.getData();
+
+				Picasso.with(this).load(data.getData()).resize(1000, 1000)
+						.into(iv);
+			}
+
+		}
 	}
 
 	@Override
