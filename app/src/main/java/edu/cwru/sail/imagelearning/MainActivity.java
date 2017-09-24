@@ -2,20 +2,26 @@ package edu.cwru.sail.imagelearning;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.Canvas;
-import android.graphics.Matrix;
 import android.os.Bundle;
 import android.os.Environment;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.MotionEvent;
-import android.view.View;
 
 import com.squareup.picasso.Picasso;
 
 import java.io.File;
+
+/**
+ *
+ * @author vsocrates dinabenayadcherif
+ *
+ * Code adapted from Fingerpaint Android SDK Samples
+ *
+ * https://github.com/Miserlou/Android-SDK-Samples/blob/master/ApiDemos/src/com/example/android/apis/graphics/FingerPaint.java
+ *
+ *
+ */
 
 public class MainActivity extends Activity {
 
@@ -44,25 +50,10 @@ public class MainActivity extends Activity {
 					//.error(R.drawable.error)      // optional
 					.resize(1000, 1000)                        // optional
 					.into(iv);
-			Bitmap b = Bitmap.createBitmap(1000, 1000, Bitmap.Config.ARGB_8888);
-			Canvas c = new Canvas(b);
-			Log.d("canvas size:1 ", Integer.toString(b.getWidth()));
-			c.drawBitmap(b, new Matrix(), null);
-			Log.d("canvas size:2 ", Integer.toString(b.getWidth()));
 
 //		}
 
 		Log.d("about to get into it", "it");
-		iv.setOnTouchListener(new View.OnTouchListener() {
-
-			@Override
-			public boolean onTouch(View view, MotionEvent motionEvent) {
-				Log.d("oh boy@!!!!: ",  Double.toString(motionEvent.getX()) + " " + Double.toString(motionEvent.getY()));
-
-				return true;
-			}
-		});
-
 
 
 	}
