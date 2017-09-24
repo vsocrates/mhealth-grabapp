@@ -1,12 +1,16 @@
 package edu.cwru.sail.imagelearning;
 
 import android.app.Activity;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.Matrix;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Environment;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageView;
 
@@ -32,16 +36,32 @@ public class MainActivity extends Activity {
 
 		File img = new File(imgDir+File.separator+"smile1.jpg");
 
-		if (img.exists()) {
+//		if (img.exists()) {
 			//Loading Image from URL
 			Picasso.with(this)
-					//.load("https://www.simplifiedcoding.net/wp-content/uploads/2015/10/advertise.png")
-					.load(img)
+					.load("https://www.simplifiedcoding.net/wp-content/uploads/2015/10/advertise.png")
+					//.load(img)
 					//.placeholder(R.drawable.placeholder)   // optional
 					//.error(R.drawable.error)      // optional
-					.resize(1000,1000)                        // optional
+					.resize(1000, 1000)                        // optional
 					.into(iv);
-		}
+			Bitmap b = Bitmap.createBitmap(1000, 1000, Bitmap.Config.ARGB_8888);
+			Canvas c = new Canvas(b);
+			c.drawBitmap(b, new Matrix(), null);
+
+//		}
+
+		Log.d("about to get into it", "it");
+		iv.setOnTouchListener(new View.OnTouchListener() {
+
+			@Override
+			public boolean onTouch(View view, MotionEvent motionEvent) {
+				Log.d("oh boy@!!!!: ",  Double.toString(motionEvent.getX()) + " " + Double.toString(motionEvent.getY()));
+
+				return true;
+			}
+		});
+
 
 
 	}
@@ -86,4 +106,5 @@ public class MainActivity extends Activity {
 
 		return super.onOptionsItemSelected(item);
 	}
+
 }
