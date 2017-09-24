@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Matrix;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Environment;
 import android.util.Log;
@@ -63,6 +64,15 @@ public class MainActivity extends Activity {
 
 
 
+	}
+
+	public boolean browseFolder(MenuItem item) {
+		Log.d("here we go:", "Clicked on button");
+		Intent i = new Intent(Intent.ACTION_PICK,
+				android.provider.MediaStore.Images.Media.INTERNAL_CONTENT_URI);
+		final int ACTIVITY_SELECT_IMAGE = 1234;
+		startActivityForResult(i, ACTIVITY_SELECT_IMAGE);
+		return true;
 	}
 
 	@Override
