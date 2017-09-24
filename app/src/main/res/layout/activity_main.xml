@@ -12,6 +12,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/imageView"/>
+    <edu.cwru.sail.imagelearning.DrawingImageView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/imageViewOverlay"/>
 
     <Button
         style="?android:attr/buttonStyleSmall"
