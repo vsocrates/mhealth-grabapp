@@ -5,6 +5,13 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.Matrix;
+import android.hardware.Sensor;
+import android.hardware.SensorEvent;
+import android.hardware.SensorEventListener;
+import android.hardware.SensorManager;
+import android.media.Image;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
@@ -15,9 +22,15 @@ import android.view.MenuItem;
 import android.view.VelocityTracker;
 import android.view.View;
 
+import com.opencsv.CSVWriter;
 import com.squareup.picasso.Picasso;
 
 import static android.R.attr.permission;
+import org.apache.commons.lang3.ArrayUtils;
+
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 
 /**
  *
@@ -30,10 +43,28 @@ import static android.R.attr.permission;
  *
  */
 
-public class MainActivity extends Activity {
+public class MainActivity extends Activity implements SensorEventListener {
+
+	private SensorManager mSensorManager;
+	private Sensor mAccelerometer;
+	private Sensor mMagnetometer;
+	private Sensor mGyroscope;
+	private Sensor mRotation;
+	private Sensor mLineAcc;
+	private Sensor mGravity;
+
+	private String[] accelerometerStr = new String[3];
+	private String[] magnetometerStr = new String[3];
+	private String[] gyroscopeStr = new String[3];
+	private String[] rotationStr = new String[3];
+	private String[] linaccStr = new String[3];
+	private String[] gravityStr = new String[3];
 
 //	private ImageView iv;
 	private DrawingImageView overlayView;
+
+	private File file = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS),"SensorData.csv");
+	private CSVWriter writer;
 
 	private final String imgDir = Environment.getExternalStorageDirectory().toString() + "/DCIM/";
 
@@ -45,6 +76,24 @@ public class MainActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
+
+		mSensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
+		mAccelerometer = mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
+		mMagnetometer = mSensorManager.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD);
+		mGyroscope = mSensorManager.getDefaultSensor(Sensor.TYPE_GYROSCOPE);
+		mRotation = mSensorManager.getDefaultSensor(Sensor.TYPE_ROTATION_VECTOR);
+		mLineAcc = mSensorManager.getDefaultSensor(Sensor.TYPE_LINEAR_ACCELERATION);
+		mGravity = mSensorManager.getDefaultSensor(Sensor.TYPE_GRAVITY);
+
+		mSensorManager.registerListener(this, mAccelerometer, SensorManager.SENSOR_DELAY_NORMAL);
+		mSensorManager.registerListener(this, mMagnetometer, SensorManager.SENSOR_DELAY_NORMAL);
+		mSensorManager.registerListener(this, mGyroscope, SensorManager.SENSOR_DELAY_NORMAL);
+		mSensorManager.registerListener(this, mRotation, SensorManager.SENSOR_DELAY_NORMAL);
+		mSensorManager.registerListener(this, mLineAcc, SensorManager.SENSOR_DELAY_NORMAL);
+		mSensorManager.registerListener(this, mGravity, SensorManager.SENSOR_DELAY_NORMAL);
+
+
+
 
 		Log.d("here we go: ", imgDir);
 
@@ -75,6 +124,104 @@ public class MainActivity extends Activity {
 
 
 	}
+
+	@Override
+	public void onAccuracyChanged(Sensor sensor, int accuracy) {
+
+	}
+
+	public boolean isEmpty(String[] arr) {
+		boolean empty = true;
+		for (int i=0; i<arr.length; i++) {
+			if (arr[i] != null) {
+				empty = false;
+				break;
+			}
+		}
+		return empty;
+	}
+
+	public boolean allData(){
+		if (isEmpty(accelerometerStr) || isEmpty(magnetometerStr) || isEmpty(gyroscopeStr) || isEmpty(rotationStr) || isEmpty(linaccStr) ||isEmpty(gravityStr)) {
+			return false;
+		}
+		else {
+			return true;
+		}
+	}
+
+	@Override
+	public final void onSensorChanged(SensorEvent event) {
+		Log.d("Changing in sensor data", "sensor data changed");
+		if (allData()){
+			try {
+				this.writer = new CSVWriter(new FileWriter(file, true), ',', CSVWriter.NO_QUOTE_CHARACTER, CSVWriter.NO_ESCAPE_CHARACTER, CSVWriter.DEFAULT_LINE_END);
+				String[] row = {accelerometerStr[0], accelerometerStr[1], accelerometerStr[2], magnetometerStr[0], magnetometerStr[1], magnetometerStr[2],
+						gyroscopeStr[0], gyroscopeStr[1], gyroscopeStr[2], rotationStr[0], rotationStr[1], rotationStr[2], linaccStr[0],
+						linaccStr[1], linaccStr[2], gravityStr[0], gravityStr[1], gravityStr[2]};
+				Log.d("Printing out row values", accelerometerStr[0]);
+				if (writer == null) {
+					Log.d("Writer is null", "Writer is null");
+				}
+				this.writer.writeNext(row);
+				accelerometerStr = new String[3];
+				magnetometerStr = new String[3];
+				gyroscopeStr = new String[3];
+				rotationStr = new String[3];
+				linaccStr = new String[3];
+				gravityStr = new String[3];
+				String[] arr = {"hello!"};
+				writer.writeNext(arr);
+				writer.close();
+			}
+			catch (IOException ioe) {
+				Log.e("Catching exception", "I got an error", ioe);
+
+			}
+		}
+
+		Sensor sensor = event.sensor;
+		if (sensor.getType() == Sensor.TYPE_ACCELEROMETER) {
+			accelerometerStr[0] = "" + event.values[0] + "";
+			accelerometerStr[1] = "" + event.values[1] + "";
+			accelerometerStr[2] = "" + event.values[2] + "";
+
+		}
+		else if (sensor.getType() == Sensor.TYPE_MAGNETIC_FIELD) {
+			magnetometerStr[0] = "" + event.values[0] + "";
+			magnetometerStr[1] = "" + event.values[1] + "";
+			magnetometerStr[2] = "" + event.values[2] + "";
+
+		}
+		else if (sensor.getType() == Sensor.TYPE_GYROSCOPE) {
+			gyroscopeStr[0] = "" + event.values[0] + "";
+			gyroscopeStr[1] = "" + event.values[1] + "";
+			gyroscopeStr[2] = "" + event.values[2] + "";
+
+		}
+		else if (sensor.getType() == Sensor.TYPE_ROTATION_VECTOR) {
+			rotationStr[0] = "" + event.values[0] + "";
+			rotationStr[1] = "" + event.values[1] + "";
+			rotationStr[2] = "" + event.values[2] + "";
+
+		}
+		else if (sensor.getType() == Sensor.TYPE_LINEAR_ACCELERATION) {
+			linaccStr[0] = "" + event.values[0] + "";
+			linaccStr[1] = "" + event.values[1] + "";
+			linaccStr[2] = "" + event.values[2] + "";
+
+		}
+		else {
+			gravityStr[0] = "" + event.values[0] + "";
+			gravityStr[1] = "" + event.values[1] + "";
+			gravityStr[2] = "" + event.values[2] + "";
+		}
+		// The light sensor returns a single value.
+		// Many sensors return 3 values, one for each axis.
+		//float lux = event.values[0];
+		// Do something with this sensor value.
+	}
+
 
 	public boolean browseFolder(MenuItem item) {
 		Log.d("here we go:", "Clicked on button");
