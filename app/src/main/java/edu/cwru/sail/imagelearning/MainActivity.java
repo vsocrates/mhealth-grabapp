@@ -5,13 +5,10 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
-import android.graphics.Canvas;
-import android.graphics.Matrix;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
-import android.media.Image;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
@@ -25,12 +22,16 @@ import android.view.View;
 import com.opencsv.CSVWriter;
 import com.squareup.picasso.Picasso;
 
-import static android.R.attr.permission;
-import org.apache.commons.lang3.ArrayUtils;
-
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
+import static android.R.attr.permission;
+import static android.content.ContentValues.TAG;
 
 /**
  *
@@ -39,6 +40,7 @@ import java.io.IOException;
  * Code adapted from ANDROID TOUCH SCREEN Tutorial
  *
  * https://inducesmile.com/android/android-touch-screen-example-tutorial/
+ * https://stackoverflow.com/questions/15662258/how-to-save-a-bitmap-on-internal-storage
  *
  *
  */
@@ -235,6 +237,49 @@ public class MainActivity extends Activity implements SensorEventListener {
 		return true;
 	}
 
+	private void storeImage(Bitmap image) {
+		File pictureFile = getOutputMediaFile();
+		if (pictureFile == null) {
+			Log.d(TAG,
+					"Error creating media file, check storage permissions: ");// e.getMessage());
+			return;
+		}
+		try {
+			FileOutputStream fos = new FileOutputStream(pictureFile);
+			image.compress(Bitmap.CompressFormat.PNG, 90, fos);
+			fos.close();
+		} catch (FileNotFoundException e) {
+			Log.d(TAG, "File not found: " + e.getMessage());
+		} catch (IOException e) {
+			Log.d(TAG, "Error accessing file: " + e.getMessage());
+		}
+	}
+
+	/** Create a File for saving an image or video */
+	private  File getOutputMediaFile(){
+		// To be safe, you should check that the SDCard is mounted
+		// using Environment.getExternalStorageState() before doing this.
+		File mediaStorageDir = new File(Environment.getExternalStorageDirectory()
+				+ "/Android/data/"
+				+ getApplicationContext().getPackageName()
+				+ "/Files");
+
+		// This location works best if you want the created images to be shared
+		// between applications and persist after your app has been uninstalled.
+
+		// Create the storage directory if it does not exist
+		if (! mediaStorageDir.exists()){
+			if (! mediaStorageDir.mkdirs()){
+				return null;
+			}
+		}
+		// Create a media file name
+		String timeStamp = new SimpleDateFormat("ddMMyyyy_HHmm").format(new Date());
+		File mediaFile;
+		String mImageName="MI_"+ timeStamp +".jpg";
+		mediaFile = new File(mediaStorageDir.getPath() + File.separator + mImageName);
+		return mediaFile;
+	}
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		Log.d("Hello its me", Integer.toString(requestCode));
@@ -253,6 +298,7 @@ public class MainActivity extends Activity implements SensorEventListener {
 				Bitmap imageBitmap = (Bitmap) extras.get("data");
 //				Picasso.with(this).load(imageBitmap).resize(1000,1000).into(overlayView);
 				Bitmap resized = Bitmap.createScaledBitmap(imageBitmap, 1000, 1000, true);
+				storeImage(resized);
 				overlayView.setImageBitmap(resized);
 			}
 
@@ -263,6 +309,7 @@ public class MainActivity extends Activity implements SensorEventListener {
 
 	public void takePicture(View view) {
 		dispatchTakePictureIntent();
+
 	}
 
 	private void dispatchTakePictureIntent() {
