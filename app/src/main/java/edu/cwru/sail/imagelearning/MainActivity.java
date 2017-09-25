@@ -1,14 +1,17 @@
 package edu.cwru.sail.imagelearning;
 
+import android.Manifest;
 import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Matrix;
 import android.media.Image;
 import android.os.Bundle;
 import android.os.Environment;
+import android.support.v4.app.ActivityCompat;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -63,10 +66,11 @@ public class MainActivity extends Activity {
 					//.load(img)
 					//.placeholder(R.drawable.placeholder)   // optional
 					//.error(R.drawable.error)      // optional
-					.resize(1000, 1000)                        // optional
+					.resize(240, 320)                        // optional
 					.into(iv);
 
 		}
+		verifyStoragePermissions(MainActivity.this);
 
 		RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) iv.getLayoutParams();
 		overlayView.setLayoutParams(layoutParams);
@@ -99,9 +103,9 @@ public class MainActivity extends Activity {
 
 				//Get ImageURi and load with help of picasso
 				//Uri selectedImageURI = data.getData()
-				iv.setImageURI(data.getData());
-//				Picasso.with(this).load(data.getData()).resize(1000, 1000)
-//						.into(iv);
+				//iv.setImageURI(data.getData());
+				Picasso.with(this).load(data.getData()).resize(1000, 1000)
+						.into(iv);
 
 		}
 
@@ -128,6 +132,24 @@ public class MainActivity extends Activity {
 		}
 
 		return super.onOptionsItemSelected(item);
+	}
+
+	public static void verifyStoragePermissions(Activity activity) {
+		// Check if we have write permission
+		String[] PERMISSIONS_STORAGE = {Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE};
+		int REQUEST_EXTERNAL_STORAGE = 1;
+		int permission = ActivityCompat.checkSelfPermission(activity, Manifest.permission.WRITE_EXTERNAL_STORAGE);
+
+		if (permission != PackageManager.PERMISSION_GRANTED) {
+			// We don't have permission so prompt the user
+			ActivityCompat.requestPermissions(
+					activity,
+					PERMISSIONS_STORAGE,
+					REQUEST_EXTERNAL_STORAGE
+			);
+		}
+
+
 	}
 
 

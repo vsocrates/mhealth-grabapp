@@ -5,11 +5,22 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Path;
+import android.os.Environment;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.VelocityTracker;
 import android.widget.ImageView;
+import com.opencsv.CSVReader;
+import com.opencsv.CSVWriter;
+
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.OutputStreamWriter;
 
 public class DrawingImageView extends ImageView {
 
@@ -24,12 +35,18 @@ public class DrawingImageView extends ImageView {
 
     private Canvas mCanvas;
 
+    private File file = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS),"MatrixValues.csv");
+
+    private CSVWriter writer;
+    private BufferedWriter bwriter;
+
     private VelocityTracker mVelocityTracker = null;
 
     public DrawingImageView(Context context) {
         super(context);
         myPath = new Path();
         Bitmap b = Bitmap.createBitmap(1000, 1000, Bitmap.Config.ARGB_8888);
+
     }
 
     public DrawingImageView(Context context, AttributeSet attrs) {
@@ -41,6 +58,7 @@ public class DrawingImageView extends ImageView {
     public DrawingImageView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         myPath = new Path();
+
 
     }
 
@@ -70,53 +88,82 @@ public class DrawingImageView extends ImageView {
 
     }
 
+
+
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         super.onTouchEvent(event);
-        float x = event.getX();
-        float y = event.getY();
+        try {
+//            bwriter = new BufferedWriter(new OutputStreamWriter(new FileOutputStream("test.csv")));
+//            CSVWriter this.writer = new CSVWriter(bwriter, ",");
+            // this.writer = new CSVWriter(new FileWriter("test.csv"), ',');
+            //this.writer = new CSVWriter()
+            this.writer = new CSVWriter(new FileWriter(file, true), ',',  CSVWriter.NO_QUOTE_CHARACTER, CSVWriter.NO_ESCAPE_CHARACTER, CSVWriter.DEFAULT_LINE_END);
+//
+            //this.writer = new CSVWriter(new FileWriter(file));
+// file.mkdirs();
+//            file.createNewFile();
+            float x = event.getX();
+            float y = event.getY();
+
+           // Log.d("Directory path", )
 
 
-        Log.d("we are  class: ", Double.toString(x) + "  " + Double.toString(y));
-        switch (event.getActionMasked()) {
-            case MotionEvent.ACTION_DOWN:
-                if(mVelocityTracker == null) {
-                    // Retrieve a new VelocityTracker object to watch the
-                    // velocity of a motion.
-                    mVelocityTracker = VelocityTracker.obtain();
-                }
-                else {
-                    // Reset the velocity tracker back to its initial state.
-                    mVelocityTracker.clear();
-                }
-                // Add a user's movement to the tracker.
-                mVelocityTracker.addMovement(event);
-                touch_start(x, y);
-                invalidate();
-                break;
-            case MotionEvent.ACTION_MOVE:
-                mVelocityTracker.addMovement(event);
-                // When you want to determine the velocity, call
-                // computeCurrentVelocity(). Then call getXVelocity()
-                // and getYVelocity() to retrieve the velocity for each pointer ID.
-                mVelocityTracker.computeCurrentVelocity(1000);
-                // Log velocity of pixels per second
-                // Best practice to use VelocityTrackerCompat where possible.
-                Log.d("", "X velocity: " + mVelocityTracker.getXVelocity());
-                Log.d("", "Y velocity: " + mVelocityTracker.getYVelocity());
-                Log.d("Pressure", "" + event.getPressure() + "");
-                touch_move(x,y);
-                invalidate();
-                break;
-            case MotionEvent.ACTION_UP:
-                touch_stop(x,y);
-                invalidate();
+            Log.d("we are  class: ", Double.toString(x) + "  " + Double.toString(y));
+            switch (event.getActionMasked()) {
+                case MotionEvent.ACTION_DOWN:
+                    if(mVelocityTracker == null) {
+                        // Retrieve a new VelocityTracker object to watch the
+                        // velocity of a motion.
+                        mVelocityTracker = VelocityTracker.obtain();
+                    }
+                    else {
+                        // Reset the velocity tracker back to its initial state.
+                        mVelocityTracker.clear();
+                    }
+                    // Add a user's movement to the tracker.
+                    mVelocityTracker.addMovement(event);
+                    touch_start(x, y);
+                    invalidate();
+                    break;
+                case MotionEvent.ACTION_MOVE:
+                    mVelocityTracker.addMovement(event);
+                    // When you want to determine the velocity, call
+                    // computeCurrentVelocity(). Then call getXVelocity()
+                    // and getYVelocity() to retrieve the velocity for each pointer ID.
+                    mVelocityTracker.computeCurrentVelocity(1000);
+                    // Log velocity of pixels per second
+                    // Best practice to use VelocityTrackerCompat where possible.
+                    Log.d("", "X velocity: " + mVelocityTracker.getXVelocity());
+                    Log.d("", "Y velocity: " + mVelocityTracker.getYVelocity());
+                    Log.d("Pressure", "" + event.getPressure() + "");
+                    String[] row  = {"" + x + "", "" + y + "", "" + mVelocityTracker.getXVelocity() + "", "" + mVelocityTracker.getYVelocity() + "", "" + event.getPressure() + ""};
+                    Log.d("Printing out row values", row[0]);
+                    if (writer == null) {
+                        Log.d("Writer is null", "Writer is null");
+                    }
+                    this.writer.writeNext(row);
 
-            case MotionEvent.ACTION_CANCEL:
-                mVelocityTracker.recycle();
-                mVelocityTracker = null;
-                break;
+                    touch_move(x,y);
+                    invalidate();
+                    break;
+                case MotionEvent.ACTION_UP:
+                    touch_stop(x,y);
+                    invalidate();
+
+                case MotionEvent.ACTION_CANCEL:
+                    mVelocityTracker.recycle();
+                    mVelocityTracker = null;
+                    break;
+            }
+            writer.close();
+
         }
+        catch (IOException ioe){
+            Log.e("Catching exception", "I got an error", ioe);
+        }
+
+        Log.d("Right before return", "Right before return");
         return true;
     }
 
