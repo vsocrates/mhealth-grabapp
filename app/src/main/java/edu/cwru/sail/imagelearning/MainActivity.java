@@ -8,6 +8,10 @@ import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Matrix;
+import android.hardware.Sensor;
+import android.hardware.SensorEvent;
+import android.hardware.SensorEventListener;
+import android.hardware.SensorManager;
 import android.media.Image;
 import android.os.Bundle;
 import android.os.Environment;
@@ -37,7 +41,15 @@ import java.io.File;
  *
  */
 
-public class MainActivity extends Activity {
+public class MainActivity extends Activity implements SensorEventListener {
+
+	private SensorManager mSensorManager;
+	private Sensor mAccelerometer;
+	private Sensor mMagnetometer;
+	private Sensor mGyroscope;
+	private Sensor mRotation;
+	private Sensor mLineAcc;
+	private Sensor mGravity;
 
 	private ImageView iv;
 	private DrawingImageView overlayView;
@@ -51,6 +63,17 @@ public class MainActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
+
+		mSensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
+		mAccelerometer = mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
+		mMagnetometer = mSensorManager.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD);
+		mGyroscope = mSensorManager.getDefaultSensor(Sensor.TYPE_GYROSCOPE);
+		mRotation = mSensorManager.getDefaultSensor(Sensor.TYPE_ROTATION_VECTOR);
+		mLineAcc = mSensorManager.getDefaultSensor(Sensor.TYPE_LINEAR_ACCELERATION);
+		mGravity = mSensorManager.getDefaultSensor(Sensor.TYPE_GRAVITY);
+
+
+
 
 		Log.d("here we go: ", imgDir);
 
@@ -81,6 +104,37 @@ public class MainActivity extends Activity {
 
 
 	}
+
+	@Override
+	public final void onSensorChanged(SensorEvent event) {
+		Sensor sensor = event.sensor();
+		if (sensor.getType() == Sensor.TYPE_ACCELEROMETER) {
+			event.values[0];
+			event.values[1];
+			event.values[2];
+
+		}
+		else if (sensor.getType() == Sensor.TYPE_MAGNETIC_FIELD) {
+
+		}
+		else if (sensor.getType() == Sensor.TYPE_GYROSCOPE) {
+
+		}
+		else if (sensor.getType() == Sensor.TYPE_ROTATION_VECTOR) {
+
+		}
+		else if (sensor.getType() == Sensor.TYPE_LINEAR_ACCELERATION) {
+
+		}
+		else (sensor.getType() == Sensor.TYPE_GRAVITY) {
+
+		}
+		// The light sensor returns a single value.
+		// Many sensors return 3 values, one for each axis.
+		float lux = event.values[0];
+		// Do something with this sensor value.
+	}
+
 
 	public boolean browseFolder(MenuItem item) {
 		Log.d("here we go:", "Clicked on button");
