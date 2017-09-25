@@ -104,6 +104,7 @@ public class DrawingImageView extends ImageView {
                 // Best practice to use VelocityTrackerCompat where possible.
                 Log.d("", "X velocity: " + mVelocityTracker.getXVelocity());
                 Log.d("", "Y velocity: " + mVelocityTracker.getYVelocity());
+                Log.d("Pressure", "" + event.getPressure() + "");
                 touch_move(x,y);
                 invalidate();
                 break;
