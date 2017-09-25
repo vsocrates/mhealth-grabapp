@@ -36,11 +36,7 @@ public class DrawingImageView extends ImageView {
     private VelocityTracker mVelocityTracker = null;
     private File file = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS),"MatrixValues.csv");
     private CSVWriter writer;
-//
-//
-//    public DrawingImageView(Context context) {
-//        super(context);
-//    }
+
 
     public DrawingImageView(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -109,6 +105,7 @@ public class DrawingImageView extends ImageView {
         }
         try {
            this.writer = new CSVWriter(new FileWriter(file, true), ',',  CSVWriter.NO_QUOTE_CHARACTER, CSVWriter.NO_ESCAPE_CHARACTER, CSVWriter.DEFAULT_LINE_END);
+
             float x = event.getX();
             float y = event.getY();
 
@@ -130,7 +127,7 @@ public class DrawingImageView extends ImageView {
                 mVelocityTracker.addMovement(event);
                 path.moveTo(x, y);
                 invalidate();
-                return true;
+                break;
             case MotionEvent.ACTION_MOVE:
                 mVelocityTracker.addMovement(event);
                 // When you want to determine the velocity, call
@@ -153,13 +150,13 @@ public class DrawingImageView extends ImageView {
                 path.lineTo(x, y);
 
                 invalidate();
-                return true;
+                break;
             case MotionEvent.ACTION_CANCEL:
                 mVelocityTracker.recycle();
                 mVelocityTracker = null;
                 break;
             default:
-                return true;
+                 break;
         }
             writer.close();
 
@@ -171,4 +168,5 @@ public class DrawingImageView extends ImageView {
         invalidate();
         return true;
     }
+
 }
