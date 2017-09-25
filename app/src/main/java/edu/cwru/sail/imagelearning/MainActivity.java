@@ -1,30 +1,18 @@
 package edu.cwru.sail.imagelearning;
 
 import android.Manifest;
-import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.graphics.Bitmap;
-import android.graphics.Canvas;
-import android.graphics.Matrix;
-import android.media.Image;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.v4.app.ActivityCompat;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.MotionEvent;
-import android.view.View;
 import android.view.VelocityTracker;
-import android.widget.ImageView;
-import android.widget.RelativeLayout;
-
 
 import com.squareup.picasso.Picasso;
-
-import java.io.File;
 
 /**
  *
@@ -39,8 +27,9 @@ import java.io.File;
 
 public class MainActivity extends Activity {
 
-	private ImageView iv;
+//	private ImageView iv;
 	private DrawingImageView overlayView;
+
 	private final String imgDir = Environment.getExternalStorageDirectory().toString() + "/DCIM/";
 
 	//Make sure that this part is dynamically defined by the Browse Folder and
@@ -54,27 +43,27 @@ public class MainActivity extends Activity {
 
 		Log.d("here we go: ", imgDir);
 
-		iv = (ImageView) findViewById(R.id.imageView);
+//		iv = (ImageView) findViewById(R.id.imageView);
 		overlayView = (DrawingImageView) findViewById(R.id.imageViewOverlay);
 
-		File img = new File(imgDir+File.separator+"smile1.jpg");
-
-	if (img.exists()) {
-			//Loading Image from URL
-			Picasso.with(this)
-					.load("https://www.simplifiedcoding.net/wp-content/uploads/2015/10/advertise.png")
-					//.load(img)
-					//.placeholder(R.drawable.placeholder)   // optional
-					//.error(R.drawable.error)      // optional
-					.resize(240, 320)                        // optional
-					.into(iv);
-
-		}
+//		File img = new File(imgDir+File.separator+"smile1.jpg");
+//
+//	if (img.exists()) {
+//			//Loading Image from URL
+//			Picasso.with(this)
+//					.load("https://www.simplifiedcoding.net/wp-content/uploads/2015/10/advertise.png")
+//					//.load(img)
+//					//.placeholder(R.drawable.placeholder)   // optional
+//					//.error(R.drawable.error)      // optional
+//					.resize(240, 320)                        // optional
+//					.into(overlayView);
+//
+//		}
 		verifyStoragePermissions(MainActivity.this);
-
-		RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) iv.getLayoutParams();
-		overlayView.setLayoutParams(layoutParams);
-		overlayView.setAlpha(0f);
+//
+//		RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) iv.getLayoutParams();
+//		overlayView.setLayoutParams(layoutParams);
+//		overlayView.setAlpha(0f);
 
 
 		Log.d("about to get into it", "it");
@@ -105,7 +94,7 @@ public class MainActivity extends Activity {
 				//Uri selectedImageURI = data.getData()
 				//iv.setImageURI(data.getData());
 				Picasso.with(this).load(data.getData()).resize(1000, 1000)
-						.into(iv);
+						.into(overlayView);
 
 		}
 
