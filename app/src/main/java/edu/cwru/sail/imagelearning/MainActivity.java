@@ -319,6 +319,22 @@ public class MainActivity extends Activity implements SensorEventListener {
 		}
 	}
 
+	public void clearPath(View view) {
+		overlayView.clearPath();
+	}
+
+	public void enableCircling(View view) {
+		overlayView.enableCircling();
+	}
+
+	public void disableCircling(View view) {
+		overlayView.disableCircling();
+	}
+
+	public void saveCSV(View view) {
+		overlayView.saveCSV();
+	}
+
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.

@@ -19,43 +19,50 @@
         android:id="@+id/imageViewOverlay"/>
 
     <Button
-        style="?android:attr/buttonStyleSmall"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Enable"
         android:id="@+id/button1"
-        android:background="#ff787b"
-        android:layout_marginStart="11dp"
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_above="@+id/button"
-        android:layout_toEndOf="@+id/button"/>
+        android:layout_marginStart="11dp"
+        android:layout_toEndOf="@+id/button"
+        android:background="#ff787b"
+        android:onClick="enableCircling"
+        android:text="Enable"/>
+
     <Button
-        style="?android:attr/buttonStyleSmall"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Disenable "
         android:id="@+id/button2"
-        android:background="#ffff47"
-        android:layout_above="@+id/button5"
-        android:layout_toStartOf="@+id/button5"/>
-    <Button
         style="?android:attr/buttonStyleSmall"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Clear"
+        android:layout_above="@+id/button5"
+        android:layout_toStartOf="@+id/button5"
+        android:background="#ffff47"
+        android:onClick="disableCircling"
+        android:text="Disenable "/>
+
+    <Button
         android:id="@+id/button3"
-        android:background="#53ff48"
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_above="@+id/button5"
         android:layout_alignParentEnd="true"
-        android:layout_marginEnd="10dp"/>
+        android:layout_marginEnd="10dp"
+        android:background="#53ff48"
+        android:onClick="clearPath"
+        android:text="Clear"/>
+
     <Button
+        android:id="@+id/button4"
         style="?android:attr/buttonStyleSmall"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Save"
-        android:id="@+id/button4"
         android:layout_above="@+id/button"
+        android:layout_alignTop="@+id/button1"
         android:layout_toEndOf="@+id/imageView"
-        android:layout_alignTop="@+id/button1"/><!--android:layout_alignEnd="@+id/imageView"-->
+        android:onClick="saveCSV"
+        android:text="Save"/><!--android:layout_alignEnd="@+id/imageView"-->
         android:background="#50d7ff"/>
 
     <Button
