@@ -27,6 +27,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -87,12 +88,15 @@ public class MainActivity extends Activity implements SensorEventListener {
 		mLineAcc = mSensorManager.getDefaultSensor(Sensor.TYPE_LINEAR_ACCELERATION);
 		mGravity = mSensorManager.getDefaultSensor(Sensor.TYPE_GRAVITY);
 
-		mSensorManager.registerListener(this, mAccelerometer, SensorManager.SENSOR_DELAY_NORMAL);
-		mSensorManager.registerListener(this, mMagnetometer, SensorManager.SENSOR_DELAY_NORMAL);
-		mSensorManager.registerListener(this, mGyroscope, SensorManager.SENSOR_DELAY_NORMAL);
-		mSensorManager.registerListener(this, mRotation, SensorManager.SENSOR_DELAY_NORMAL);
-		mSensorManager.registerListener(this, mLineAcc, SensorManager.SENSOR_DELAY_NORMAL);
-		mSensorManager.registerListener(this, mGravity, SensorManager.SENSOR_DELAY_NORMAL);
+//
+//		mSensorManager.registerListener(this, mAccelerometer, SensorManager.SENSOR_DELAY_NORMAL);
+//		mSensorManager.registerListener(this, mMagnetometer, SensorManager.SENSOR_DELAY_NORMAL);
+//		mSensorManager.registerListener(this, mGyroscope, SensorManager.SENSOR_DELAY_NORMAL);
+//		mSensorManager.registerListener(this, mRotation, SensorManager.SENSOR_DELAY_NORMAL);
+//		mSensorManager.registerListener(this, mLineAcc, SensorManager.SENSOR_DELAY_NORMAL);
+//		mSensorManager.registerListener(this, mGravity, SensorManager.SENSOR_DELAY_NORMAL);
+
+
 
 
 
@@ -158,7 +162,8 @@ public class MainActivity extends Activity implements SensorEventListener {
 		if (allData()){
 			try {
 				this.writer = new CSVWriter(new FileWriter(file, true), ',', CSVWriter.NO_QUOTE_CHARACTER, CSVWriter.NO_ESCAPE_CHARACTER, CSVWriter.DEFAULT_LINE_END);
-				String[] row = {accelerometerStr[0], accelerometerStr[1], accelerometerStr[2], magnetometerStr[0], magnetometerStr[1], magnetometerStr[2],
+				Date date = new Date();
+				String[] row = {(new Timestamp(date.getTime())).toString(), accelerometerStr[0], accelerometerStr[1], accelerometerStr[2], magnetometerStr[0], magnetometerStr[1], magnetometerStr[2],
 						gyroscopeStr[0], gyroscopeStr[1], gyroscopeStr[2], rotationStr[0], rotationStr[1], rotationStr[2], linaccStr[0],
 						linaccStr[1], linaccStr[2], gravityStr[0], gravityStr[1], gravityStr[2]};
 				Log.d("Printing out row values", accelerometerStr[0]);
@@ -290,8 +295,10 @@ public class MainActivity extends Activity implements SensorEventListener {
 				//Get ImageURi and load with help of picasso
 				//Uri selectedImageURI = data.getData()
 				//iv.setImageURI(data.getData());
+				overlayView.file = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS),"MatrixValues" + data.getDataString().substring(data.getDataString().length() - 5) + ".csv");
 				Picasso.with(this).load(data.getData()).resize(1000, 1000)
 						.into(overlayView);
+
 
 		}	else if (requestCode == REQUEST_IMAGE_CAPTURE){
 				Bundle extras = data.getExtras();

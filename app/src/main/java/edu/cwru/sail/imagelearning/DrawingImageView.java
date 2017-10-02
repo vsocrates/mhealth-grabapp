@@ -34,7 +34,7 @@ public class DrawingImageView extends ImageView {
     private Path path = new Path();
 
     private VelocityTracker mVelocityTracker = null;
-    private File file = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS),"MatrixValues.csv");
+    public File file;
     private CSVWriter writer;
 
 
@@ -47,6 +47,7 @@ public class DrawingImageView extends ImageView {
         drawPaint.setStrokeJoin(Paint.Join.ROUND);
         drawPaint.setStrokeWidth(5);
         setWillNotDraw(false);
+        file = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS),"MatrixValues2.csv");
     }
 
     @Override

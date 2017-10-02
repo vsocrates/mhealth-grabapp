@@ -2,7 +2,6 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/ImageGrab.iml" filepath="$PROJECT_DIR$/ImageGrab.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://$PROJECT_DIR$/mhealth-grabapp.iml" filepath="$PROJECT_DIR$/mhealth-grabapp.iml" />
       <module fileurl="file://$PROJECT_DIR$/opencsv-4.0/opencsv-4.0.iml" filepath="$PROJECT_DIR$/opencsv-4.0/opencsv-4.0.iml" />
