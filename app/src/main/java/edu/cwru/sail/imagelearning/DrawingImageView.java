@@ -140,7 +140,7 @@ public class DrawingImageView extends ImageView {
                 Log.d("", "X velocity: " + mVelocityTracker.getXVelocity());
                 Log.d("", "Y velocity: " + mVelocityTracker.getYVelocity());
                 Log.d("Pressure", "" + event.getPressure() + "");
-                String[] row  = {"" + x + "", "" + y + "", "" + mVelocityTracker.getXVelocity() + "", "" + mVelocityTracker.getYVelocity() + "", "" + event.getPressure() + ""};
+                String[] row  = {"" + x + "", "" + y + "", "" + mVelocityTracker.getXVelocity() + "", "" + mVelocityTracker.getYVelocity() + "", "" + event.getPressure() + "","" + event.getSize() + ""};
                 Log.d("Printing out row values", row[0]);
                 if (writer == null) {
                     Log.d("Writer is null", "Writer is null");
