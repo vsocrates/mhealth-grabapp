@@ -30,6 +30,7 @@ import java.io.IOException;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Random;
 
 import static android.R.attr.permission;
 import static android.content.ContentValues.TAG;
@@ -66,7 +67,7 @@ public class MainActivity extends Activity implements SensorEventListener {
 //	private ImageView iv;
 	private DrawingImageView overlayView;
 
-	private File file = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS),"SensorData.csv");
+	private File file = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS),"AllSensorData.csv");
 	private CSVWriter writer;
 
 	private final String imgDir = Environment.getExternalStorageDirectory().toString() + "/DCIM/";
@@ -89,12 +90,14 @@ public class MainActivity extends Activity implements SensorEventListener {
 		mGravity = mSensorManager.getDefaultSensor(Sensor.TYPE_GRAVITY);
 
 //
-//		mSensorManager.registerListener(this, mAccelerometer, SensorManager.SENSOR_DELAY_NORMAL);
-//		mSensorManager.registerListener(this, mMagnetometer, SensorManager.SENSOR_DELAY_NORMAL);
-//		mSensorManager.registerListener(this, mGyroscope, SensorManager.SENSOR_DELAY_NORMAL);
-//		mSensorManager.registerListener(this, mRotation, SensorManager.SENSOR_DELAY_NORMAL);
-//		mSensorManager.registerListener(this, mLineAcc, SensorManager.SENSOR_DELAY_NORMAL);
-//		mSensorManager.registerListener(this, mGravity, SensorManager.SENSOR_DELAY_NORMAL);
+		mSensorManager.registerListener(this, mAccelerometer, SensorManager.SENSOR_DELAY_NORMAL);
+		mSensorManager.registerListener(this, mMagnetometer, SensorManager.SENSOR_DELAY_NORMAL);
+		mSensorManager.registerListener(this, mGyroscope, SensorManager.SENSOR_DELAY_NORMAL);
+		mSensorManager.registerListener(this, mRotation, SensorManager.SENSOR_DELAY_NORMAL);
+		mSensorManager.registerListener(this, mLineAcc, SensorManager.SENSOR_DELAY_NORMAL);
+		mSensorManager.registerListener(this, mGravity, SensorManager.SENSOR_DELAY_NORMAL);
+
+
 
 
 
@@ -177,8 +180,6 @@ public class MainActivity extends Activity implements SensorEventListener {
 				rotationStr = new String[3];
 				linaccStr = new String[3];
 				gravityStr = new String[3];
-				String[] arr = {"hello!"};
-				writer.writeNext(arr);
 				writer.close();
 			}
 			catch (IOException ioe) {
@@ -295,7 +296,19 @@ public class MainActivity extends Activity implements SensorEventListener {
 				//Get ImageURi and load with help of picasso
 				//Uri selectedImageURI = data.getData()
 				//iv.setImageURI(data.getData());
-				overlayView.file = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS),"MatrixValues" + data.getDataString().substring(data.getDataString().length() - 5) + ".csv");
+				Random rand = new Random();
+				overlayView.file = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS),"MatrixValues" + "" + rand.nextInt(50) + "" + data.getDataString().substring(data.getDataString().length() - 5) + ".csv");
+				try {
+					this.writer = new CSVWriter(new FileWriter(overlayView.file, true), ',',  CSVWriter.NO_QUOTE_CHARACTER, CSVWriter.NO_ESCAPE_CHARACTER, CSVWriter.DEFAULT_LINE_END);
+					String[] headers = {"NewX", "NewY", "XVelocity", "YVelocity", "Pressure"};
+					this.writer.writeNext(headers);
+					this.writer.close();
+
+				}
+				catch (IOException ioe) {
+					Log.e("Catching exception", "I got an error", ioe);
+
+				}
 				Picasso.with(this).load(data.getData()).resize(1000, 1000)
 						.into(overlayView);
 
@@ -311,7 +324,6 @@ public class MainActivity extends Activity implements SensorEventListener {
 
 		}
 	}
-
 
 
 	public void takePicture(View view) {
