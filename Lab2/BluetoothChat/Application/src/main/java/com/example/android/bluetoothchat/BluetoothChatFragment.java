@@ -28,6 +28,7 @@ import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -43,7 +44,6 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.android.common.logger.Log;
 import com.opencsv.CSVWriter;
 
 import java.io.File;
@@ -52,12 +52,16 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+
 /**
  * This fragment controls Bluetooth to communicate with other devices.
  */
 public class BluetoothChatFragment extends Fragment {
 
     private static final String TAG = "BluetoothChatFragment";
+    private String SENSORCSVDIR;
+
+    private final String fileName = "SensorData.csv";
 
     // Intent request codes
     private static final int REQUEST_CONNECT_DEVICE_SECURE = 1;
@@ -95,27 +99,24 @@ public class BluetoothChatFragment extends Fragment {
     private BluetoothChatService mChatService = null;
 
     //CB variables to save information for CSV
-    private String SENSORCSVDIR;
     private final String[] columnCSV = {"TimeStamp", "Light", "UV", "Motion", "Moisture"};
     private String mTimestamp;
-    private final String fileName = "SensorData.csv";
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
+        Log.d("made it in: ", "here");
         super.onCreate(savedInstanceState);
 
         setHasOptionsMenu(true);
         //CB save information necessary for CSV creation
-        SENSORCSVDIR = android.os.Environment.getExternalStorageDirectory() + "/DCIM/SensorCSV";
-        File CSVdir = new File(SENSORCSVDIR);
-        if (!CSVdir.exists()) new File(SENSORCSVDIR).mkdir();
+
 
         // Get local Bluetooth adapter
         mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
-        Log.d("Bluetooth adapter not found", "bluetooth adapter not found");
+        Log.d("Bluetot found", "bluetooth adapter not found");
         // If the adapter is null, then Bluetooth is not supported
         if (mBluetoothAdapter == null) {
-            Log.d("Bluetooth adapter not found", "bluetooth adapter not found");
+            Log.d("Bluetoothfound", "bluetooth adapter not found");
             FragmentActivity activity = getActivity();
             Toast.makeText(activity, "Bluetooth is not available", Toast.LENGTH_LONG).show();
             activity.finish();
@@ -126,6 +127,8 @@ public class BluetoothChatFragment extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
+
+
         // If BT is not on, request that it be enabled.
         // setupChat() will then be called during onActivityResult
         if (!mBluetoothAdapter.isEnabled()) {
@@ -133,6 +136,7 @@ public class BluetoothChatFragment extends Fragment {
             startActivityForResult(enableIntent, REQUEST_ENABLE_BT);
             // Otherwise, setup the chat session
         } else if (mChatService == null) {
+            Log.d("trying again: ", "now we here");
             setupChat();
         }
     }
@@ -172,6 +176,7 @@ public class BluetoothChatFragment extends Fragment {
 //        mConversationView = (ListView) view.findViewById(R.id.in);
 //        mOutEditText = (EditText) view.findViewById(R.id.edit_text_out);
 //        mSendButton = (Button) view.findViewById(R.id.button_send);
+        Log.d("last try", "the view created");
     }
 
 //    /**
@@ -180,6 +185,13 @@ public class BluetoothChatFragment extends Fragment {
     private void setupChat() {
         Log.d(TAG, "setupChat()");
 //
+
+        //CB save information necessary for CSV creation
+        SENSORCSVDIR = android.os.Environment.getExternalStorageDirectory() + "/DCIM/SensorCSV";
+        File CSVdir = new File(SENSORCSVDIR);
+        if (!CSVdir.exists()) new File(SENSORCSVDIR).mkdir();
+
+        Log.d("!", "made directory path!");
 //        // Initialize the array adapter for the conversation thread
 //        mConversationArrayAdapter = new ArrayAdapter<String>(getActivity(), R.layout.message);
 //
@@ -197,7 +209,7 @@ public class BluetoothChatFragment extends Fragment {
 //                    TextView textView = (TextView) view.findViewById(R.id.edit_text_out);
 //                    String message = textView.getText().toString();
 //                    sendMessage(message);
-//                }
+//                }ß
 //            }
 //        });
 
@@ -293,6 +305,7 @@ public class BluetoothChatFragment extends Fragment {
         actionBar.setSubtitle(subTitle);
     }
 
+
     /**
      * CB The Handler that gets information back from the BluetoothChatService and will also save into a CSV
      */
@@ -367,6 +380,8 @@ public class BluetoothChatFragment extends Fragment {
                     break;
             }
         }
+
+
     };
 
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -395,6 +410,44 @@ public class BluetoothChatFragment extends Fragment {
                             Toast.LENGTH_SHORT).show();
                     getActivity().finish();
                 }
+        }
+    }
+
+    //CB Method to save CSV
+    private void saveCSV(String[] data) {
+
+        //CB CSV file creation
+        CSVWriter writer = null;
+        try {
+
+            String baseDir = SENSORCSVDIR;
+            String filePath = baseDir + File.separator + fileName;
+            File f = new File(filePath);
+            Log.d("here dir ", filePath);
+            if (!f.exists()) {
+                Log.d("writing", "lets create it");
+                writer = new CSVWriter(new FileWriter(filePath));
+                String[] column = columnCSV;
+                writer.writeNext(column);
+                writer.close();
+                System.out.println("CSV file Created for the first time");
+            }
+            if (f.exists()) {
+                Log.d("writing2", "lets get it in there");
+
+                String[] alldata = new String[5]; //AB 5 values from 0 to 4
+                for (int i = 1; i < alldata.length; i++) //AB 1 to 4
+                    alldata[i] = data[i-1];
+                SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyyMMdd-hhmmss");
+                mTimestamp = simpleDateFormat.format(new Date()); //AB Timestamp...
+                alldata[0] = mTimestamp; //CB to store the current time.
+                writer = new CSVWriter(new FileWriter(filePath, true));
+                String[] values = alldata; //CB All should be strings
+                writer.writeNext(values); //CB Means append to the file...
+                writer.close();
+            }
+        } catch (IOException e) {
+            //error
         }
     }
 
@@ -443,36 +496,5 @@ public class BluetoothChatFragment extends Fragment {
         return false;
     }
 
-    //CB Method to save CSV
-    private void saveCSV(String[] data) {
 
-        //CB CSV file creation
-        CSVWriter writer = null;
-        try {
-            String baseDir = SENSORCSVDIR;
-            String filePath = baseDir + File.separator + fileName;
-            File f = new File(filePath);
-            if (!f.exists()) {
-                writer = new CSVWriter(new FileWriter(filePath));
-                String[] column = columnCSV;
-                writer.writeNext(column);
-                writer.close();
-                System.out.println("CSV file Created for the first time");
-            }
-            if (f.exists()) {
-                String[] alldata = new String[5]; //AB 5 values from 0 to 4
-                for (int i = 1; i < alldata.length; i++) //AB 1 to 4
-                    alldata[i] = data[i-1];
-                SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyyMMdd-hhmmss");
-                mTimestamp = simpleDateFormat.format(new Date()); //AB Timestamp...
-                alldata[0] = mTimestamp; //CB to store the current time.
-                writer = new CSVWriter(new FileWriter(filePath, true));
-                String[] values = alldata; //CB All should be strings
-                writer.writeNext(values); //CB Means append to the file...
-                writer.close();
-            }
-        } catch (IOException e) {
-            //error
-        }
-    }
 }

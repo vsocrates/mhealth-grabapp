@@ -24,9 +24,8 @@ import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.widget.Toast;
+import android.util.Log;
 
-import com.example.android.common.logger.Log;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -79,6 +78,8 @@ public class BluetoothChatService {
         mAdapter = BluetoothAdapter.getDefaultAdapter();
         mState = STATE_NONE;
         mHandler = handler;
+
+
     }
 
     /**

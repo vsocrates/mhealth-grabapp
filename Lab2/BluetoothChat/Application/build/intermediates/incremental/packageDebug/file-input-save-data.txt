@@ -1,5 +1,5 @@
 #Internal package file, do not edit.
-#Wed Oct 11 17:42:53 EDT 2017
+#Wed Oct 11 22:04:13 EDT 2017
 8.set=ANDROID_RESOURCE
 1.base=/Users/vsocrates/AndroidStudioProjects/ImageGrab/Lab2/BluetoothChat/Application/build/intermediates/res/resources-debug.ap_
 1.file=/Users/vsocrates/AndroidStudioProjects/ImageGrab/Lab2/BluetoothChat/Application/build/intermediates/res/resources-debug.ap_/resources.arsc
