@@ -20,6 +20,7 @@ import android.app.ActionBar;
 import android.app.Activity;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -34,6 +35,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.widget.ArrayAdapter;
@@ -55,7 +57,7 @@ import java.util.Date;
 /**
  * This fragment controls Bluetooth to communicate with other devices.
  */
-public class BluetoothChatFragment extends Fragment {
+public class BluetoothChatFragment extends Fragment implements OnClickListener{
 
     private static final String TAG = "BluetoothChatFragment";
     private String SENSORCSVDIR;
@@ -168,7 +170,40 @@ public class BluetoothChatFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_bluetooth_chat, container, false);
+
+        View v = inflater.inflate(R.layout.fragment_bluetooth_chat, container, false);
+        Button onBtn = (Button) v.findViewById(R.id.data_on_button);
+        Button offBtn = (Button) v.findViewById(R.id.data_off_button);
+
+        onBtn.setOnClickListener(this);
+        offBtn.setOnClickListener(this);
+
+        return v;
+
+    }
+
+    @Override
+    public void onClick(View v) {
+        Context context = getActivity().getApplicationContext();
+        CharSequence text = "Hello toast!";
+        int duration = Toast.LENGTH_SHORT;
+        Toast toast;
+
+
+        switch (v.getId()) {
+            case R.id.data_off_button:
+                text = "No longer collecting data!";
+                toast = Toast.makeText(context, text, duration);
+                toast.show();
+                turnOffData();
+                break;
+            case R.id.data_on_button:
+                text = "Started Collecting Data!";
+                toast = Toast.makeText(context, text, duration);
+                toast.show();
+                turnOnData();
+                break;
+        }
     }
 
     @Override
@@ -305,10 +340,10 @@ public class BluetoothChatFragment extends Fragment {
         actionBar.setSubtitle(subTitle);
     }
 
-    public void turnOnData(View test){
+    public void turnOnData(){
         getData = true;
     }
-    public void turnOffData(View test){
+    public void turnOffData(){
         getData = false;
     }
 
