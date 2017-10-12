@@ -1,0 +1,7 @@
+#Wed Oct 11 17:42:53 EDT 2017
+base.0=/Users/vsocrates/AndroidStudioProjects/ImageGrab/Lab2/BluetoothChat/Application/build/intermediates/transforms/dex/debug/folders/1000/10000/instant-run-bootstrap_7f337c420bd7091209a289ebe272f7d7d25028cd
+renamed.1=classes2.dex
+renamed.0=classes.dex
+file.1=/Users/vsocrates/AndroidStudioProjects/ImageGrab/Lab2/BluetoothChat/Application/build/intermediates/transforms/dex/debug/folders/1000/10000/instant-run_f1d81654ae4614ef197b0a44219409fdb257f4a0/classes.dex
+base.1=/Users/vsocrates/AndroidStudioProjects/ImageGrab/Lab2/BluetoothChat/Application/build/intermediates/transforms/dex/debug/folders/1000/10000/instant-run_f1d81654ae4614ef197b0a44219409fdb257f4a0
+file.0=/Users/vsocrates/AndroidStudioProjects/ImageGrab/Lab2/BluetoothChat/Application/build/intermediates/transforms/dex/debug/folders/1000/10000/instant-run-bootstrap_7f337c420bd7091209a289ebe272f7d7d25028cd/classes.dex

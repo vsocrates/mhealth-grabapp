@@ -1,0 +1,22 @@
+#Wed Oct 11 17:42:52 EDT 2017
+renamed.6=classes2.dex
+renamed.5=classes4.dex
+renamed.4=classes7.dex
+renamed.3=classes5.dex
+renamed.2=classes.dex
+renamed.1=classes6.dex
+renamed.0=classes3.dex
+base.6=/Users/vsocrates/AndroidStudioProjects/ImageGrab/Lab2/BluetoothChat/Application/build/intermediates/transforms/dex/debug/folders/1000/10/classes_d171db6ece0d7999fe2c54eff3e93543faa64050
+base.5=/Users/vsocrates/AndroidStudioProjects/ImageGrab/Lab2/BluetoothChat/Application/build/intermediates/transforms/dex/debug/folders/1000/10/commons-lang3-3.3.2_4f387cd2df69ce5afcbc48a56ace8378d4a1cd1a
+base.4=/Users/vsocrates/AndroidStudioProjects/ImageGrab/Lab2/BluetoothChat/Application/build/intermediates/transforms/dex/debug/folders/1000/10/support-annotations-23.0.0_13cbeafe8a605e15e83f8ec71d2548aa37943ca0
+base.3=/Users/vsocrates/AndroidStudioProjects/ImageGrab/Lab2/BluetoothChat/Application/build/intermediates/transforms/dex/debug/folders/1000/10/internal_impl-23.0.0_562419de038dfe634532a615ddb221e873d982d9
+base.2=/Users/vsocrates/AndroidStudioProjects/ImageGrab/Lab2/BluetoothChat/Application/build/intermediates/transforms/dex/debug/folders/1000/10/classes_c493e97b25863aae94fa8fd1520b91df00036972
+base.1=/Users/vsocrates/AndroidStudioProjects/ImageGrab/Lab2/BluetoothChat/Application/build/intermediates/transforms/dex/debug/folders/1000/10/opencsv-3.5_bdb1aaa9dad3325e3bf14a5eeaebfb2c468930b3
+base.0=/Users/vsocrates/AndroidStudioProjects/ImageGrab/Lab2/BluetoothChat/Application/build/intermediates/transforms/dex/debug/folders/1000/10/classes_eaadd8567bb297931dab675b0980b11a7198ccce
+file.6=/Users/vsocrates/AndroidStudioProjects/ImageGrab/Lab2/BluetoothChat/Application/build/intermediates/transforms/dex/debug/folders/1000/10/classes_d171db6ece0d7999fe2c54eff3e93543faa64050/classes.dex
+file.5=/Users/vsocrates/AndroidStudioProjects/ImageGrab/Lab2/BluetoothChat/Application/build/intermediates/transforms/dex/debug/folders/1000/10/commons-lang3-3.3.2_4f387cd2df69ce5afcbc48a56ace8378d4a1cd1a/classes.dex
+file.4=/Users/vsocrates/AndroidStudioProjects/ImageGrab/Lab2/BluetoothChat/Application/build/intermediates/transforms/dex/debug/folders/1000/10/support-annotations-23.0.0_13cbeafe8a605e15e83f8ec71d2548aa37943ca0/classes.dex
+file.3=/Users/vsocrates/AndroidStudioProjects/ImageGrab/Lab2/BluetoothChat/Application/build/intermediates/transforms/dex/debug/folders/1000/10/internal_impl-23.0.0_562419de038dfe634532a615ddb221e873d982d9/classes.dex
+file.2=/Users/vsocrates/AndroidStudioProjects/ImageGrab/Lab2/BluetoothChat/Application/build/intermediates/transforms/dex/debug/folders/1000/10/classes_c493e97b25863aae94fa8fd1520b91df00036972/classes.dex
+file.1=/Users/vsocrates/AndroidStudioProjects/ImageGrab/Lab2/BluetoothChat/Application/build/intermediates/transforms/dex/debug/folders/1000/10/opencsv-3.5_bdb1aaa9dad3325e3bf14a5eeaebfb2c468930b3/classes.dex
+file.0=/Users/vsocrates/AndroidStudioProjects/ImageGrab/Lab2/BluetoothChat/Application/build/intermediates/transforms/dex/debug/folders/1000/10/classes_eaadd8567bb297931dab675b0980b11a7198ccce/classes.dex
