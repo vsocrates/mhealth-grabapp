@@ -51,9 +51,9 @@ class Profile(dbus.service.Object):
 		        uvsensor = mraa.Aio(3)
 		        motionsensor = mraa.Gpio(7)
 		        #tempandhumiditysensor = mraa.I2c(0)
-		        data = "{0}, {1}, {2}".format(moisturesensor.read(), lightsensor.read(), uvsensor.read())
+		        data = "{0},{1},{2},{3}".format(lightsensor.read(), uvsensor.read(), motionsensor.read(), moisturesensor.read())
 		        print("received: %s" % data)
-			server_sock.send("looping back: %s\n" % data)
+			server_sock.send("%s\n" % data)
 		except IOError:
 		    pass
 
