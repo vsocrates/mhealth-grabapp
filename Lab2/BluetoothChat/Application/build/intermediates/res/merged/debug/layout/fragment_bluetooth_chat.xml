@@ -20,17 +20,6 @@
               android:orientation="vertical" >
 
 
-    <Button
-        android:id="@+id/pair_button"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_vertical|center_horizontal"
-        android:text="@string/pair"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginTop="52dp"/>
-
 
     <Button
         android:id="@+id/data_on_button"

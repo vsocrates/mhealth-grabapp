@@ -6,26 +6,22 @@
     density="560dpi"
     format="10"
     plugin-version="2.3.3"
-    timestamp="1507776347788"
+    timestamp="1507777852409"
     token="7254590523370223224"
     verifier="COLD_SWAP_REQUESTED" >
 
     <task
         name="javac"
-        duration="93" />
+        duration="0" />
     <task
         name="instant-run-dex"
         duration="0" />
     <task
         name="instant-run-transform"
-        duration="13" />
+        duration="0" />
     <task
         name="verifier"
-        duration="2" />
-
-    <artifact
-        location="/Users/vsocrates/AndroidStudioProjects/ImageGrab/Lab2/BluetoothChat/Application/build/intermediates/split-apk/debug/slices/slice_6.apk"
-        type="SPLIT" />
+        duration="0" />
 
     <build
         build-mode="FULL"
@@ -70,11 +66,18 @@
     </build>
     <build
         build-mode="COLD"
-        timestamp="1507776347788"
+        timestamp="1507777722481"
         verifier="COLD_SWAP_REQUESTED" >
         <artifact
             location="/Users/vsocrates/AndroidStudioProjects/ImageGrab/Lab2/BluetoothChat/Application/build/intermediates/split-apk/debug/slices/slice_6.apk"
             type="SPLIT" />
+        <artifact
+            location="/Users/vsocrates/AndroidStudioProjects/ImageGrab/Lab2/BluetoothChat/Application/build/outputs/apk/Application-debug.apk"
+            type="SPLIT_MAIN" />
     </build>
+    <build
+        build-mode="COLD"
+        timestamp="1507777852409"
+        verifier="COLD_SWAP_REQUESTED" />
 
 </instant-run>

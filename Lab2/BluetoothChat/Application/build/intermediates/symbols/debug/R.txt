@@ -51,7 +51,7 @@ int id center_vertical 0x7f090007
 int id clip_horizontal 0x7f090008
 int id clip_vertical 0x7f090009
 int id data_off_button 0x7f09001d
-int id data_on_button 0x7f09001c
+int id data_on_button 0x7f09001b
 int id discoverable 0x7f090020
 int id end 0x7f09000a
 int id fill 0x7f09000b
@@ -63,7 +63,7 @@ int id left 0x7f09000e
 int id log_fragment 0x7f09001a
 int id menu_toggle_log 0x7f090021
 int id new_devices 0x7f090015
-int id pair_button 0x7f09001b
+int id pair_button 0x7f09001c
 int id paired_devices 0x7f090013
 int id right 0x7f09000f
 int id sample_content_fragment 0x7f090018

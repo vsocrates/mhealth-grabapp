@@ -283,7 +283,7 @@ containing a value of this type.
         public static final int clip_horizontal=0x7f090008;
         public static final int clip_vertical=0x7f090009;
         public static final int data_off_button=0x7f09001d;
-        public static final int data_on_button=0x7f09001c;
+        public static final int data_on_button=0x7f09001b;
         public static final int discoverable=0x7f090020;
         public static final int end=0x7f09000a;
         public static final int fill=0x7f09000b;
@@ -295,7 +295,7 @@ containing a value of this type.
         public static final int log_fragment=0x7f09001a;
         public static final int menu_toggle_log=0x7f090021;
         public static final int new_devices=0x7f090015;
-        public static final int pair_button=0x7f09001b;
+        public static final int pair_button=0x7f09001c;
         public static final int paired_devices=0x7f090013;
         public static final int right=0x7f09000f;
         public static final int sample_content_fragment=0x7f090018;
