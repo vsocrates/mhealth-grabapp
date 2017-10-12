@@ -20,7 +20,6 @@ import android.app.ActionBar;
 import android.app.Activity;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -63,6 +62,7 @@ public class BluetoothChatFragment extends Fragment {
 
     private final String fileName = "SensorData.csv";
 
+    private boolean getData = true;
     // Intent request codes
     private static final int REQUEST_CONNECT_DEVICE_SECURE = 1;
     private static final int REQUEST_CONNECT_DEVICE_INSECURE = 2;
@@ -305,6 +305,12 @@ public class BluetoothChatFragment extends Fragment {
         actionBar.setSubtitle(subTitle);
     }
 
+    public void turnOnData(View test){
+        getData = true;
+    }
+    public void turnOffData(View test){
+        getData = false;
+    }
 
     /**
      * CB The Handler that gets information back from the BluetoothChatService and will also save into a CSV
@@ -345,16 +351,6 @@ public class BluetoothChatFragment extends Fragment {
                     byte[] readBuf = (byte[]) msg.obj;
                     // construct a string from the valid bytes in the buffer
                     String readMessage = new String(readBuf, 0, msg.arg1);
-
-
-                    Log.d("message: ", readMessage);
-
-                    Context context = getActivity().getApplicationContext();
-                    CharSequence text = msg.toString();
-                    int duration = Toast.LENGTH_SHORT;
-
-                    Toast toast = Toast.makeText(context, text, duration);
-                    toast.show();
 
 
                     //CB Here we'll save readMessage in a CSV file
@@ -424,7 +420,7 @@ public class BluetoothChatFragment extends Fragment {
             String filePath = baseDir + File.separator + fileName;
             File f = new File(filePath);
             Log.d("here dir ", filePath);
-            if (!f.exists()) {
+            if (!f.exists() && getData) {
                 Log.d("writing", "lets create it");
                 writer = new CSVWriter(new FileWriter(filePath));
                 String[] column = columnCSV;
@@ -432,7 +428,7 @@ public class BluetoothChatFragment extends Fragment {
                 writer.close();
                 System.out.println("CSV file Created for the first time");
             }
-            if (f.exists()) {
+            if (f.exists() && getData) {
                 Log.d("writing2", "lets get it in there");
 
                 String[] alldata = new String[5]; //AB 5 values from 0 to 4

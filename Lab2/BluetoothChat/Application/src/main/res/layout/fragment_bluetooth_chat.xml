@@ -14,7 +14,7 @@
  See the License for the specific language governing permissions and
  limitations under the License.
 -->
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
               android:orientation="vertical" >
@@ -24,25 +24,43 @@
         android:id="@+id/pair_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/pair" />
+        android:layout_gravity="center_vertical|center_horizontal"
+        android:text="@string/pair"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="52dp"/>
 
 
     <Button
         android:id="@+id/data_on_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/turn_on" />
+        android:layout_alignParentLeft="true"
+
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/pair_button"
+        android:layout_gravity="center_vertical|center_horizontal"
+        android:layout_marginTop="57dp"
+        android:onClick="turnOnData"
+        android:text="@string/turn_on"/>
 
 
     <Button
         android:id="@+id/data_off_button"
         android:layout_width="match_parent"
+        android:layout_gravity="center_vertical|center_horizontal"
+        android:onClick=""
         android:layout_height="wrap_content"
-        android:text="@string/turn_off"/>
+        android:text="@string/turn_off"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginBottom="196dp"/>
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
 
 
-</LinearLayout>
+</RelativeLayout>
