@@ -38,22 +38,9 @@ function loadtxt(datafile, labelfile)
 	return dataset
 end
 
-local training_dataset = loadtxt('X_train.txt','y_train.txt')
-local testing_dataset   = loadtxt('X_test.txt','y_test.txt')
+local full_dataset = loadtxt('total_data.txt','total_data_label.txt')
+-- local testing_dataset   = loadtxt('X_test.txt','y_test.txt')
 
-return training_dataset, testing_dataset, classes, classes_names
-
-
-
-
-
-
-
-
-
-
-
-
-
+return full_dataset, classes, classes_names
 
 

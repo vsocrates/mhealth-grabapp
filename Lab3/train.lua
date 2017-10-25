@@ -7,7 +7,7 @@ require "math"
 learningRate = 0.01
 innerIteration = 1
 outerIteration = 1
--- fraction = 0.01
+fraction = 0.01
 batchsize = 500
 
 function subset(dataset, head, tail)
@@ -115,6 +115,17 @@ function test_predictor(predictor, test_dataset, classes, classes_names)
     local class_id = test_dataset[i][2]
     local responses_per_class = predictor:forward(input)
     local probabilites_per_class = torch.exp(responses_per_class)
+    local max_confidence_score = 0.0
+    local max_confidence_score_index = 0
+    for j= i, 12 do
+      print(probabilites_per_class[j])
+      if tonumber(probabilites_per_class[j]) > max_confidence_score then
+        max_confidence_score = tonumber(probabilites_per_class[j])
+        max_confidence_score_index = j
+      end
+    end
+    print("the max confidence score is", max_confidence_score)
+
     --Compare the confidence score of all the classes, 
     --the one with maximum score will be assigned to current test sample.
     --To draw ROC curve, you can define the misclassification cost vector with entries:
@@ -203,10 +214,9 @@ function main()
   innerIteration = params.InnerIteration
   outerIteration = params.OuterIteration
   batchsize = params.BatchSize
-
   print("Begin to train!")
   --load the data
-  training_dataset, testing_dataset, classes, classes_names = dofile('read_dataset.lua')
+  total_dataset, classes, classes_names = dofile('read_dataset.lua')
   --print(training_dataset)
   print("Finish Loading!")
   
@@ -214,19 +224,37 @@ function main()
   batch_number = math.modf(train_size/batchsize)+1
   print("batch_number", batch_number)
   print("About to shuffle the order !")
+
   ----shuffle the order of the whole dataset----
+  local counter = 0
+  local trainingSize = math.modf(total_dataset:size()/5)+1
+  local remainderForTest = 0
   local training_data={}
+  local testing_data = {}
   local shuffledIndices = {}
   local f = io.open('order.random')
   for line in f:lines() do
     table.insert(shuffledIndices, tonumber(line))
   end
   for i=1,training_dataset:size() do
-    local example = training_dataset[shuffledIndices[i]]
+    if counter == trainingSize then 
+      remainderForTest = i
+      break 
+    end
+    local example = total_dataset[shuffledIndices[i]]
     training_data[i]=example
+    counter = counter + 1
   end
   training_dataset=training_data
 
+  counter2 = 1
+  for i=remainderForTest, training_dataset:size() do
+    local example = total_dataset[shuffledIndices[i]]
+    testing_data[counter2] = example
+    counter2 = counter2 + 1
+  end
+  testing_dataset = testing_data
+ 
   --initalize network
   network = create_network()
   --begin to train
