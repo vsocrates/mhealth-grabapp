@@ -7,7 +7,7 @@ require "math"
 learningRate = 0.01
 innerIteration = 1
 outerIteration = 1
--- fraction = 0.01
+fraction = 0.01
 batchsize = 500
 
 function subset(dataset, head, tail)
@@ -115,6 +115,14 @@ function test_predictor(predictor, test_dataset, classes, classes_names)
     local class_id = test_dataset[i][2]
     local responses_per_class = predictor:forward(input)
     local probabilites_per_class = torch.exp(responses_per_class)
+    local max_confidence_score = 0.0
+    for j= i, 12 do
+      print(probabilites_per_class[j])
+      if tonumber(probabilites_per_class[j]) > max_confidence_score then
+        max_confidence_score = tonumber(probabilites_per_class[j])
+      end
+    end
+    print("the max confidence score is", max_confidence_score)
     --Compare the confidence score of all the classes, 
     --the one with maximum score will be assigned to current test sample.
     --To draw ROC curve, you can define the misclassification cost vector with entries:
@@ -182,28 +190,6 @@ end
 
 -- main routine
 function main()
-  cmd = torch.CmdLine()
-  
-  cmd:text()
-  cmd:text()
-  cmd:text('Training a simple network')
-  cmd:text()
-  cmd:text('Options')
-  cmd:option('-RunFunction',0,'0 is cross validation, 1 is algorithm on the full sample')
-  cmd:option('-LearningRate',0.01,'learning rate')
-  cmd:option('-InnerIteration',5,'set the number of inner iteration')
-  cmd:option('-OuterIteration',2,'set the number of outer iteration')
-  cmd:option('-DescentFunction',1,'0 is stochastic gradient descent, 1 is regular gradient descent')
-  cmd:option('-BatchSize',500,'the number of gradients should be sum')
-  cmd:text()
-
-  params = cmd:parse(arg)
-
-  learningRate = params.LearningRate
-  innerIteration = params.InnerIteration
-  outerIteration = params.OuterIteration
-  batchsize = params.BatchSize
-
   print("Begin to train!")
   --load the data
   training_dataset, testing_dataset, classes, classes_names = dofile('read_dataset.lua')
