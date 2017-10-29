@@ -109,6 +109,7 @@ function test_predictor(predictor, test_dataset, classes, classes_names)
 
   local mistakes = 0
   local tested_samples = 0
+  print("the length of dataset is ", table.getn(test_dataset))
 
   for i = 1, table.getn(test_dataset) do
     local input = test_dataset[i][1]
@@ -117,14 +118,22 @@ function test_predictor(predictor, test_dataset, classes, classes_names)
     local probabilites_per_class = torch.exp(responses_per_class)
     local max_confidence_score = 0.0
     local max_confidence_score_index = 0
-    for j= i, 12 do
+    for j= 1, 12 do
       print(probabilites_per_class[j])
       if tonumber(probabilites_per_class[j]) > max_confidence_score then
         max_confidence_score = tonumber(probabilites_per_class[j])
         max_confidence_score_index = j
       end
     end
-    print("the max confidence score is", max_confidence_score)
+    local not_max_class_score = 0 
+    for j=1, 12 do
+      if j ~= max_confidence_score_index then
+        not_max_class_score = not_max_class_score + tonumber(probabilites_per_class[j])
+      end
+    end
+    not_max_class_score = not_max_class_score/11
+    print("not max score", not_max_class_score)
+
 
     --Compare the confidence score of all the classes, 
     --the one with maximum score will be assigned to current test sample.
