@@ -107,6 +107,8 @@ end
 --print() what you want to observe.
 function test_predictor(predictor, test_dataset, classes, classes_names)
 
+  local accuracy_precision_recall_falsepositiverate = {}
+
   local mistakes = 0
   local true_positives = 0
   local false_positives = 0
@@ -117,7 +119,7 @@ function test_predictor(predictor, test_dataset, classes, classes_names)
   local tested_samples = 0
   local thresholds = {}
   --print("the length of dataset is ", table.getn(test_dataset))
-  for j =1, 10 do
+  for j = 1, 10 do
     thresholds[j] = {j*.1, 1-(j *.1)}
   end
   thresholds[10] = {0.95, .05}
@@ -212,19 +214,25 @@ function test_predictor(predictor, test_dataset, classes, classes_names)
     local true_positive_rate = true_positives/actual_positives
     local true_negative_rate = true_negatives/actual_negatives
     local false_positive_rate = false_positives/actual_negatives
+    local precision = true_positives/(false_positives + true_positives)
+
+    --local file = io.write("file.txt", "w")
+    --file.write()
+    accuracy_precision_recall_falsepositiverate[j] = {accuracy, precision ,true_positive_rate, false_positive_rate}
 
 
 
-    print("accuracy = " .. accuracy)
-    print("true positive rate = ",true_positive_rate)
-    print("false positive rate = ", false_positive_rate )
-    print("specificity = ", true_negative_rate)
-    print("the mistakes are ", mistakes)
-    print("the true negatives are ", true_negatives)
-    print("the false_negatives are ", false_negatives)
-    print("the actual positives are ", actual_positives)
-    print("the actual negatives are ", actual_negatives)
+    print("accuracy = ",accuracy)
+    --print("true positive rate = ",true_positive_rate)
+    --print("false positive rate = ", false_positive_rate )
+    --print("specificity = ", true_negative_rate)
+    --print("the mistakes are ", mistakes)
+    --print("the true negatives are ", true_negatives)
+    --print("the false_negatives are ", false_negatives)
+    --print("the actual positives are ", actual_positives)
+    --print("the actual negatives are ", actual_negatives)
   end
+  return accuracy_precision_recall_falsepositiverate
 end
 
 function train(network)
