@@ -9,6 +9,7 @@ innerIteration = 1
 outerIteration = 1
 fraction = 0.01
 batchsize = 500
+num_roc_points = 2
 
 function subset(dataset, head, tail)
   local sub = {}
@@ -119,13 +120,13 @@ function test_predictor(predictor, test_dataset, classes, classes_names)
   local tested_samples = 0
   local thresholds = {}
   --print("the length of dataset is ", table.getn(test_dataset))
-  for j = 1, 10 do
+  for j = 1, tonumber(num_roc_points) do
     thresholds[j] = {j*.1, 1-(j *.1)}
   end
-  thresholds[10] = {0.95, .05}
+  thresholds[num_roc_points] = {0.95, .05}
   --print(thresholds)
-  for m =1, 10 do
-    for i = 1, table.getn(test_dataset) do
+  for m =1, tonumber(num_roc_points) do
+    for i = 1, tonumber(table.getn(test_dataset)) do
       local input = test_dataset[i][1]
       local class_id = test_dataset[i][2]
       local responses_per_class = predictor:forward(input)

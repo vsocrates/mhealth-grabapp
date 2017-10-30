@@ -9,6 +9,7 @@ innerIteration = 1
 outerIteration = 1
 fraction = 0.01
 batchsize = 500
+num_roc_points = 2
 
 function subset(dataset, head, tail)
   local sub = {}
@@ -44,7 +45,6 @@ function create_network()
 
   return ann
 end
-
 --]]
 
 --[[
@@ -122,13 +122,13 @@ function test_predictor(predictor, test_dataset, classes, classes_names)
   local tested_samples = 0
   local thresholds = {}
   --print("the length of dataset is ", table.getn(test_dataset))
-  for j = 1, 10 do
+  for j = 1, tonumber(num_roc_points) do
     thresholds[j] = {j*.1, 1-(j *.1)}
   end
-  thresholds[10] = {0.95, .05}
+  thresholds[num_roc_points] = {0.95, .05}
   --print(thresholds)
-  for m =1, 10 do
-    for i = 1, table.getn(test_dataset) do
+  for m =1, tonumber(num_roc_points) do
+    for i = 1, tonumber(table.getn(test_dataset)) do
       local input = test_dataset[i][1]
       local class_id = test_dataset[i][2]
       local responses_per_class = predictor:forward(input)
@@ -303,55 +303,55 @@ function main()
  
   if params.RunFunction == 1 then
  
-	  train_size = training_dataset:size()
-	  batch_number = math.modf(train_size/batchsize)+1
-	  -- print("batch_number", batch_number)
-	  -- print("About to shuffle the order !")
-	  ----shuffle the order of the whole dataset----
-	  local training_data={}
-	  local shuffledIndices = {}
-	  local f = io.open('order.random')
-	  for line in f:lines() do
-	    table.insert(shuffledIndices, tonumber(line))
-	  end
-	  for i=1,training_dataset:size() do
-	    local example = training_dataset[shuffledIndices[i]]
-	    training_data[i]=example
-	  end
-	  training_dataset=training_data
+    train_size = training_dataset:size()
+    batch_number = math.modf(train_size/batchsize)+1
+    -- print("batch_number", batch_number)
+    -- print("About to shuffle the order !")
+    ----shuffle the order of the whole dataset----
+    local training_data={}
+    local shuffledIndices = {}
+    local f = io.open('order.random')
+    for line in f:lines() do
+      table.insert(shuffledIndices, tonumber(line))
+    end
+    for i=1,training_dataset:size() do
+      local example = training_dataset[shuffledIndices[i]]
+      training_data[i]=example
+    end
+    training_dataset=training_data
 
-	  --initalize network
-	  network = create_network()
-	  --begin to train
-	  for maxIterations=1,outerIteration do
-	    -- print("quux this is outer iteration number " .. maxIterations)
-	    train(network)
-	  end
-	  --test the final model
-	  test_predictor(network, testing_dataset, classes, classes_names)
+    --initalize network
+    network = create_network()
+    --begin to train
+    for maxIterations=1,outerIteration do
+      -- print("quux this is outer iteration number " .. maxIterations)
+      train(network)
+    end
+    --test the final model
+    test_predictor(network, testing_dataset, classes, classes_names)
 
   elseif params.RunFunction == 0 then
-	  
-	  random_idx_list = {}
-	  for j = 1, tonumber(total_dataset:size()) do
-	    random_idx_list[j] = j
-	  end
-	  random_idx_list = shuffle2(random_idx_list)
-	  --print("shuffled data", random_idx_list)	  
-	  
-	  --we're going to get the indices for all 5 cross folds
-	  five_fold_idxs = {}
-	  block_size = math.modf(total_dataset:size()/5)
-	  for i = 0, 4 do
-	    if i == 4 then
-	      five_fold_idxs[4] = {1 + (block_size * i), tonumber(total_dataset:size())}
-	    end
-	    five_fold_idxs[i] = {1 + (block_size * i), block_size * (i+1)}
-	  end 
-	  -- print("indxs: ", five_fold_idxs)
-    	 
-	  training_data = {} 
-	  testing_data = {}
+    
+    random_idx_list = {}
+    for j = 1, tonumber(total_dataset:size()) do
+      random_idx_list[j] = j
+    end
+    random_idx_list = shuffle2(random_idx_list)
+    --print("shuffled data", random_idx_list)   
+    
+    --we're going to get the indices for all 5 cross folds
+    five_fold_idxs = {}
+    block_size = math.modf(total_dataset:size()/5)
+    for i = 0, 4 do
+      if i == 4 then
+        five_fold_idxs[4] = {1 + (block_size * i), tonumber(total_dataset:size())}
+      end
+      five_fold_idxs[i] = {1 + (block_size * i), block_size * (i+1)}
+    end 
+    -- print("indxs: ", five_fold_idxs)
+       
+    training_data = {} 
+    testing_data = {}
 
     precision_list = {}
     recall_list = {}
@@ -366,7 +366,7 @@ function main()
         testing_data[testing_counter] = total_dataset[midIdx]
         testing_counter = testing_counter + 1
       end
-	    
+      
       training_counter = 1
       for training_idx = 0,4 do
         if tonumber(training_idx) ~= m then
