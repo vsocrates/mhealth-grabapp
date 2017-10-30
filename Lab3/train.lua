@@ -9,7 +9,7 @@ innerIteration = 1
 outerIteration = 1
 fraction = 0.01
 batchsize = 500
-num_roc_points = 2
+num_roc_points = 10
 
 function subset(dataset, head, tail)
   local sub = {}
@@ -330,11 +330,17 @@ function main()
 
   elseif params.RunFunction == 0 then
 	  
-	  random_idx_list = {}
-	  for j = 1, tonumber(total_dataset:size()) do
-	    random_idx_list[j] = j
-	  end
-	  random_idx_list = shuffle2(random_idx_list)
+    local random_idx_list = {}
+    local f = io.open('orderpy.random')
+    for line in f:lines() do
+      table.insert(random_idx_list, tonumber(line))
+    end
+
+	  -- random_idx_list = {}
+	  -- for j = 1, tonumber(total_dataset:size()) do
+	  --   random_idx_list[j] = j
+	  -- end
+	  -- random_idx_list = shuffle2(random_idx_list)
 	  --print("shuffled data", random_idx_list)	  
 	  
 	  --we're going to get the indices for all 5 cross folds
