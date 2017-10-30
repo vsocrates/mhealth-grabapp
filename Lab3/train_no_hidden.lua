@@ -22,6 +22,7 @@ function subset(dataset, head, tail)
   return sub
 end
 
+--[[
 -- here we set up the architecture of the neural network
 -- input raw data 561 * 1
 --ANN with two hidden layer
@@ -43,8 +44,9 @@ function create_network()
 
   return ann
 end
+--]]
 
---[[
+
 --ANN with no hidden layer
 -- input raw data 561 * 1
 function create_network()
@@ -59,7 +61,7 @@ function create_network()
 
   return ann
 end
---]]
+
 
 --[[
 --ANN with one hidden layer
