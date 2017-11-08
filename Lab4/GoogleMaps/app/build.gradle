@@ -2,7 +2,7 @@ apply plugin: 'com.android.application'
 
 android {
     compileSdkVersion 24
-    buildToolsVersion "24.0.2"
+    buildToolsVersion '25.0.0'
 
     defaultConfig {
         applicationId "com.example.haotian.tutorial32"
@@ -23,6 +23,9 @@ android {
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     compile 'com.google.android.gms:play-services:8.1.0'
+    compile 'com.google.android.gms:play-services-location:8.1.0'
+    compile 'com.opencsv:opencsv:4.0'
+    //compile 'com.google.android.gms:play-services-location:9.8.0'
     compile fileTree(dir: 'libs', include: ['*.jar'])
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'

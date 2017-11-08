@@ -1,7 +1,15 @@
 [
     {
+        "merged": "/Users/dinabenayad-cherif/mhealth-grabapp/Lab2/BluetoothChat/Application/build/intermediates/res/merged/debug/menu/bluetooth_chat.xml",
+        "source": "/Users/dinabenayad-cherif/mhealth-grabapp/Lab2/BluetoothChat/Application/src/main/res/menu/bluetooth_chat.xml"
+    },
+    {
         "merged": "/Users/vsocrates/AndroidStudioProjects/ImageGrab/Lab2/BluetoothChat/Application/build/intermediates/res/merged/debug/menu/main.xml",
         "source": "/Users/vsocrates/AndroidStudioProjects/ImageGrab/Lab2/BluetoothChat/Application/src/main/res/menu/main.xml"
+    },
+    {
+        "merged": "/Users/dinabenayad-cherif/mhealth-grabapp/Lab2/BluetoothChat/Application/build/intermediates/res/merged/debug/menu/main.xml",
+        "source": "/Users/dinabenayad-cherif/mhealth-grabapp/Lab2/BluetoothChat/Application/src/main/res/menu/main.xml"
     },
     {
         "merged": "/Users/vsocrates/AndroidStudioProjects/ImageGrab/Lab2/BluetoothChat/Application/build/intermediates/res/merged/debug/menu/bluetooth_chat.xml",

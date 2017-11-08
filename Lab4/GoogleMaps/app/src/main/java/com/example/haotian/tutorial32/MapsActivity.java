@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.location.Location;
+import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.os.Environment;
@@ -17,6 +18,10 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
+import com.opencsv.CSVWriter;
+import java.io.FileWriter;
+//import com.google.android.gms.location.LocationListener;
+import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
@@ -24,10 +29,13 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.io.File;
+import java.util.Date;
+import java.io.IOException;
+import java.sql.Timestamp;
 
 import static android.R.attr.permission;
 
-public class MapsActivity extends FragmentActivity {
+public class MapsActivity extends FragmentActivity implements LocationListener {
     public static final String TAG = "MapsActivity";
     public static final int THUMBNAIL = 1;
 
@@ -35,8 +43,14 @@ public class MapsActivity extends FragmentActivity {
     private PhoneService phoneService;
 
     static final int REQUEST_IMAGE_CAPTURE = 1;
+    static final int REQUEST_COARSE_LOCATION = 2;
+    static final int REQUEST_FINE_LOCATION = 3;
+    static final int PERMISSIONS_MULTIPLE_REQUEST = 123;
 
-    private File file = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS),"Locations.csv");
+    private File file = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS),"Locations.csv");
+    private CSVWriter writer;
+
+    //private File file = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS),"Locations.csv");
 
 
     private GoogleMap mMap; // Might be null if Google Play services APK is not available.
@@ -54,6 +68,7 @@ public class MapsActivity extends FragmentActivity {
 
         picButton = (Button) findViewById(R.id.photobutton);
         verifyCameraPermissions(MapsActivity.this);
+        verifyLocationPermissions(MapsActivity.this);
 
         /*picButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -121,8 +136,55 @@ public class MapsActivity extends FragmentActivity {
 
     }
 
+    public void onLocationChanged(Location location) {
+        // Called when a new location is found by the network location provider.
+        Log.d("Dina", "Location changed");
+        double latitude=location.getLatitude();
+        double longitude=location.getLongitude();
+        String msg="New Latitude: "+latitude + "New Longitude: "+longitude;
+    }
+
+    public void onProviderEnabled(String provider) {}
+    public void onProviderDisabled(String provider) {}
+    public void onStatusChanged(String provider, int status, Bundle extras) {}
+
+    LocationListener locationListener = new LocationListener() {
+        public void onLocationChanged(Location location) {
+            // Called when a new location is found by the network location provider.
+            double latitude=location.getLatitude();
+            double longitude=location.getLongitude();
+            String msg="New Latitude: "+latitude + "New Longitude: "+longitude;
+        }
+
+        public void onStatusChanged(String provider, int status, Bundle extras) {}
+
+        public void onProviderEnabled(String provider) {}
+
+        public void onProviderDisabled(String provider) {}
+    };
+
     private Location getMostAccurateLocation(){
         LocationManager locationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
+        //LocationListener locationListener = new LocationListener();
+        LocationListener locationListener = new LocationListener() {
+            @Override
+            public void onLocationChanged(Location location) {
+                Log.d("Dina", "Location changed");
+                // Called when a new location is found by the network location provider.
+                double latitude=location.getLatitude();
+                double longitude=location.getLongitude();
+                String msg="New Latitude: "+latitude + "New Longitude: "+longitude;
+            }
+
+            public void onStatusChanged(String provider, int status, Bundle extras) {}
+
+            public void onProviderEnabled(String provider) {}
+
+            public void onProviderDisabled(String provider) {}
+        };
+
+        //locationManager.requestLocationUpdates();
+        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0L, 0.0f, locationListener);
 
         boolean gps_enabled = false;
         boolean network_enabled = false;
@@ -136,6 +198,7 @@ public class MapsActivity extends FragmentActivity {
 
         try {
             if (gps_enabled)
+                Log.d("Dina", "GPS IS ENABLED");
                 gps_loc = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
         } catch(SecurityException e){
             gps_loc = null;
@@ -169,6 +232,22 @@ public class MapsActivity extends FragmentActivity {
                 finalLoc = net_loc;
             }
         }
+        Log.d("Dina", "returning final location");
+        Log.d("Dina", finalLoc.toString());
+        try {
+            this.writer = new CSVWriter(new FileWriter(file, true), ',', CSVWriter.NO_QUOTE_CHARACTER, CSVWriter.NO_ESCAPE_CHARACTER, CSVWriter.DEFAULT_LINE_END);
+            Date date = new Date();
+            String[] row = {(new Timestamp(date.getTime())).toString(), String.valueOf(finalLoc.getLatitude()), String.valueOf(finalLoc.getLongitude())};
+            if (writer == null) {
+                Log.d("Writer is null", "Writer is null");
+            }
+            this.writer.writeNext(row);
+            this.writer.close();
+        }
+        catch (IOException ioe) {
+            Log.e("Catching exception", "I got an error", ioe);
+
+        }
         return finalLoc;
     }
 
@@ -178,6 +257,7 @@ public class MapsActivity extends FragmentActivity {
             Bundle extras = data.getExtras();
             Bitmap imageBitmap = (Bitmap) extras.get("data");
             Log.d("VIMIG", imageBitmap.toString());
+            Log.d("DINA", "getting location");
             Location currentLoc = getMostAccurateLocation();
             Log.d("VIMIG", currentLoc.toString());
             addMarker(currentLoc, imageBitmap);
@@ -188,22 +268,45 @@ public class MapsActivity extends FragmentActivity {
 
         mMap.addMarker(new MarkerOptions()
             .position(new LatLng(loc.getLatitude(), loc.getLongitude()))
-            .title("Test")
+            .title("Image")
             .icon(BitmapDescriptorFactory.fromBitmap(img))
             .snippet("Latitude=" + Double.toString(loc.getLatitude()) + "Longitude=" + Double.toString(loc.getLongitude())));
     }
 
-    public static void verifyCameraPermissions(Activity activity) {
-        String[] CAMERA_PERMISSIONS = {Manifest.permission.CAMERA};
-        int permisison = ActivityCompat.checkSelfPermission(activity, Manifest.permission.CAMERA);
+    public static void verifyLocationPermissions(Activity activity){
+        String[] LOCATION_COARSE_PERMISSIONS = {Manifest.permission.ACCESS_COARSE_LOCATION};
+        String[] LOCATION_FINE_PERMISSIONS = {Manifest.permission.ACCESS_FINE_LOCATION};
+        int coarse_permission = ActivityCompat.checkSelfPermission(activity, Manifest.permission.ACCESS_COARSE_LOCATION);
+        int fine_permission = ActivityCompat.checkSelfPermission(activity, Manifest.permission.ACCESS_FINE_LOCATION);
 
-        if (permission != PackageManager.PERMISSION_GRANTED){
+
+        if (fine_permission != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(
                     activity,
-                    CAMERA_PERMISSIONS,
+                    LOCATION_FINE_PERMISSIONS,
+                    REQUEST_FINE_LOCATION
+            );
+        }
+
+
+    }
+
+    public static void verifyCameraPermissions(Activity activity) {
+        String CAMERA_PERMISSIONS = Manifest.permission.CAMERA;
+        int permisison = ActivityCompat.checkSelfPermission(activity, Manifest.permission.CAMERA);
+        String LOCATION_FINE_PERMISSIONS = Manifest.permission.ACCESS_FINE_LOCATION;
+        //int coarse_permission = ActivityCompat.checkSelfPermission(activity, Manifest.permission.ACCESS_COARSE_LOCATION);
+        int fine_permission = ActivityCompat.checkSelfPermission(activity, Manifest.permission.ACCESS_FINE_LOCATION);
+        int write_external_permission = ActivityCompat.checkSelfPermission(activity, Manifest.permission.WRITE_EXTERNAL_STORAGE);
+
+        if (write_external_permission != PackageManager.PERMISSION_GRANTED){
+            ActivityCompat.requestPermissions(
+                    activity,
+                    new String[]{CAMERA_PERMISSIONS, Manifest.permission.WRITE_EXTERNAL_STORAGE},
                     REQUEST_IMAGE_CAPTURE
             );
         }
+
 
     }
 }

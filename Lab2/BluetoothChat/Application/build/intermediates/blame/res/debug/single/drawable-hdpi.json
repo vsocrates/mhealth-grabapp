@@ -8,7 +8,19 @@
         "source": "/Users/vsocrates/AndroidStudioProjects/ImageGrab/Lab2/BluetoothChat/Application/src/main/res/drawable-hdpi/tile.9.png"
     },
     {
+        "merged": "/Users/dinabenayad-cherif/mhealth-grabapp/Lab2/BluetoothChat/Application/build/intermediates/res/merged/debug/drawable-hdpi/ic_launcher.png",
+        "source": "/Users/dinabenayad-cherif/mhealth-grabapp/Lab2/BluetoothChat/Application/src/main/res/drawable-hdpi/ic_launcher.png"
+    },
+    {
+        "merged": "/Users/dinabenayad-cherif/mhealth-grabapp/Lab2/BluetoothChat/Application/build/intermediates/res/merged/debug/drawable-hdpi/tile.9.png",
+        "source": "/Users/dinabenayad-cherif/mhealth-grabapp/Lab2/BluetoothChat/Application/src/main/res/drawable-hdpi/tile.9.png"
+    },
+    {
         "merged": "/Users/vsocrates/AndroidStudioProjects/ImageGrab/Lab2/BluetoothChat/Application/build/intermediates/res/merged/debug/drawable-hdpi/ic_launcher.png",
         "source": "/Users/vsocrates/AndroidStudioProjects/ImageGrab/Lab2/BluetoothChat/Application/src/main/res/drawable-hdpi/ic_launcher.png"
+    },
+    {
+        "merged": "/Users/dinabenayad-cherif/mhealth-grabapp/Lab2/BluetoothChat/Application/build/intermediates/res/merged/debug/drawable-hdpi/ic_action_device_access_bluetooth_searching.png",
+        "source": "/Users/dinabenayad-cherif/mhealth-grabapp/Lab2/BluetoothChat/Application/src/main/res/drawable-hdpi/ic_action_device_access_bluetooth_searching.png"
     }
 ]
