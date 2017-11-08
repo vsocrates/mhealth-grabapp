@@ -98,12 +98,6 @@ public class MainActivity extends Activity implements SensorEventListener {
 		mSensorManager.registerListener(this, mGravity, SensorManager.SENSOR_DELAY_NORMAL);
 
 
-
-
-
-
-
-
 		Log.d("here we go: ", imgDir);
 
 //		iv = (ImageView) findViewById(R.id.imageView);
