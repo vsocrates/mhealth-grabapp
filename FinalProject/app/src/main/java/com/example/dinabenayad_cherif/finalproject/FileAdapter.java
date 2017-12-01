@@ -1,16 +1,16 @@
 package com.example.dinabenayad_cherif.finalproject;
 
-import java.io.File;
-import java.util.List;
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import java.io.File;
+import java.util.List;
 public class FileAdapter extends BaseAdapter
 {
   private LayoutInflater mInflater;
@@ -24,10 +24,10 @@ public class FileAdapter extends BaseAdapter
     mInflater = LayoutInflater.from(context);
     items = it;
     paths = pa;
-    mIcon1 = BitmapFactory.decodeResource(context.getResources(),R.drawable.file_root);
-    mIcon2 = BitmapFactory.decodeResource(context.getResources(),R.drawable.file_paranet);
-    mIcon3 = BitmapFactory.decodeResource(context.getResources(),R.drawable.directory);
-    mIcon4 = BitmapFactory.decodeResource(context.getResources(),R.drawable.weka);
+//    mIcon1 = BitmapFactory.decodeResource(context.getResources(),R.drawable.file_root);
+//    mIcon2 = BitmapFactory.decodeResource(context.getResources(),R.drawable.file_paranet);
+//    mIcon3 = BitmapFactory.decodeResource(context.getResources(),R.drawable.directory);
+//    mIcon4 = BitmapFactory.decodeResource(context.getResources(),R.drawable.weka);
   }
   
   @Override

@@ -116,8 +116,8 @@ public class MainActivity extends Activity implements SensorEventListener {
 //					.into(overlayView);
 //
 //		}
-		verifyStoragePermissions(MainActivity.this);
-		verifyCameraPermissions(MainActivity.this);
+	//	verifyStoragePermissions(MainActivity.this);
+	//	verifyCameraPermissions(MainActivity.this);
 //		RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) iv.getLayoutParams();
 //		overlayView.setLayoutParams(layoutParams);
 //		overlayView.setAlpha(0f);

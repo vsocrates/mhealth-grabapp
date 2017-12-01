@@ -51,7 +51,6 @@ import weka.classifiers.functions.RBFNetwork;
 import weka.classifiers.meta.AdaBoostM1;
 import weka.classifiers.rules.ZeroR;
 import weka.classifiers.trees.J48;
-import weka.core.Instance;
 import weka.core.Instances;
 import weka.core.converters.ArffLoader;
 
@@ -479,7 +478,7 @@ public class BuildClassifier extends TabActivity{
 				paths.add(file.getPath());
 			}
 		}
-		list.setAdapter(new com.weka.FileAdapter(this, items, paths));
+		list.setAdapter(new FileAdapter(this, items, paths));
 	}
     
     private Dialog FileDetailDialog(Context context) {
@@ -587,7 +586,7 @@ public class BuildClassifier extends TabActivity{
     private Dialog promptDialog(Context context) {
     	AlertDialog.Builder builder = new AlertDialog.Builder(context);
 		builder.setTitle("Train file can not be null.");
-		builder.setIcon(R.drawable.warn);
+//		builder.setIcon(R.drawable.warn);
 		builder.setPositiveButton("ok", null);		
 		return builder.create();
 	}
@@ -600,7 +599,7 @@ public class BuildClassifier extends TabActivity{
 		final EditText edit = (EditText)textEntryView.findViewById(R.id.savePath_edit);
 		edit.setText("/sdcard/");
 		builder.setTitle("Save Path");
-		builder.setIcon(R.drawable.weka);	
+//		builder.setIcon(R.drawable.weka);
 		builder.setPositiveButton("OK",
 				new DialogInterface.OnClickListener() {
 					public void onClick(DialogInterface dialog, int whichButton) {
@@ -697,7 +696,7 @@ public class BuildClassifier extends TabActivity{
 		Intent intent = new Intent();
 		Bundle bundle1 = new Bundle();					
 		intent.putExtras(bundle1);
-		intent.setClass(BuildClassifier.this, MainMenu.class);
+//		intent.setClass(BuildClassifier.this, MainMenu.class);
 		startActivity(intent);
 	}
 }

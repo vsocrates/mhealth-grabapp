@@ -19,7 +19,7 @@ public class MobieWeka extends Activity {
 		Intent intent = new Intent();
 		Bundle bundle1 = new Bundle();					
 		intent.putExtras(bundle1);
-		intent.setClass(MobieWeka.this, MainMenu.class);
+//		intent.setClass(MobieWeka.this, MainMenu.class);
 		startActivity(intent);
 		return super.dispatchTouchEvent(ev);
 	}
