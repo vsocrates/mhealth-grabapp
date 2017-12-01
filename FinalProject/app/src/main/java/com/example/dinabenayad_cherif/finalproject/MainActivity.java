@@ -14,6 +14,7 @@ import android.location.LocationManager;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.TextView;
+import android.view.View;
 import android.os.Bundle;
 import android.util.Log;
 
@@ -100,9 +101,9 @@ public class MainActivity extends Activity implements SensorEventListener, Locat
             accelerometerStr[0] = "" + event.values[0] + "";
             accelerometerStr[1] = "" + event.values[1] + "";
             accelerometerStr[2] = "" + event.values[2] + "";
-//            accelerometertxtView = new TextView(this);
-//            accelerometertxtView =(TextView)findViewById(R.id.textView2);
-//            accelerometertxtView.setText(accelerometerStr[0] + " " + accelerometerStr[1] + " " + accelerometerStr[2]);
+            accelerometertxtView = new TextView(this);
+            accelerometertxtView =(TextView)findViewById(R.id.textView2);
+            accelerometertxtView.setText(accelerometerStr[0] + " " + accelerometerStr[1] + " " + accelerometerStr[2]);
 
         } else if (sensor.getType() == Sensor.TYPE_MAGNETIC_FIELD) {
             magnetometerStr[0] = "" + event.values[0] + "";
@@ -118,9 +119,9 @@ public class MainActivity extends Activity implements SensorEventListener, Locat
             rotationStr[0] = "" + event.values[0] + "";
             rotationStr[1] = "" + event.values[1] + "";
             rotationStr[2] = "" + event.values[2] + "";
-//            rotationtxtView = new TextView(this);
-//            rotationtxtView =(TextView)findViewById(R.id.textView5);
-//            rotationtxtView.setText(rotationStr[0] + " " + rotationStr[1] + " " + rotationStr[2]);
+            rotationtxtView = new TextView(this);
+            rotationtxtView =(TextView)findViewById(R.id.textView5);
+            rotationtxtView.setText(rotationStr[0] + " " + rotationStr[1] + " " + rotationStr[2]);
 
         } else if (sensor.getType() == Sensor.TYPE_LINEAR_ACCELERATION) {
             linaccStr[0] = "" + event.values[0] + "";
@@ -137,9 +138,9 @@ public class MainActivity extends Activity implements SensorEventListener, Locat
         if (lastLocation != null) {
             if (location.getLongitude() != lastLocation.getLongitude() || lastLocation.getLatitude() != location.getLongitude()) {
                 lastLocation = location;
-//                gpsCoordinatesView = new TextView(this);
-//                gpsCoordinatesView = (TextView) findViewById(R.id.textView7);
-//                gpsCoordinatesView.setText(location.getLatitude() + " " + location.getLongitude());
+                gpsCoordinatesView = new TextView(this);
+                gpsCoordinatesView = (TextView) findViewById(R.id.textView7);
+                gpsCoordinatesView.setText(location.getLatitude() + " " + location.getLongitude());
             }
         }
         else {
@@ -152,6 +153,20 @@ public class MainActivity extends Activity implements SensorEventListener, Locat
         // Many sensors return 3 values, one for each axis.
         //float lux = event.values[0];
         // Do something with this sensor value.
+    }
+
+    public void startCollectingData(View v) {
+        mSensorManager.registerListener(this, mAccelerometer, SensorManager.SENSOR_DELAY_NORMAL);
+        mSensorManager.registerListener(this, mMagnetometer, SensorManager.SENSOR_DELAY_NORMAL);
+        mSensorManager.registerListener(this, mGyroscope, SensorManager.SENSOR_DELAY_NORMAL);
+        mSensorManager.registerListener(this, mRotation, SensorManager.SENSOR_DELAY_NORMAL);
+        mSensorManager.registerListener(this, mLineAcc, SensorManager.SENSOR_DELAY_NORMAL);
+        mSensorManager.registerListener(this, mGravity, SensorManager.SENSOR_DELAY_NORMAL);
+
+    }
+
+    public void stopCollectingData(View v) {
+        mSensorManager.unregisterListener(this);
     }
 
     @Override
@@ -170,12 +185,12 @@ public class MainActivity extends Activity implements SensorEventListener, Locat
         mGravity = mSensorManager.getDefaultSensor(Sensor.TYPE_GRAVITY);
 
 //
-        mSensorManager.registerListener(this, mAccelerometer, SensorManager.SENSOR_DELAY_NORMAL);
-        mSensorManager.registerListener(this, mMagnetometer, SensorManager.SENSOR_DELAY_NORMAL);
-        mSensorManager.registerListener(this, mGyroscope, SensorManager.SENSOR_DELAY_NORMAL);
-        mSensorManager.registerListener(this, mRotation, SensorManager.SENSOR_DELAY_NORMAL);
-        mSensorManager.registerListener(this, mLineAcc, SensorManager.SENSOR_DELAY_NORMAL);
-        mSensorManager.registerListener(this, mGravity, SensorManager.SENSOR_DELAY_NORMAL);
+//        mSensorManager.registerListener(this, mAccelerometer, SensorManager.SENSOR_DELAY_NORMAL);
+//        mSensorManager.registerListener(this, mMagnetometer, SensorManager.SENSOR_DELAY_NORMAL);
+//        mSensorManager.registerListener(this, mGyroscope, SensorManager.SENSOR_DELAY_NORMAL);
+//        mSensorManager.registerListener(this, mRotation, SensorManager.SENSOR_DELAY_NORMAL);
+//        mSensorManager.registerListener(this, mLineAcc, SensorManager.SENSOR_DELAY_NORMAL);
+//        mSensorManager.registerListener(this, mGravity, SensorManager.SENSOR_DELAY_NORMAL);
 
 
         //Log.d("here we go: ", imgDir);
@@ -207,6 +222,8 @@ public class MainActivity extends Activity implements SensorEventListener, Locat
 
 
     }
+
+
 
     public void onLocationChanged(Location location) {
         // Called when a new location is found by the network location provider.
@@ -284,7 +301,7 @@ public class MainActivity extends Activity implements SensorEventListener, Locat
         }
 
         Log.d("VIMIG", gps_loc.toString());
-        Log.d("VIMIG", net_loc.toString());
+        //Log.d("VIMIG", net_loc.toString());
 
         if (gps_loc != null && net_loc != null) {
 
