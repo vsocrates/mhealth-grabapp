@@ -57,13 +57,8 @@
 						style="?android:attr/buttonStyleSmall"
 						android:layout_alignParentRight="true"
 						android:text="Change"/>
-					<Button
-						android:id="@+id/trainfiledetail"
-						android:layout_width="60px"
-						android:layout_height="wrap_content"
-						android:layout_toLeftOf="@id/choosetrainfile"
-						style="?android:attr/buttonStyleSmall"
-						android:text="Detail"/>
+
+
 					<TextView
 						android:id="@+id/classifier_trainflie"
 						android:layout_width="wrap_content"
@@ -89,13 +84,7 @@
 						style="?android:attr/buttonStyleSmall"
 						android:layout_alignParentRight="true"
 						android:text="Change"/>
-					<Button
-						android:id="@+id/testfiledetail"
-						android:layout_width="60px"
-						android:layout_height="wrap_content"
-						android:layout_toLeftOf="@id/choosetestfile"
-						style="?android:attr/buttonStyleSmall"
-						android:text="Detail"/>
+
 					<TextView
 						android:layout_below="@id/show_testfile"
 						android:id="@+id/classifier_testfile"
@@ -108,25 +97,15 @@
 					android:orientation="horizontal"
 					android:layout_width="wrap_content"
 					android:layout_height="wrap_content"
-					android:layout_gravity="center"> 
-					<Button 
-						android:layout_marginTop="30px"
+					android:layout_gravity="center">
+
+					<Button
 						android:id="@+id/train_button"
-						android:layout_width="100px"
+						android:layout_width="250px"
 						android:layout_height="wrap_content"
+						android:layout_marginTop="30px"
 						android:text="Train"/>
-					<Button 
-						android:layout_marginTop="30px"
-						android:id="@+id/test_button"
-						android:layout_width="100px"
-						android:layout_height="wrap_content"
-						android:text="Test"/>
-					<Button 
-						android:layout_marginTop="30px"
-						android:id="@+id/load_model"
-						android:layout_width="100px"
-						android:layout_height="wrap_content"
-						android:text="Load Model"/>
+
 				</LinearLayout>				
 			</LinearLayout>	
 		</ScrollView>
@@ -176,39 +155,24 @@
 			</HorizontalScrollView>
 		</ScrollView>	   
 	</LinearLayout>
-   
-   
+
+
 	<LinearLayout
 		android:id="@+id/classifiertestresult_layout"
-		android:orientation="vertical"
 		android:layout_width="fill_parent"
-		android:layout_height="fill_parent"> 
-		<Button 
-			android:id="@+id/SummaryString"
-			android:layout_width="200px"
-			android:layout_height="wrap_content"
-			android:layout_gravity="center"
-			android:text="SummaryResult"/>
-		<Button 
-			android:id="@+id/MatrixString"
-			android:layout_width="200px"
-			android:layout_height="wrap_content"
-			android:layout_gravity="center"
-			android:text="MatrixResult"/>
-		<Button 
-			android:id="@+id/ClassDetailsString"
-			android:layout_width="200px"
-			android:layout_height="wrap_content"
-			android:layout_gravity="center"
-			android:text="ClassDetailsString"/>
-		<ScrollView 
-			android:layout_width="fill_parent" 
-			android:layout_height="fill_parent" 
-			android:scrollbarStyle="outsideOverlay"> 
-			<HorizontalScrollView 
-				android:layout_width="fill_parent" 
+		android:layout_height="fill_parent"
+		android:orientation="vertical">
+
+		<ScrollView
+			android:layout_width="fill_parent"
+			android:layout_height="fill_parent"
+			android:scrollbarStyle="outsideOverlay">
+
+			<HorizontalScrollView
+				android:layout_width="fill_parent"
 				android:layout_height="fill_parent">
-				<TextView 
+
+				<TextView
 					android:id="@+id/testresutl_text"
 					android:layout_width="fill_parent"
 					android:layout_height="fill_parent"
@@ -217,6 +181,6 @@
 		</ScrollView>
 	</LinearLayout>
 
-   
+
 </FrameLayout>
 
