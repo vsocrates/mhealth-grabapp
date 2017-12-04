@@ -86,7 +86,7 @@ public class BuildClassifier extends TabActivity{
 	
 	private Spinner spinner_1, spinner_2;
 	private TextView classifier_trainflie, classifier_testfile;
-	private TextView model_text, result_text, file_detail, show_state;
+	private TextView model_text, file_detail, show_state;
 	private Button choosetestfile, choosetrainfile;
 	private Button Train, SaveModel;
 	private ProgressBar progress;
@@ -118,9 +118,13 @@ public class BuildClassifier extends TabActivity{
 				.setContent(R.id.chooseclassifier_layout));
 		tabHost.addTab(tabHost.newTabSpec("tab2").setIndicator("Model")
 				.setContent(R.id.classifiermodel_layout));
+//		tabHost.addTab(tabHost.newTabSpec("tab3").setIndicator("Test Result")
+//				.setContent(R.id.classifiertestresult_layout));
 
 		tabHost.getTabWidget().getChildAt(1).setClickable(false);
+//		tabHost.getTabWidget().getChildAt(2).setClickable(false);
 		final TabWidget tabWidget = tabHost.getTabWidget();
+        Log.d("VIMIG", Integer.toString(tabWidget.getChildCount()));
 		for (int i =0; i < tabWidget.getChildCount(); i++) {  
 			tabWidget.getChildAt(i).getLayoutParams().height = 30;  
 		}
@@ -147,7 +151,7 @@ public class BuildClassifier extends TabActivity{
 					Initspinner_2();
 				}else if (TypeFile == 2){
 					tabHost.getTabWidget().getChildAt(1).setClickable(true);
-					tabHost.getTabWidget().getChildAt(2).setClickable(false);
+//					tabHost.getTabWidget().getChildAt(2).setClickable(false);
 					tabHost.setCurrentTab(1);
 					classifierString = cfs.toString();
 					model_text.setText(classifierString);
@@ -176,15 +180,15 @@ public class BuildClassifier extends TabActivity{
         		break;
         	case 5:        		
         		progress.setVisibility(View.GONE);
-        		if (hasFalse) {
-        			show_state.setText("Test Field,use time:"+df.format(time)+"s");
-        			showDialog(promptDialog);
-        			break;
-        		}
-        		show_state.setText("Test Complete,use time:"+df.format(time)+"s");	
-        		result_text.setText(TestSummaryresult);
-        		tabHost.getTabWidget().getChildAt(2).setClickable(true);
-        		tabHost.setCurrentTab(2);
+//        		if (hasFalse) {
+//        			show_state.setText("Test Field,use time:"+df.format(time)+"s");
+//        			showDialog(promptDialog);
+//        			break;
+//        		}
+//        		show_state.setText("Test Complete,use time:"+df.format(time)+"s");
+//        		result_text.setText(TestSummaryresult);
+//        		tabHost.getTabWidget().getChildAt(2).setClickable(true);
+//        		tabHost.setCurrentTab(2);
         	}
             super.handleMessage(msg);    
          }    
@@ -383,7 +387,6 @@ public class BuildClassifier extends TabActivity{
     	choosetrainfile = (Button)findViewById(R.id.choosetrainfile);
     	choosetestfile = (Button)findViewById(R.id.choosetestfile);
     	model_text = (TextView)findViewById(R.id.model_text);
-    	result_text = (TextView)findViewById(R.id.testresutl_text);
     	show_state = (TextView)findViewById(R.id.show_state);
     	spinner_1 = (Spinner)findViewById(R.id.spinner_1);  
     	spinner_2 = (Spinner)findViewById(R.id.spinner_2);
@@ -473,54 +476,53 @@ public class BuildClassifier extends TabActivity{
         Log.d("VIMIG", "button make.");
 
 
-        if (curPath.endsWith(".arff")&&(TypeFile == 0||TypeFile == 1)) {
-            running = true;
-            dismissDialog(ChooseFileDialog);
-            progress.setVisibility(View.VISIBLE);
-            show_state.setText("  Opening File,Waiting.");
-            if (TypeFile == 0) {
-                TrainfileName = curPath;
-                classifier_trainflie.setText(TrainfileName);
-            }
-            else if (TypeFile == 1) {
-                TestfileName = curPath;
-                classifier_testfile.setText(TestfileName);
-            }
-            new Thread(new Runnable(){
-                @Override
-                public void run() {
-                    Readfile();
-                    Message message = Message.obtain();
-                    message.what = 1;
-                    mHandler.sendMessage(message);
-                    running = false;
-                }
-            }){ }.start();
-        } else if (curPath.endsWith(".model")&&TypeFile == 2) {
-            running = true;
-            dismissDialog(ChooseFileDialog);
-            ModelPathName = curPath;
-            new Thread(new Runnable(){
-                @Override
-                public void run() {
-                    Readfile();
-                    Message message = Message.obtain();
-                    message.what = 1;
-                    mHandler.sendMessage(message);
-                    running = false;
-                }
-            }){ }.start();
-        }else {
-            TypePrompt = 0;
-            showDialog(promptDialog);
-        }
+
 
 //		confirmbutton.setOnClickListener(new OnClickListener() {
 //			public void onClick(View arg0) {
-//
+//				if (curPath.endsWith(".arff")&&(TypeFile == 0||TypeFile == 1)) {
+//					running = true;
+//					dismissDialog(ChooseFileDialog);
+//					progress.setVisibility(View.VISIBLE);
+//					show_state.setText("  Opening File,Waiting.");
+//					if (TypeFile == 0) {
+//						TrainfileName = curPath;
+//						classifier_trainflie.setText(TrainfileName);
+//					}
+//					else if (TypeFile == 1) {
+//						TestfileName = curPath;
+//						classifier_testfile.setText(TestfileName);
+//					}
+//					new Thread(new Runnable(){
+//			            @Override
+//			            public void run() {
+//			            	Readfile();
+//			            	Message message = Message.obtain();
+//			                message.what = 1;
+//			                mHandler.sendMessage(message);
+//			                running = false;
+//			            }
+//			         }){ }.start();
+//				} else if (curPath.endsWith(".model")&&TypeFile == 2) {
+//					running = true;
+//					dismissDialog(ChooseFileDialog);
+//					ModelPathName = curPath;
+//					new Thread(new Runnable(){
+//			            @Override
+//			            public void run() {
+//			            	Readfile();
+//			            	Message message = Message.obtain();
+//			                message.what = 1;
+//			                mHandler.sendMessage(message);
+//			                running = false;
+//			            }
+//			         }){ }.start();
+//				}else {
+//					TypePrompt = 0;
+//					showDialog(promptDialog);
+//				}
 //			}
 //		});
-
 //		canclebutton.setOnClickListener(new OnClickListener() {
 //			@Override
 //			public void onClick(View arg0) {
