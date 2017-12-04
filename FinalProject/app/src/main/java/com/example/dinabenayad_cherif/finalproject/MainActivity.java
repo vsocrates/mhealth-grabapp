@@ -3,6 +3,7 @@ package com.example.dinabenayad_cherif.finalproject;
 import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
@@ -11,14 +12,13 @@ import android.hardware.SensorManager;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
-import android.support.v4.app.ActivityCompat;
-import android.support.v7.app.AppCompatActivity;
-import android.widget.TextView;
-import android.view.View;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.util.Log;
+import android.view.View;
 import android.widget.TextView;
+
 import java.sql.Timestamp;
 import java.util.Date;
 
@@ -168,6 +168,12 @@ public class MainActivity extends Activity implements SensorEventListener, Locat
         mSensorManager.unregisterListener(this);
     }
 
+
+    public void trainDecisionTree(View v){
+        Intent intent = new Intent(this, BuildClassifier.class);
+        startActivity(intent);
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -183,42 +189,6 @@ public class MainActivity extends Activity implements SensorEventListener, Locat
         mLineAcc = mSensorManager.getDefaultSensor(Sensor.TYPE_LINEAR_ACCELERATION);
         mGravity = mSensorManager.getDefaultSensor(Sensor.TYPE_GRAVITY);
 
-//
-//        mSensorManager.registerListener(this, mAccelerometer, SensorManager.SENSOR_DELAY_NORMAL);
-//        mSensorManager.registerListener(this, mMagnetometer, SensorManager.SENSOR_DELAY_NORMAL);
-//        mSensorManager.registerListener(this, mGyroscope, SensorManager.SENSOR_DELAY_NORMAL);
-//        mSensorManager.registerListener(this, mRotation, SensorManager.SENSOR_DELAY_NORMAL);
-//        mSensorManager.registerListener(this, mLineAcc, SensorManager.SENSOR_DELAY_NORMAL);
-//        mSensorManager.registerListener(this, mGravity, SensorManager.SENSOR_DELAY_NORMAL);
-
-
-        //Log.d("here we go: ", imgDir);
-
-//		iv = (ImageView) findViewById(R.id.imageView);
-        //overlayView = (DrawingImageView) findViewById(R.id.imageViewOverlay);
-
-//		File img = new File(imgDir+File.separator+"smile1.jpg");
-//
-//	if (img.exists()) {
-//			//Loading Image from URL
-//			Picasso.with(this)
-//					.load("https://www.simplifiedcoding.net/wp-content/uploads/2015/10/advertise.png")
-//					//.load(img)
-//					//.placeholder(R.drawable.placeholder)   // optional
-//					//.error(R.drawable.error)      // optional
-//					.resize(240, 320)                        // optional
-//					.into(overlayView);
-//
-//		}
-        //verifyStoragePermissions(MainActivity.this);
-        //verifyCameraPermissions(MainActivity.this);
-//		RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) iv.getLayoutParams();
-//		overlayView.setLayoutParams(layoutParams);
-//		overlayView.setAlpha(0f);
-
-
-        Log.d("about to get into it", "it");
-
 
     }
 
@@ -226,7 +196,6 @@ public class MainActivity extends Activity implements SensorEventListener, Locat
 
     public void onLocationChanged(Location location) {
         // Called when a new location is found by the network location provider.
-        Log.d("Dina", "Location changed");
         double latitude=location.getLatitude();
         double longitude=location.getLongitude();
         String msg="New Latitude: "+latitude + "New Longitude: "+longitude;
@@ -257,7 +226,6 @@ public class MainActivity extends Activity implements SensorEventListener, Locat
         LocationListener locationListener = new LocationListener() {
             @Override
             public void onLocationChanged(Location location) {
-                Log.d("Dina", "Location changed");
                 // Called when a new location is found by the network location provider.
                 double latitude=location.getLatitude();
                 double longitude=location.getLongitude();
@@ -281,12 +249,9 @@ public class MainActivity extends Activity implements SensorEventListener, Locat
         network_enabled = locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
 
         Location net_loc = null, gps_loc = null, finalLoc = null;
-        Log.d("VIMIG", Boolean.toString(gps_enabled));
-        Log.d("VIMIG", Boolean.toString(network_enabled));
 
         try {
             if (gps_enabled)
-                Log.d("Dina", "GPS IS ENABLED");
             gps_loc = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
         } catch(SecurityException e){
             gps_loc = null;
@@ -299,9 +264,6 @@ public class MainActivity extends Activity implements SensorEventListener, Locat
             net_loc = null;
         }
 
-        Log.d("VIMIG", gps_loc.toString());
-        //Log.d("VIMIG", net_loc.toString());
-
         if (gps_loc != null && net_loc != null) {
 
             //smaller the number more accurate result will
@@ -309,8 +271,6 @@ public class MainActivity extends Activity implements SensorEventListener, Locat
                 finalLoc = net_loc;
             else
                 finalLoc = gps_loc;
-
-            // I used this just to get an idea (if both avail, its upto you which you want to take as I've taken location with more accuracy)
 
         } else {
 
@@ -320,8 +280,6 @@ public class MainActivity extends Activity implements SensorEventListener, Locat
                 finalLoc = net_loc;
             }
         }
-        Log.d("Dina", "returning final location");
-        Log.d("Dina", finalLoc.toString());
         return finalLoc;
     }
 

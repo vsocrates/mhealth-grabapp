@@ -10,6 +10,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -495,14 +496,16 @@ public class BuildClassifier extends TabActivity{
 	}
     
     private Dialog ChooseFileDialog (Context context) {
+		Log.d("VIMIG", "made here.");
 		LayoutInflater inflater = LayoutInflater.from(this);
 		final View textEntryView = inflater.inflate(
 				R.layout.choosefile, (ViewGroup)findViewById(R.id.choosefile_layout));
 		AlertDialog.Builder builder = new AlertDialog.Builder(context);
 		builder.setTitle("Choose Train File");
 //		builder.setIcon(R.drawable.weka);
-		list = (ListView)textEntryView.findViewById(R.id.list);
+		list = (ListView) textEntryView.findViewById(R.id.list);
 		getFileDir("/sdcard/");
+
 		list.setOnItemClickListener(new OnItemClickListener(){
 			@Override
 			public void onItemClick(AdapterView<?> arg0, View v, int position, long id) {
