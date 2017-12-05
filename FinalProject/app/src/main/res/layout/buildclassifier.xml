@@ -18,24 +18,27 @@
 			<LinearLayout
 				android:orientation="vertical"
 				android:layout_width="fill_parent"
-				android:layout_height="fill_parent"> 
+				android:layout_height="fill_parent">
+
 				<TextView
 					android:id="@+id/correctrate"
 					android:layout_width="fill_parent"
 					android:layout_height="wrap_content"
-					android:text="Choose Classifier" 
-					android:textSize="20px"/>
+					android:text="Choose Classifier"
+					android:textSize="18sp"/>
 				<Spinner  
 					android:id="@+id/spinner_1"
 					android:layout_width="fill_parent"
 					android:layout_height="wrap_content"
 					android:drawSelectorOnTop="false"/>
+
 				<TextView
 					android:layout_width="fill_parent"
 					android:layout_height="wrap_content"
-					android:text="Choose Classifier Var" 
-					android:textSize="20px"/>
-				<Spinner  
+					android:text="Choose Classifier Var"
+					android:textSize="18sp"/>
+
+				<Spinner
 					android:id="@+id/spinner_2"
 					android:layout_width="fill_parent"
 					android:layout_height="wrap_content"
@@ -44,19 +47,22 @@
 				xmlns:android="http://schemas.android.com/apk/res/android"
 				android:layout_width="fill_parent" 
 				android:layout_height="wrap_content">
+
 					<TextView
-						android:id = "@+id/show_trainfile"
+						android:id="@+id/show_trainfile"
 						android:layout_width="wrap_content"
 						android:layout_height="wrap_content"
-						android:text="Train File" 
-						android:textSize="20px"/>
+						android:text="Train File"
+						android:textSize="18sp"/>
+
 					<Button
 						android:id="@+id/choosetrainfile"
+						style="?android:attr/buttonStyleSmall"
 						android:layout_width="wrap_content"
 						android:layout_height="wrap_content"
-						style="?android:attr/buttonStyleSmall"
 						android:layout_alignParentRight="true"
-						android:text="Change"/>
+						android:onClick="onLoadTrainFileClick"
+						android:text="Load"/>
 
 
 					<TextView
@@ -64,35 +70,10 @@
 						android:layout_width="wrap_content"
 						android:layout_height="wrap_content"
 						android:layout_below="@id/show_trainfile"
-						android:textSize="20px"
-						android:text="" />
+						android:text=""
+						android:textSize="14sp"/>
 				</RelativeLayout>
-				<RelativeLayout
-					xmlns:android="http://schemas.android.com/apk/res/android"
-					android:layout_width="fill_parent" 
-					android:layout_height="wrap_content">
-					<TextView
-						android:id="@+id/show_testfile"
-						android:layout_width="wrap_content"
-						android:layout_height="wrap_content"
-						android:text="Test File" 
-						android:textSize="20px"/>
-					<Button
-						android:id="@+id/choosetestfile"
-						android:layout_width="wrap_content"
-						android:layout_height="wrap_content"
-						style="?android:attr/buttonStyleSmall"
-						android:layout_alignParentRight="true"
-						android:text="Change"/>
 
-					<TextView
-						android:layout_below="@id/show_testfile"
-						android:id="@+id/classifier_testfile"
-						android:layout_width="wrap_content"
-						android:layout_height="wrap_content"
-						android:text="" 
-						android:textSize="20px"/>  
-				</RelativeLayout>
 				<LinearLayout
 					android:orientation="horizontal"
 					android:layout_width="wrap_content"
@@ -109,22 +90,25 @@
 				</LinearLayout>				
 			</LinearLayout>	
 		</ScrollView>
+
 		<LinearLayout
-			android:orientation="horizontal"
 			android:layout_width="fill_parent"
-			android:layout_height="30px"
-			android:background="#808080"> 
-			<ProgressBar 
-				android:id="@+id/ProgressBar"   
-				android:layout_width="30px" 
-				android:layout_height="30px"/>
-			<TextView 
+			android:layout_height="120px"
+			android:background="#808080"
+			android:orientation="horizontal">
+
+			<ProgressBar
+				android:id="@+id/ProgressBar"
+				android:layout_width="120px"
+				android:layout_height="120px"/>
+
+			<TextView
 				android:id="@+id/show_state"
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
 				android:layout_gravity="bottom"
 				android:text=""
-				android:textSize="20px"/>
+				android:textSize="80px"/>
 		</LinearLayout>
 	</LinearLayout>
 
@@ -133,10 +117,11 @@
 		android:id="@+id/classifiermodel_layout"
 		android:orientation="vertical"
 		android:layout_width="fill_parent"
-		android:layout_height="fill_parent"> 
-		<Button 
+		android:layout_height="fill_parent">
+
+		<Button
 			android:id="@+id/save_model"
-			android:layout_width="200px"
+			android:layout_width="350px"
 			android:layout_height="wrap_content"
 			android:layout_gravity="center"
 			android:text="Save Model"/>
@@ -154,31 +139,6 @@
 					android:text=""/>
 			</HorizontalScrollView>
 		</ScrollView>	   
-	</LinearLayout>
-
-
-	<LinearLayout
-		android:id="@+id/classifiertestresult_layout"
-		android:layout_width="fill_parent"
-		android:layout_height="fill_parent"
-		android:orientation="vertical">
-
-		<ScrollView
-			android:layout_width="fill_parent"
-			android:layout_height="fill_parent"
-			android:scrollbarStyle="outsideOverlay">
-
-			<HorizontalScrollView
-				android:layout_width="fill_parent"
-				android:layout_height="fill_parent">
-
-				<TextView
-					android:id="@+id/testresutl_text"
-					android:layout_width="fill_parent"
-					android:layout_height="fill_parent"
-					android:text=""/>
-			</HorizontalScrollView>
-		</ScrollView>
 	</LinearLayout>
 
 
