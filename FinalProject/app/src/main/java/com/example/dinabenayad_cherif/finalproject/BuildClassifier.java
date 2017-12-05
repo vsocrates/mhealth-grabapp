@@ -412,7 +412,7 @@ public class BuildClassifier extends TabActivity{
         File path = Environment.getExternalStoragePublicDirectory(
                 Environment.DIRECTORY_DOWNLOADS);
         path.mkdirs();
-        TrainfileName = "TrainingDatabackup.arff";
+        TrainfileName = "TrainingData.arff";
         trainingFile = new File(path, TrainfileName);
 //        Log.d("VIMIG", trainingFile.toString());
         if(trainingFile.exists())
@@ -668,12 +668,13 @@ public class BuildClassifier extends TabActivity{
 				file_detail.setText(TestSummaryString);
 			}
 		}else if (id == promptDialog){
+
 			if (TypePrompt == 0) {
-				dialog.setTitle("Please choose right file.");
+				dialog.setTitle("Please choose the right file.");
 			}else if (TypePrompt == 1){
-				dialog.setTitle("Train file can not be null.");
+				dialog.setTitle("Train file cannot be empty.");
 			}else if (TypePrompt == 2){
-				dialog.setTitle("It is Running now.Do it a moment later.");
+				dialog.setTitle("We're busy, just a moment!");
 			}else if (TypePrompt == 3){
 				dialog.setTitle("Test file does not match the model.");
 			}else if (TypePrompt == 4){
@@ -681,7 +682,7 @@ public class BuildClassifier extends TabActivity{
 			}else if (TypePrompt == 5){
 				dialog.setTitle("Train file does not match the classifier.");
 			}else if (TypePrompt == 6){
-				dialog.setTitle("Test file or Classifer is null.");
+				dialog.setTitle("Test file or Classifer is empty.");
 			}
 		}
 	}
