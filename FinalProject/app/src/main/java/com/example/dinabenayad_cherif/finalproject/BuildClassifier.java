@@ -370,7 +370,15 @@ public class BuildClassifier extends TabActivity{
                         } catch (FileNotFoundException e) {}
                         catch (IOException e) {}
 
+                        Context context = getApplicationContext();
+                        CharSequence text = "Model Saved!";
+                        int duration = Toast.LENGTH_SHORT;
 
+                        Toast toast = Toast.makeText(context, text, duration);
+                        toast.show();
+
+                        //close the activity once we are getting one of the model files
+                        finish();
 					}
 				}
 
