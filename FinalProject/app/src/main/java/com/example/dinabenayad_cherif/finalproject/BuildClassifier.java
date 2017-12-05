@@ -50,15 +50,15 @@ import weka.core.Instances;
 import weka.core.converters.ArffLoader;
 
 public class BuildClassifier extends TabActivity{
-	
+
 	public static final int ITEM0 = Menu.FIRST;
 	public static final int ITEM1 = Menu.FIRST + 1;
-	
+
 	private static final int promptDialog = 1;
 	private static final int FileDetailDialog = 2;
 	private static final int SaveModelDialog = 3;
 	private static final int ChooseFileDialog = 4;
-	
+
 	private static final int NAIVEBAYES = 0;
 //	private static final int RBFNETWORK = 1;
 	private static final int J48 = 1;
@@ -67,7 +67,7 @@ public class BuildClassifier extends TabActivity{
 	private static final int LinearRegression = 5;
 
 	private static final int SVM = 6;
-	
+
 	private List<String> items = null;
 	private List<String> paths = null;
 	private String rootPath = "/";
@@ -75,35 +75,35 @@ public class BuildClassifier extends TabActivity{
 	private ListView list;
 	private View vv;
 	private TabHost tabHost;
-	
+
 	private String TrainfileName, TestfileName, ModelPathName;
     private File trainingFile;
 	private String classifierString, TestSummaryString = "", TrainSummaryString = "";
 	private String TestSummaryresult = "", MatrixString = "", ClassDetailsString = "";
-	
+
 	private Spinner spinner_1, spinner_2;
 	private TextView classifier_trainflie;
 	private TextView model_text, file_detail, show_state;
     private Button Train, SaveModel, loadTrainFileButton;
 	private ProgressBar progress;
-	
+
 	private String[] VAR;
 	private static final String[]  ALG = {"NAIVEBAYES", "J48"};
 	private ArrayAdapter<String> aspn;
-	
+
 	private float time;
 	private Timer timer;
 	private NumberFormat df = NumberFormat.getInstance();
-	
-	private int chooseALG = 0, chooseVar = 0;	
+
+	private int chooseALG = 0, chooseVar = 0;
 	private Instances instancesTrain, instancesTest;
 	private Classifier cfs = null;
-	
+
 	private int TypePrompt;
 	private boolean isLoadModel = false;
 	private boolean running = false;
 	private boolean hasFalse = false;
-	
+
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -118,10 +118,10 @@ public class BuildClassifier extends TabActivity{
 		tabHost.getTabWidget().getChildAt(1).setClickable(false);
 		final TabWidget tabWidget = tabHost.getTabWidget();
         Log.d("VIMIG", Integer.toString(tabWidget.getChildCount()));
-		for (int i =0; i < tabWidget.getChildCount(); i++) {  
+		for (int i =0; i < tabWidget.getChildCount(); i++) {
 			tabWidget.getChildAt(i).getLayoutParams().height = 100;
 		}
-		
+
 		df.setMaximumFractionDigits(2);
 		df.setMinimumFractionDigits(2);
 
@@ -133,9 +133,9 @@ public class BuildClassifier extends TabActivity{
 
 //		showDialog(ChooseFileDialog);
 	}
-	
-	private Handler mHandler = new Handler() {    
-        public void handleMessage(Message msg) {  
+
+	private Handler mHandler = new Handler() {
+        public void handleMessage(Message msg) {
         	switch (msg.what) {
         	case 1:
         		progress.setVisibility(View.GONE);
@@ -151,7 +151,7 @@ public class BuildClassifier extends TabActivity{
 					model_text.setText(classifierString);
 				}
         		break;
-        	case 2:        		
+        	case 2:
         		progress.setVisibility(View.GONE);
         		if (hasFalse) {
         			show_state.setText("Train Field,use time:"+df.format(time)+"s");
@@ -159,7 +159,7 @@ public class BuildClassifier extends TabActivity{
         			break;
 
         		}
-        		show_state.setText("Train Complete,use time:"+df.format(time)+"s");	
+        		show_state.setText("Train Complete,use time:"+df.format(time)+"s");
         		model_text.setText(classifierString);
         		tabHost.getTabWidget().getChildAt(1).setClickable(true);
         		tabHost.setCurrentTab(1);
@@ -172,7 +172,7 @@ public class BuildClassifier extends TabActivity{
         		time += 0.01;
         		show_state.setText("  Testing,use time:"+df.format(time)+"s");
         		break;
-        	case 5:        		
+        	case 5:
         		progress.setVisibility(View.GONE);
 //        		if (hasFalse) {
 //        			show_state.setText("Test Field,use time:"+df.format(time)+"s");
@@ -184,30 +184,30 @@ public class BuildClassifier extends TabActivity{
 //        		tabHost.getTabWidget().getChildAt(2).setClickable(true);
 //        		tabHost.setCurrentTab(2);
         	}
-            super.handleMessage(msg);    
-         }    
+            super.handleMessage(msg);
+         }
      };
-     
+
      public void Initspinner_1() {
      	aspn = new ArrayAdapter<String>(this,android.R.layout.simple_spinner_item, ALG);
  		aspn.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
- 		spinner_1.setAdapter(aspn);	
+ 		spinner_1.setAdapter(aspn);
      }
-    
+
     public void Initspinner_2() {
     	aspn = new ArrayAdapter<String>(this,android.R.layout.simple_spinner_item, VAR);
  		aspn.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
  		spinner_2.setAdapter(aspn);
  		spinner_2.setSelection(chooseVar);
     }
-    
+
     public void InitVar() {
     	VAR = new String[instancesTrain.numAttributes()];
 		for (int i = 0; i < instancesTrain.numAttributes(); i++)
 			VAR[i] = instancesTrain.attribute(i).name();
 		chooseVar = instancesTrain.numAttributes() - 1;
     }
-	
+
 	public void Readfile() {
     	try {
     		if (TypeFile == 0) {
@@ -216,8 +216,8 @@ public class BuildClassifier extends TabActivity{
 				instancesTrain = atf.getDataSet();
 				TrainSummaryString = instancesTrain.toSummaryString();
     		}else if (TypeFile == 1) {
-    			File file = new File(TestfileName);	
-	    		ArffLoader atf = new ArffLoader(); 
+    			File file = new File(TestfileName);
+	    		ArffLoader atf = new ArffLoader();
 				atf.setFile(file);
 				instancesTest = atf.getDataSet();
 				TestSummaryString = instancesTest.toSummaryString();
@@ -227,11 +227,11 @@ public class BuildClassifier extends TabActivity{
 		        ois.close();
 		        isLoadModel = true;
 			}
-    		
-		} catch (IOException e) {} 
+
+		} catch (IOException e) {}
     	catch (ClassNotFoundException e) {}
     }
-	
+
 	public void Train() {
 //        Log.d("VIMIG", instancesTrain.toString());
 //        Log.d("VIMIG", "num" + Integer.toString(chooseALG));
@@ -269,9 +269,9 @@ public class BuildClassifier extends TabActivity{
 			TypePrompt = 5;
 			hasFalse = true;
 		}
-		
+
 	}
-	
+
 //	public void Test() {
 //		if (isLoadModel) {
 //			for (int i = 0; i < instancesTest.numAttributes(); i++) {
@@ -310,7 +310,7 @@ public class BuildClassifier extends TabActivity{
 	public void ClickListener() {
 	    	OnClickListener listener = new OnClickListener() {
 				public void onClick(View v) {
-					if (running == true) {	
+					if (running == true) {
 						TypePrompt = 2;
 						showDialog(promptDialog);
 					}else if (v == Train) {
@@ -322,31 +322,58 @@ public class BuildClassifier extends TabActivity{
 						time = 0;
 						timer = new Timer(true);
 //                        Log.d("VIMIG", instancesTrain.toString());
-						TimerTask task = new TimerTask(){  
-						      public void run() {  
-						      Message message = new Message();      
-						      message.what = 3; 
-						      mHandler.sendMessage(message);  
-						    }  
+						TimerTask task = new TimerTask(){
+						      public void run() {
+						      Message message = new Message();
+						      message.what = 3;
+						      mHandler.sendMessage(message);
+						    }
 						 };
 						timer.schedule(task, 0, 10);
-						new Thread(new Runnable(){    	   
-				            @Override   
+						new Thread(new Runnable(){
+				            @Override
 				            public void run() {
 				            	if (instancesTrain != null)
 				            		Train();
 				            	timer.cancel();
 								running = false;
-				            	Message message = Message.obtain(); 
-				                message.what = 2;  
-				                mHandler.sendMessage(message);  
-				            }       
-				         }){ }.start(); 
+				            	Message message = Message.obtain();
+				                message.what = 2;
+				                mHandler.sendMessage(message);
+				            }
+				         }){ }.start();
 					}else if (v == SaveModel) {
-						showDialog(SaveModelDialog);
+                        Log.d("VIMIG", Integer.toString(chooseALG));
+                        File path = Environment.getExternalStoragePublicDirectory(
+                                Environment.DIRECTORY_DOWNLOADS);
+                        path.mkdirs();
+                        String dtFName = "DecisionTreeModel.model";
+                        String naiveBayesFName = "NaiveBayesModel.model";
+
+
+                        ObjectOutputStream oos;
+
+                        try {
+                            if (chooseALG == J48){
+//                                Log.d("VIMIG", "fullpath" + path.getAbsolutePath() + "/" + dtFName);
+                                oos = new ObjectOutputStream(new FileOutputStream(path.getAbsolutePath() + "/" + dtFName));
+
+                            } else {
+                                //it is a naive bayes
+//                                Log.d("VIMIG", "fullpath" + path.getAbsolutePath() + "/" + naiveBayesFName);
+                                oos = new ObjectOutputStream(new FileOutputStream(path.getAbsolutePath() + "/" + naiveBayesFName));
+                            }
+
+                            oos.writeObject(cfs);
+                            oos.flush();
+                            oos.close();
+                        } catch (FileNotFoundException e) {}
+                        catch (IOException e) {}
+
+
 					}
 				}
-	    		
+
 	    	};
 	    	Train.setOnClickListener(listener);
 	    	SaveModel.setOnClickListener(listener);
@@ -357,18 +384,18 @@ public class BuildClassifier extends TabActivity{
 	 				chooseALG = arg2;
 	 			}
 	 			public void onNothingSelected(AdapterView<?> arg0) {
-	 				chooseALG = 0;				
-	 			}		
+	 				chooseALG = 0;
+	 			}
 	 		});
-	    	
+
 	    	spinner_2.setOnItemSelectedListener(new OnItemSelectedListener() {
 	 			public void onItemSelected(AdapterView<?> arg0, View arg1,
 	 				int arg2, long arg3) {
 	 				chooseVar = arg2;
 	 			}
 	 			public void onNothingSelected(AdapterView<?> arg0) {
-	 				chooseVar = 0;	
-	 			}		
+	 				chooseVar = 0;
+	 			}
 	 		});
 	    }
 
@@ -377,7 +404,7 @@ public class BuildClassifier extends TabActivity{
         File path = Environment.getExternalStoragePublicDirectory(
                 Environment.DIRECTORY_DOWNLOADS);
         path.mkdirs();
-        TrainfileName = "TrainingData.arff";
+        TrainfileName = "TrainingDatabackup.arff";
         trainingFile = new File(path, TrainfileName);
 //        Log.d("VIMIG", trainingFile.toString());
         if(trainingFile.exists())
@@ -411,19 +438,19 @@ public class BuildClassifier extends TabActivity{
          }){ }.start();
 
     }
-	
+
 	public void FindViewById() {
     	classifier_trainflie = (TextView)findViewById(R.id.classifier_trainflie);
     	model_text = (TextView)findViewById(R.id.model_text);
     	show_state = (TextView)findViewById(R.id.show_state);
-    	spinner_1 = (Spinner)findViewById(R.id.spinner_1);  
+    	spinner_1 = (Spinner)findViewById(R.id.spinner_1);
     	spinner_2 = (Spinner)findViewById(R.id.spinner_2);
     	Train = (Button)findViewById(R.id.train_button);
         loadTrainFileButton = (Button) findViewById(R.id.choosetrainfile);
     	SaveModel = (Button)findViewById(R.id.save_model);
     	progress = (ProgressBar)findViewById(R.id.ProgressBar);
     }
-	
+
 //	private void getFileDir(String filePath) {
 //        Log.d("VIMIG", filePath);
 //		items = new ArrayList<String>();
@@ -462,7 +489,7 @@ public class BuildClassifier extends TabActivity{
 		builder.setPositiveButton("OK", null);
 		return builder.create();
 	}
-    
+
     private Dialog ChooseFileDialog (Context context) {
 		Log.d("VIMIG", "made here.");
 		LayoutInflater inflater = LayoutInflater.from(this);
@@ -565,16 +592,16 @@ public class BuildClassifier extends TabActivity{
 //		});
 		builder.setView(textEntryView);
 		return builder.create();
-	}    
-    
+	}
+
     private Dialog promptDialog(Context context) {
     	AlertDialog.Builder builder = new AlertDialog.Builder(context);
 		builder.setTitle("Train file can not be null.");
 //		builder.setIcon(R.drawable.warn);
-		builder.setPositiveButton("ok", null);		
+		builder.setPositiveButton("ok", null);
 		return builder.create();
 	}
-    
+
     private Dialog SaveModelDialog(Context context) {
     	LayoutInflater inflater = LayoutInflater.from(this);
 		final View textEntryView = inflater.inflate(
@@ -593,7 +620,7 @@ public class BuildClassifier extends TabActivity{
 							oos.writeObject(cfs);
 				            oos.flush();
 				            oos.close();
-						} catch (FileNotFoundException e) {} 
+						} catch (FileNotFoundException e) {}
 						catch (IOException e) {}
 					}
 				});
@@ -601,7 +628,7 @@ public class BuildClassifier extends TabActivity{
 		builder.setView(textEntryView);
 		return builder.create();
 	}
-    
+
 	protected Dialog onCreateDialog(int id) {
 		if (id == ChooseFileDialog)
 			return ChooseFileDialog(BuildClassifier.this);
@@ -612,9 +639,9 @@ public class BuildClassifier extends TabActivity{
 		else if (id == SaveModelDialog) {
 			return SaveModelDialog(BuildClassifier.this);
 		}
-		return null;	
+		return null;
 	}
-	
+
 	protected void onPrepareDialog(int id, Dialog dialog){
 		if (id == ChooseFileDialog){
 			if (TypeFile == 0) {
@@ -660,11 +687,11 @@ public class BuildClassifier extends TabActivity{
 	}
     public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
-		case ITEM0: 
+		case ITEM0:
 			actionClickMenuItem1();
 		break;
-		case ITEM1: 
-			actionClickMenuItem2(); 
+		case ITEM1:
+			actionClickMenuItem2();
 			break;
 		}
 		return super.onOptionsItemSelected(item);
@@ -677,7 +704,7 @@ public class BuildClassifier extends TabActivity{
 	}
 	private void actionClickMenuItem2(){
 		Intent intent = new Intent();
-		Bundle bundle1 = new Bundle();					
+		Bundle bundle1 = new Bundle();
 		intent.putExtras(bundle1);
 //		intent.setClass(BuildClassifier.this, MainMenu.class);
 		startActivity(intent);
