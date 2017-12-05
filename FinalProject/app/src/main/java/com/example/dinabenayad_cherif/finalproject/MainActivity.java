@@ -180,7 +180,7 @@ public class MainActivity extends Activity implements SensorEventListener, Locat
         setContentView(R.layout.activity_main);
 
         verifyLocationPermissions(MainActivity.this);
-        verifyStoragePermissions(this);
+        verifyStoragePermissions(MainActivity.this);
 
         mSensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
         mAccelerometer = mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
