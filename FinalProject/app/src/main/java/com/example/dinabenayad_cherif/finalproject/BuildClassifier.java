@@ -60,9 +60,9 @@ public class BuildClassifier extends TabActivity{
 	private static final int ChooseFileDialog = 4;
 	
 	private static final int NAIVEBAYES = 0;
-	private static final int RBFNETWORK = 1;
-	private static final int J48 = 2;
-	private static final int ADABOOSTM1 = 3;
+//	private static final int RBFNETWORK = 1;
+	private static final int J48 = 1;
+	private static final int ADABOOSTM1 = 2;
 	private static final int ZEROR = 4;
 	private static final int LinearRegression = 5;
 
@@ -233,6 +233,8 @@ public class BuildClassifier extends TabActivity{
     }
 	
 	public void Train() {
+//        Log.d("VIMIG", instancesTrain.toString());
+//        Log.d("VIMIG", "num" + Integer.toString(chooseALG));
 		switch (chooseALG) {
 		case NAIVEBAYES:
 			cfs = new NaiveBayes();
@@ -242,6 +244,7 @@ public class BuildClassifier extends TabActivity{
 //			break;
 		case J48:
 			cfs = new J48();
+            Log.d("VIMIG", "created J48");
 			break;
 //		case ADABOOSTM1:
 //			cfs = new AdaBoostM1();
@@ -262,6 +265,7 @@ public class BuildClassifier extends TabActivity{
 			classifierString = cfs.toString();
 			isLoadModel = false;
 		} catch (Exception e) {
+            e.printStackTrace();
 			TypePrompt = 5;
 			hasFalse = true;
 		}
@@ -310,12 +314,14 @@ public class BuildClassifier extends TabActivity{
 						TypePrompt = 2;
 						showDialog(promptDialog);
 					}else if (v == Train) {
+                        Log.d("VIMIG", "training start");
 						running = true;
 						hasFalse = false;
 						progress.setVisibility(View.VISIBLE);
-						show_state.setText("  Training,Waiting.");						
+						show_state.setText("Training, Waiting.");
 						time = 0;
 						timer = new Timer(true);
+//                        Log.d("VIMIG", instancesTrain.toString());
 						TimerTask task = new TimerTask(){  
 						      public void run() {  
 						      Message message = new Message();      
@@ -373,7 +379,7 @@ public class BuildClassifier extends TabActivity{
         path.mkdirs();
         TrainfileName = "TrainingData.arff";
         trainingFile = new File(path, TrainfileName);
-        Log.d("VIMIG", trainingFile.toString());
+//        Log.d("VIMIG", trainingFile.toString());
         if(trainingFile.exists())
             Log.d("VIMIG", "exists!");
 
@@ -462,15 +468,15 @@ public class BuildClassifier extends TabActivity{
 		LayoutInflater inflater = LayoutInflater.from(this);
 		final View textEntryView = inflater.inflate(
 				R.layout.choosefile, (ViewGroup)findViewById(R.id.choosefile_layout));
-        Log.d("VIMIG", textEntryView.toString());
+//        Log.d("VIMIG", textEntryView.toString());
 		AlertDialog.Builder builder = new AlertDialog.Builder(context);
-        Log.d("VIMIG", "made here2.");
+//        Log.d("VIMIG", "made here2.");
 		builder.setTitle("Choose Train File");
 //		builder.setIcon(R.drawable.weka);
 		list = (ListView) textEntryView.findViewById(R.id.list);
-        Log.d("VIMIG", "made here4.");
+//        Log.d("VIMIG", "made here4.");
 //        getFileDir("/sdcard/");
-        Log.d("VIMIG", "made here3.");
+//        Log.d("VIMIG", "made here3.");
 
 //		list.setOnItemClickListener(new OnItemClickListener(){
 //			@Override
@@ -634,11 +640,11 @@ public class BuildClassifier extends TabActivity{
 			}else if (TypePrompt == 2){
 				dialog.setTitle("It is Running now.Do it a moment later.");
 			}else if (TypePrompt == 3){
-				dialog.setTitle("Test file is not match the model.");
+				dialog.setTitle("Test file does not match the model.");
 			}else if (TypePrompt == 4){
-				dialog.setTitle("Test file is not match the train file.");
+				dialog.setTitle("Test file does not match the train file.");
 			}else if (TypePrompt == 5){
-				dialog.setTitle("Train file is not match the classifier.");
+				dialog.setTitle("Train file does not match the classifier.");
 			}else if (TypePrompt == 6){
 				dialog.setTitle("Test file or Classifer is null.");
 			}

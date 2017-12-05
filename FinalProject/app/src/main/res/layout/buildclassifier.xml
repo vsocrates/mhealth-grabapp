@@ -18,24 +18,27 @@
 			<LinearLayout
 				android:orientation="vertical"
 				android:layout_width="fill_parent"
-				android:layout_height="fill_parent"> 
+				android:layout_height="fill_parent">
+
 				<TextView
 					android:id="@+id/correctrate"
 					android:layout_width="fill_parent"
 					android:layout_height="wrap_content"
-					android:text="Choose Classifier" 
-					android:textSize="20px"/>
+					android:text="Choose Classifier"
+					android:textSize="18sp"/>
 				<Spinner  
 					android:id="@+id/spinner_1"
 					android:layout_width="fill_parent"
 					android:layout_height="wrap_content"
 					android:drawSelectorOnTop="false"/>
+
 				<TextView
 					android:layout_width="fill_parent"
 					android:layout_height="wrap_content"
-					android:text="Choose Classifier Var" 
-					android:textSize="20px"/>
-				<Spinner  
+					android:text="Choose Classifier Var"
+					android:textSize="18sp"/>
+
+				<Spinner
 					android:id="@+id/spinner_2"
 					android:layout_width="fill_parent"
 					android:layout_height="wrap_content"
@@ -44,12 +47,13 @@
 				xmlns:android="http://schemas.android.com/apk/res/android"
 				android:layout_width="fill_parent" 
 				android:layout_height="wrap_content">
+
 					<TextView
-						android:id = "@+id/show_trainfile"
+						android:id="@+id/show_trainfile"
 						android:layout_width="wrap_content"
 						android:layout_height="wrap_content"
-						android:text="Train File" 
-						android:textSize="20px"/>
+						android:text="Train File"
+						android:textSize="18sp"/>
 
 					<Button
 						android:id="@+id/choosetrainfile"
@@ -66,8 +70,8 @@
 						android:layout_width="wrap_content"
 						android:layout_height="wrap_content"
 						android:layout_below="@id/show_trainfile"
-						android:textSize="20px"
-						android:text="" />
+						android:text=""
+						android:textSize="14sp"/>
 				</RelativeLayout>
 
 				<LinearLayout
