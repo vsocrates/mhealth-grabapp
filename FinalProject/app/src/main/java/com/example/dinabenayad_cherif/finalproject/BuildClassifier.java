@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
@@ -28,6 +29,7 @@ import android.widget.Spinner;
 import android.widget.TabHost;
 import android.widget.TabWidget;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -43,11 +45,6 @@ import java.util.TimerTask;
 
 import weka.classifiers.Classifier;
 import weka.classifiers.bayes.NaiveBayes;
-import weka.classifiers.functions.LibSVM;
-import weka.classifiers.functions.LinearRegression;
-import weka.classifiers.functions.RBFNetwork;
-import weka.classifiers.meta.AdaBoostM1;
-import weka.classifiers.rules.ZeroR;
 import weka.classifiers.trees.J48;
 import weka.core.Instances;
 import weka.core.converters.ArffLoader;
@@ -74,25 +71,24 @@ public class BuildClassifier extends TabActivity{
 	private List<String> items = null;
 	private List<String> paths = null;
 	private String rootPath = "/";
-	private String curPath = "/"; 
 	private int TypeFile = 0;
 	private ListView list;
 	private View vv;
 	private TabHost tabHost;
 	
 	private String TrainfileName, TestfileName, ModelPathName;
+    private File trainingFile;
 	private String classifierString, TestSummaryString = "", TrainSummaryString = "";
 	private String TestSummaryresult = "", MatrixString = "", ClassDetailsString = "";
 	
 	private Spinner spinner_1, spinner_2;
-	private TextView classifier_trainflie, classifier_testfile;
+	private TextView classifier_trainflie;
 	private TextView model_text, file_detail, show_state;
-	private Button choosetestfile, choosetrainfile;
-	private Button Train, SaveModel;
+    private Button Train, SaveModel, loadTrainFileButton;
 	private ProgressBar progress;
 	
 	private String[] VAR;
-	private static final String[]  ALG = { "NAIVEBAYES" ,"RBFNETWORK", "J48", "ADABOOSTM1","ZEROR", "LinearRegression", "SVM"};
+	private static final String[]  ALG = {"NAIVEBAYES", "J48"};
 	private ArrayAdapter<String> aspn;
 	
 	private float time;
@@ -110,7 +106,7 @@ public class BuildClassifier extends TabActivity{
 	
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		requestWindowFeature(Window.FEATURE_NO_TITLE);	
+		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		tabHost = getTabHost();
 		LayoutInflater.from(this).inflate(R.layout.buildclassifier,
 				tabHost.getTabContentView(), true);
@@ -118,15 +114,12 @@ public class BuildClassifier extends TabActivity{
 				.setContent(R.id.chooseclassifier_layout));
 		tabHost.addTab(tabHost.newTabSpec("tab2").setIndicator("Model")
 				.setContent(R.id.classifiermodel_layout));
-//		tabHost.addTab(tabHost.newTabSpec("tab3").setIndicator("Test Result")
-//				.setContent(R.id.classifiertestresult_layout));
 
 		tabHost.getTabWidget().getChildAt(1).setClickable(false);
-//		tabHost.getTabWidget().getChildAt(2).setClickable(false);
 		final TabWidget tabWidget = tabHost.getTabWidget();
         Log.d("VIMIG", Integer.toString(tabWidget.getChildCount()));
 		for (int i =0; i < tabWidget.getChildCount(); i++) {  
-			tabWidget.getChildAt(i).getLayoutParams().height = 30;  
+			tabWidget.getChildAt(i).getLayoutParams().height = 100;
 		}
 		
 		df.setMaximumFractionDigits(2);
@@ -137,6 +130,7 @@ public class BuildClassifier extends TabActivity{
 		Initspinner_1();
 		show_state.setText("");
 		progress.setVisibility(View.GONE);
+
 //		showDialog(ChooseFileDialog);
 	}
 	
@@ -217,9 +211,8 @@ public class BuildClassifier extends TabActivity{
 	public void Readfile() {
     	try {
     		if (TypeFile == 0) {
-	        	File file = new File(TrainfileName);	
-	    		ArffLoader atf = new ArffLoader(); 
-				atf.setFile(file);
+	    		ArffLoader atf = new ArffLoader();
+				atf.setFile(trainingFile);
 				instancesTrain = atf.getDataSet();
 				TrainSummaryString = instancesTrain.toSummaryString();
     		}else if (TypeFile == 1) {
@@ -244,24 +237,24 @@ public class BuildClassifier extends TabActivity{
 		case NAIVEBAYES:
 			cfs = new NaiveBayes();
 			break;
-		case RBFNETWORK:
-			cfs = new RBFNetwork();
-			break;
+//		case RBFNETWORK:
+//			cfs = new RBFNetwork();
+//			break;
 		case J48:
 			cfs = new J48();
 			break;
-		case ADABOOSTM1:
-			cfs = new AdaBoostM1();
-			break;
-		case ZEROR:
-			cfs = new ZeroR();
-			break;
-		case LinearRegression:
-			cfs = new LinearRegression();
-			break;
-		case SVM:
-			cfs = new LibSVM();
-			break;
+//		case ADABOOSTM1:
+//			cfs = new AdaBoostM1();
+//			break;
+//		case ZEROR:
+//			cfs = new ZeroR();
+//			break;
+//		case LinearRegression:
+//			cfs = new LinearRegression();
+//			break;
+//		case SVM:
+//			cfs = new LibSVM();
+//			break;
 		}
 		instancesTrain.setClassIndex(chooseVar);
 		try {
@@ -316,12 +309,6 @@ public class BuildClassifier extends TabActivity{
 					if (running == true) {	
 						TypePrompt = 2;
 						showDialog(promptDialog);
-					}else if (v == choosetrainfile) {
-						TypeFile = 0;
-						showDialog(ChooseFileDialog);
-					}else if (v == choosetestfile) {
-						TypeFile = 1;
-						showDialog(ChooseFileDialog);
 					}else if (v == Train) {
 						running = true;
 						hasFalse = false;
@@ -354,9 +341,7 @@ public class BuildClassifier extends TabActivity{
 					}
 				}
 	    		
-	    	};	    	
-	    	choosetrainfile.setOnClickListener(listener);
-	    	choosetestfile.setOnClickListener(listener);
+	    	};
 	    	Train.setOnClickListener(listener);
 	    	SaveModel.setOnClickListener(listener);
 
@@ -380,17 +365,55 @@ public class BuildClassifier extends TabActivity{
 	 			}		
 	 		});
 	    }
+
+    public void onLoadTrainFileClick(View v){
+
+        File path = Environment.getExternalStoragePublicDirectory(
+                Environment.DIRECTORY_DOWNLOADS);
+        path.mkdirs();
+        TrainfileName = "TrainingData.arff";
+        trainingFile = new File(path, TrainfileName);
+        Log.d("VIMIG", trainingFile.toString());
+        if(trainingFile.exists())
+            Log.d("VIMIG", "exists!");
+
+        progress.setVisibility(View.VISIBLE);
+        show_state.setText("Loading Training File");
+
+        Context context = getApplicationContext();
+        CharSequence text = "Loading File!";
+        int duration = Toast.LENGTH_SHORT;
+        Toast toast = Toast.makeText(context, text, duration);
+        toast.show();
+
+        TypeFile = 0;
+        running = true;
+        progress.setVisibility(View.VISIBLE);
+        show_state.setText("  Opening File,Waiting.");
+        if (TypeFile == 0) {
+            classifier_trainflie.setText(TrainfileName);
+        }
+        new Thread(new Runnable(){
+            @Override
+            public void run() {
+                Readfile();
+                Message message = Message.obtain();
+                message.what = 1;
+                mHandler.sendMessage(message);
+                running = false;
+            }
+         }){ }.start();
+
+    }
 	
 	public void FindViewById() {
     	classifier_trainflie = (TextView)findViewById(R.id.classifier_trainflie);
-    	classifier_testfile = (TextView)findViewById(R.id.classifier_testfile);
-    	choosetrainfile = (Button)findViewById(R.id.choosetrainfile);
-    	choosetestfile = (Button)findViewById(R.id.choosetestfile);
     	model_text = (TextView)findViewById(R.id.model_text);
     	show_state = (TextView)findViewById(R.id.show_state);
     	spinner_1 = (Spinner)findViewById(R.id.spinner_1);  
     	spinner_2 = (Spinner)findViewById(R.id.spinner_2);
     	Train = (Button)findViewById(R.id.train_button);
+        loadTrainFileButton = (Button) findViewById(R.id.choosetrainfile);
     	SaveModel = (Button)findViewById(R.id.save_model);
     	progress = (ProgressBar)findViewById(R.id.ProgressBar);
     }
@@ -568,7 +591,7 @@ public class BuildClassifier extends TabActivity{
 						catch (IOException e) {}
 					}
 				});
-		builder.setNegativeButton("Cancle", null);
+		builder.setNegativeButton("Cancel", null);
 		builder.setView(textEntryView);
 		return builder.create();
 	}
@@ -621,7 +644,7 @@ public class BuildClassifier extends TabActivity{
 			}
 		}
 	}
-	
+
 	public boolean onCreateOptionsMenu(Menu menu) {
 		super.onCreateOptionsMenu(menu);
 		menu.add(0, ITEM0, 0, "Exit");
@@ -629,7 +652,6 @@ public class BuildClassifier extends TabActivity{
 		menu.findItem(ITEM1);
 		return true;
 	}
-    
     public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 		case ITEM0: 
