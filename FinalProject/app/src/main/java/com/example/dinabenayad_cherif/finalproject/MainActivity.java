@@ -12,15 +12,33 @@ import android.hardware.SensorManager;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
+//import com.meapsoft.FFT;
+
+import weka.core.Attribute;
+//import weka.core.DenseInstance;
+import weka.core.Instance;
+import weka.core.FastVector;
+import weka.core.Instances;
+import weka.core.converters.ArffSaver;
+import weka.core.converters.ConverterUtils.DataSource;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.sql.Timestamp;
+import java.text.DecimalFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.concurrent.ArrayBlockingQueue;
 
 public class MainActivity extends Activity implements SensorEventListener, LocationListener {
 
@@ -28,11 +46,19 @@ public class MainActivity extends Activity implements SensorEventListener, Locat
     TextView rotationtxtView;
     TextView gpsCoordinatesView;
 
+    private static final int mFeatLen = Globals.ACCELEROMETER_BLOCK_CAPACITY + 2;
+
     static final int REQUEST_IMAGE_CAPTURE = 1;
     static final int REQUEST_COARSE_LOCATION = 2;
     static final int REQUEST_FINE_LOCATION = 3;
     static final int PERMISSIONS_MULTIPLE_REQUEST = 123;
     Location lastLocation = null;
+
+
+    private OnSensorChangedTask mAsyncTask;
+
+    private int mServiceTaskType;
+    private File mFeatureFile;
 
 
     private SensorManager mSensorManager;
@@ -42,6 +68,13 @@ public class MainActivity extends Activity implements SensorEventListener, Locat
     private Sensor mRotation;
     private Sensor mLineAcc;
     private Sensor mGravity;
+
+    private Instances mDataset;
+    private Attribute mClassAttribute;
+
+    //private String mLabel;
+
+    private static ArrayBlockingQueue<Double> mAccBuffer;
 
     private String[] accelerometerStr = new String[3];
     private String[] magnetometerStr = new String[3];
@@ -75,84 +108,84 @@ public class MainActivity extends Activity implements SensorEventListener, Locat
     }
 
 
-    @Override
-    public final void onSensorChanged(SensorEvent event) {
-        Log.d("Changing in sensor data", "sensor data changed");
-        if (allData()) {
-            //this.writer = new CSVWriter(new FileWriter(file, true), ',', CSVWriter.NO_QUOTE_CHARACTER, CSVWriter.NO_ESCAPE_CHARACTER, CSVWriter.DEFAULT_LINE_END);
-            Date date = new Date();
-            String[] row = {(new Timestamp(date.getTime())).toString(), accelerometerStr[0], accelerometerStr[1], accelerometerStr[2], magnetometerStr[0], magnetometerStr[1], magnetometerStr[2],
-                    gyroscopeStr[0], gyroscopeStr[1], gyroscopeStr[2], rotationStr[0], rotationStr[1], rotationStr[2], linaccStr[0],
-                    linaccStr[1], linaccStr[2], gravityStr[0], gravityStr[1], gravityStr[2]};
-            Log.d("Printing out row values", accelerometerStr[0]);
-            //this.writer.writeNext(row);
-            accelerometerStr = new String[3];
-            magnetometerStr = new String[3];
-            gyroscopeStr = new String[3];
-            rotationStr = new String[3];
-            linaccStr = new String[3];
-            gravityStr = new String[3];
-            //writer.close();
-        }
-
-        Sensor sensor = event.sensor;
-        if (sensor.getType() == Sensor.TYPE_ACCELEROMETER) {
-            accelerometerStr[0] = "" + event.values[0] + "";
-            accelerometerStr[1] = "" + event.values[1] + "";
-            accelerometerStr[2] = "" + event.values[2] + "";
-            accelerometertxtView = new TextView(this);
-            accelerometertxtView =(TextView)findViewById(R.id.textView2);
-            accelerometertxtView.setText(accelerometerStr[0] + " " + accelerometerStr[1] + " " + accelerometerStr[2]);
-
-        } else if (sensor.getType() == Sensor.TYPE_MAGNETIC_FIELD) {
-            magnetometerStr[0] = "" + event.values[0] + "";
-            magnetometerStr[1] = "" + event.values[1] + "";
-            magnetometerStr[2] = "" + event.values[2] + "";
-
-        } else if (sensor.getType() == Sensor.TYPE_GYROSCOPE) {
-            gyroscopeStr[0] = "" + event.values[0] + "";
-            gyroscopeStr[1] = "" + event.values[1] + "";
-            gyroscopeStr[2] = "" + event.values[2] + "";
-
-        } else if (sensor.getType() == Sensor.TYPE_ROTATION_VECTOR) {
-            rotationStr[0] = "" + event.values[0] + "";
-            rotationStr[1] = "" + event.values[1] + "";
-            rotationStr[2] = "" + event.values[2] + "";
-            rotationtxtView = new TextView(this);
-            rotationtxtView =(TextView)findViewById(R.id.textView5);
-            rotationtxtView.setText(rotationStr[0] + " " + rotationStr[1] + " " + rotationStr[2]);
-
-        } else if (sensor.getType() == Sensor.TYPE_LINEAR_ACCELERATION) {
-            linaccStr[0] = "" + event.values[0] + "";
-            linaccStr[1] = "" + event.values[1] + "";
-            linaccStr[2] = "" + event.values[2] + "";
-
-        } else {
-            gravityStr[0] = "" + event.values[0] + "";
-            gravityStr[1] = "" + event.values[1] + "";
-            gravityStr[2] = "" + event.values[2] + "";
-        }
-
-        Location location = getMostAccurateLocation();
-        if (lastLocation != null) {
-            if (location.getLongitude() != lastLocation.getLongitude() || lastLocation.getLatitude() != location.getLongitude()) {
-                lastLocation = location;
-                gpsCoordinatesView = new TextView(this);
-                gpsCoordinatesView = (TextView) findViewById(R.id.textView7);
-                gpsCoordinatesView.setText(location.getLatitude() + " " + location.getLongitude());
-            }
-        }
-        else {
-            lastLocation = location;
-        }
-
-
-
-        // The light sensor returns a single value.
-        // Many sensors return 3 values, one for each axis.
-        //float lux = event.values[0];
-        // Do something with this sensor value.
-    }
+//    @Override
+//    public final void onSensorChanged(SensorEvent event) {
+//        Log.d("Changing in sensor data", "sensor data changed");
+//        if (allData()) {
+//            //this.writer = new CSVWriter(new FileWriter(file, true), ',', CSVWriter.NO_QUOTE_CHARACTER, CSVWriter.NO_ESCAPE_CHARACTER, CSVWriter.DEFAULT_LINE_END);
+//            Date date = new Date();
+//            String[] row = {(new Timestamp(date.getTime())).toString(), accelerometerStr[0], accelerometerStr[1], accelerometerStr[2], magnetometerStr[0], magnetometerStr[1], magnetometerStr[2],
+//                    gyroscopeStr[0], gyroscopeStr[1], gyroscopeStr[2], rotationStr[0], rotationStr[1], rotationStr[2], linaccStr[0],
+//                    linaccStr[1], linaccStr[2], gravityStr[0], gravityStr[1], gravityStr[2]};
+//            Log.d("Printing out row values", accelerometerStr[0]);
+//            //this.writer.writeNext(row);
+//            accelerometerStr = new String[3];
+//            magnetometerStr = new String[3];
+//            gyroscopeStr = new String[3];
+//            rotationStr = new String[3];
+//            linaccStr = new String[3];
+//            gravityStr = new String[3];
+//            //writer.close();
+//        }
+//
+//        Sensor sensor = event.sensor;
+//        if (sensor.getType() == Sensor.TYPE_ACCELEROMETER) {
+//            accelerometerStr[0] = "" + event.values[0] + "";
+//            accelerometerStr[1] = "" + event.values[1] + "";
+//            accelerometerStr[2] = "" + event.values[2] + "";
+//            accelerometertxtView = new TextView(this);
+//            accelerometertxtView =(TextView)findViewById(R.id.textView2);
+//            accelerometertxtView.setText(accelerometerStr[0] + " " + accelerometerStr[1] + " " + accelerometerStr[2]);
+//
+//        } else if (sensor.getType() == Sensor.TYPE_MAGNETIC_FIELD) {
+//            magnetometerStr[0] = "" + event.values[0] + "";
+//            magnetometerStr[1] = "" + event.values[1] + "";
+//            magnetometerStr[2] = "" + event.values[2] + "";
+//
+//        } else if (sensor.getType() == Sensor.TYPE_GYROSCOPE) {
+//            gyroscopeStr[0] = "" + event.values[0] + "";
+//            gyroscopeStr[1] = "" + event.values[1] + "";
+//            gyroscopeStr[2] = "" + event.values[2] + "";
+//
+//        } else if (sensor.getType() == Sensor.TYPE_ROTATION_VECTOR) {
+//            rotationStr[0] = "" + event.values[0] + "";
+//            rotationStr[1] = "" + event.values[1] + "";
+//            rotationStr[2] = "" + event.values[2] + "";
+//            rotationtxtView = new TextView(this);
+//            rotationtxtView =(TextView)findViewById(R.id.textView5);
+//            rotationtxtView.setText(rotationStr[0] + " " + rotationStr[1] + " " + rotationStr[2]);
+//
+//        } else if (sensor.getType() == Sensor.TYPE_LINEAR_ACCELERATION) {
+//            linaccStr[0] = "" + event.values[0] + "";
+//            linaccStr[1] = "" + event.values[1] + "";
+//            linaccStr[2] = "" + event.values[2] + "";
+//
+//        } else {
+//            gravityStr[0] = "" + event.values[0] + "";
+//            gravityStr[1] = "" + event.values[1] + "";
+//            gravityStr[2] = "" + event.values[2] + "";
+//        }
+//
+//        Location location = getMostAccurateLocation();
+//        if (lastLocation != null) {
+//            if (location.getLongitude() != lastLocation.getLongitude() || lastLocation.getLatitude() != location.getLongitude()) {
+//                lastLocation = location;
+//                gpsCoordinatesView = new TextView(this);
+//                gpsCoordinatesView = (TextView) findViewById(R.id.textView7);
+//                gpsCoordinatesView.setText(location.getLatitude() + " " + location.getLongitude());
+//            }
+//        }
+//        else {
+//            lastLocation = location;
+//        }
+//
+//
+//
+//        // The light sensor returns a single value.
+//        // Many sensors return 3 values, one for each axis.
+//        //float lux = event.values[0];
+//        // Do something with this sensor value.
+//    }
 
     public void startCollectingData(View v) {
         mSensorManager.registerListener(this, mAccelerometer, SensorManager.SENSOR_DELAY_NORMAL);
@@ -161,10 +194,18 @@ public class MainActivity extends Activity implements SensorEventListener, Locat
         mSensorManager.registerListener(this, mRotation, SensorManager.SENSOR_DELAY_NORMAL);
         mSensorManager.registerListener(this, mLineAcc, SensorManager.SENSOR_DELAY_NORMAL);
         mSensorManager.registerListener(this, mGravity, SensorManager.SENSOR_DELAY_NORMAL);
+        mAsyncTask = new OnSensorChangedTask();
+        mAsyncTask.execute();
 
     }
 
     public void stopCollectingData(View v) {
+        mAsyncTask.cancel(true);
+        try {
+            Thread.sleep(100);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         mSensorManager.unregisterListener(this);
     }
 
@@ -188,6 +229,38 @@ public class MainActivity extends Activity implements SensorEventListener, Locat
         mRotation = mSensorManager.getDefaultSensor(Sensor.TYPE_ROTATION_VECTOR);
         mLineAcc = mSensorManager.getDefaultSensor(Sensor.TYPE_LINEAR_ACCELERATION);
         mGravity = mSensorManager.getDefaultSensor(Sensor.TYPE_GRAVITY);
+
+        mAccBuffer = new ArrayBlockingQueue<Double>(
+                Globals.ACCELEROMETER_BUFFER_CAPACITY);
+
+        mFeatureFile = new File(getExternalFilesDir(null), Globals.FEATURE_FILE_NAME);
+
+        //ArrayList<Attribute> allAttr = new ArrayList<Attribute>();
+        FastVector allAttr = new FastVector();
+
+        // Adding FFT coefficient attributes
+        DecimalFormat df = new DecimalFormat("0000");
+
+        for (int i = 0; i < Globals.ACCELEROMETER_BLOCK_CAPACITY; i++) {
+            allAttr.addElement(new Attribute(Globals.FEAT_FFT_COEF_LABEL + df.format(i)));
+            //allAttr.add(new Attribute(Globals.FEAT_FFT_COEF_LABEL + df.format(i)));
+        }
+        // Adding the max feature
+        allAttr.addElement(new Attribute(Globals.FEAT_MAX_LABEL));
+
+        // Declare a nominal attribute along with its candidate values
+        FastVector labelItems = new FastVector();
+        labelItems.addElement(Globals.CLASS_LABEL_STANDING);
+        labelItems.addElement(Globals.CLASS_LABEL_WALKING);
+        labelItems.addElement(Globals.CLASS_LABEL_RUNNING);
+//        labelItems.addElement("Biking");
+//        labelItems.addElement("Driving");
+        labelItems.addElement(Globals.CLASS_LABEL_OTHER);
+        mClassAttribute = new Attribute(Globals.CLASS_LABEL_KEY, labelItems);
+        allAttr.addElement(mClassAttribute);
+        mDataset = new Instances(Globals.FEAT_SET_NAME, allAttr, Globals.FEATURE_SET_CAPACITY);
+
+
 
 
     }
@@ -299,5 +372,179 @@ public class MainActivity extends Activity implements SensorEventListener, Locat
         }
 
 
+    }
+
+    private class OnSensorChangedTask extends AsyncTask<Void, Void, Void> {
+        @Override
+        protected Void doInBackground(Void... arg0) {
+
+            Instance inst = new Instance(mFeatLen);
+            inst.setDataset(mDataset);
+            int blockSize = 0;
+            FFT fft = new FFT(Globals.ACCELEROMETER_BLOCK_CAPACITY);
+            double[] accBlock = new double[Globals.ACCELEROMETER_BLOCK_CAPACITY];
+            double[] re = accBlock;
+            double[] im = new double[Globals.ACCELEROMETER_BLOCK_CAPACITY];
+
+            double max = Double.MIN_VALUE;
+
+            while (true) {
+                try {
+                    // need to check if the AsyncTask is cancelled or not in the while loop
+                    if (isCancelled () == true)
+                    {
+                        return null;
+                    }
+
+                    // Dumping buffer
+                    accBlock[blockSize++] = mAccBuffer.take().doubleValue();
+
+                    if (blockSize == Globals.ACCELEROMETER_BLOCK_CAPACITY) {
+                        Log.d("DINA", "reached 64 in size");
+                        blockSize = 0;
+
+                        // time = System.currentTimeMillis();
+                        max = .0;
+                        for (double val : accBlock) {
+                            if (max < val) {
+                                max = val;
+                            }
+                        }
+
+                        fft.fft(re, im);
+
+                        for (int i = 0; i < re.length; i++) {
+                            double mag = Math.sqrt(re[i] * re[i] + im[i]
+                                    * im[i]);
+                            inst.setValue(i, mag);
+                            im[i] = .0; // Clear the field
+                        }
+
+                        // Append max after frequency component
+                        inst.setValue(Globals.ACCELEROMETER_BLOCK_CAPACITY, max);
+                        inst.setValue(mClassAttribute, Instance.missingValue());
+                        mDataset.add(inst);
+                        Log.i("new instance", mDataset.numInstances() + "");
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+
+        @Override
+        protected void onCancelled() {
+
+            Log.e("123", mDataset.numInstances()+"");
+
+            if (mServiceTaskType == Globals.SERVICE_TASK_TYPE_CLASSIFY) {
+                super.onCancelled();
+                return;
+            }
+            Log.i("in the loop","still in the loop cancelled");
+            String toastDisp;
+
+            if (mFeatureFile.exists()) {
+
+                // merge existing and delete the old dataset
+                DataSource source;
+                try {
+                    // Create a datasource from mFeatureFile where
+                    // mFeatureFile = new File(getExternalFilesDir(null),
+                    // "features.arff");
+                    source = new DataSource(new FileInputStream(mFeatureFile));
+                    // Read the dataset set out of this datasource
+                    Instances oldDataset = source.getDataSet();
+                    oldDataset.setClassIndex(mDataset.numAttributes() - 1);
+                    // Sanity checking if the dataset format matches.
+                    if (!oldDataset.equalHeaders(mDataset)) {
+                        // Log.d(Globals.TAG,
+                        // oldDataset.equalHeadersMsg(mDataset));
+                        throw new Exception(
+                                "The two datasets have different headers:\n");
+                    }
+
+                    // Move all items over manually
+                    for (int i = 0; i < mDataset.numInstances(); i++) {
+                        oldDataset.add(mDataset.instance(i));
+                    }
+
+                    mDataset = oldDataset;
+                    // Delete the existing old file.
+                    mFeatureFile.delete();
+                    Log.i("delete","delete the file");
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                //toastDisp = getString(R.string.ui_sensor_service_toast_success_file_updated);
+
+            } else {
+               // toastDisp = getString(R.string.ui_sensor_service_toast_success_file_created)   ;
+            }
+            Log.i("save","create saver here");
+            // create new Arff file
+            ArffSaver saver = new ArffSaver();
+            // Set the data source of the file content
+            saver.setInstances(mDataset);
+            Log.e("1234", mDataset.numInstances()+"");
+            try {
+                // Set the destination of the file.
+                // mFeatureFile = new File(getExternalFilesDir(null),
+                // "features.arff");
+                saver.setFile(mFeatureFile);
+                // Write into the file
+                saver.writeBatch();
+                Log.i("batch","write batch here");
+                //Toast.makeText(getApplicationContext(), toastDisp,
+                    //    Toast.LENGTH_SHORT).show();
+            } catch (IOException e) {
+                //toastDisp = getString(R.string.ui_sensor_service_toast_error_file_saving_failed);
+                e.printStackTrace();
+            }
+
+            Log.i("toast","toast here");
+            super.onCancelled();
+        }
+
+    }
+
+    public void onSensorChanged(SensorEvent event) {
+
+        if (event.sensor.getType() == Sensor.TYPE_LINEAR_ACCELERATION) {
+            accelerometerStr[0] = "" + event.values[0] + "";
+            accelerometerStr[1] = "" + event.values[1] + "";
+            accelerometerStr[2] = "" + event.values[2] + "";
+
+            accelerometertxtView = new TextView(this);
+           accelerometertxtView =(TextView)findViewById(R.id.textView2);
+            accelerometertxtView.setText(accelerometerStr[0] + " " + accelerometerStr[1] + " " + accelerometerStr[2]);
+
+
+            double m = Math.sqrt(event.values[0] * event.values[0]
+                    + event.values[1] * event.values[1] + event.values[2]
+                    * event.values[2]);
+
+            // Inserts the specified element into this queue if it is possible
+            // to do so immediately without violating capacity restrictions,
+            // returning true upon success and throwing an IllegalStateException
+            // if no space is currently available. When using a
+            // capacity-restricted queue, it is generally preferable to use
+            // offer.
+
+            try {
+                mAccBuffer.add(new Double(m));
+            } catch (IllegalStateException e) {
+
+                // Exception happens when reach the capacity.
+                // Doubling the buffer. ListBlockingQueue has no such issue,
+                // But generally has worse performance
+                ArrayBlockingQueue<Double> newBuf = new ArrayBlockingQueue<Double>(
+                        mAccBuffer.size() * 2);
+
+                mAccBuffer.drainTo(newBuf);
+                mAccBuffer = newBuf;
+                mAccBuffer.add(new Double(m));
+            }
+        }
     }
 }
