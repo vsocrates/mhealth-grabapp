@@ -114,14 +114,14 @@ public class MainActivity extends Activity implements SensorEventListener, Locat
 
     @Override
     public final void onSensorChanged(SensorEvent event) {
-        Log.d("Changing in sensor data", "sensor data changed");
+//        Log.d("Changing in sensor data", "sensor data changed");
         if (allData()) {
             //this.writer = new CSVWriter(new FileWriter(file, true), ',', CSVWriter.NO_QUOTE_CHARACTER, CSVWriter.NO_ESCAPE_CHARACTER, CSVWriter.DEFAULT_LINE_END);
             Date date = new Date();
             String[] row = {(new Timestamp(date.getTime())).toString(), accelerometerStr[0], accelerometerStr[1], accelerometerStr[2], magnetometerStr[0], magnetometerStr[1], magnetometerStr[2],
                     gyroscopeStr[0], gyroscopeStr[1], gyroscopeStr[2], rotationStr[0], rotationStr[1], rotationStr[2], linaccStr[0],
                     linaccStr[1], linaccStr[2], gravityStr[0], gravityStr[1], gravityStr[2]};
-            Log.d("Printing out row values", accelerometerStr[0]);
+//            Log.d("Printing out row values", accelerometerStr[0]);
             //this.writer.writeNext(row);
             accelerometerStr = new String[3];
             magnetometerStr = new String[3];
