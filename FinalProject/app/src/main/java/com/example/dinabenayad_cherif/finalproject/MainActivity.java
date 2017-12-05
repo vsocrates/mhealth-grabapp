@@ -1,6 +1,7 @@
 package com.example.dinabenayad_cherif.finalproject;
 
 import android.Manifest;
+import android.Manifest.permission;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -12,15 +13,35 @@ import android.hardware.SensorManager;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
-import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
 import android.support.v4.app.ActivityCompat;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.opencsv.CSVWriter;
+
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+
+import weka.classifiers.Classifier;
+import weka.core.Instance;
+import weka.core.Instances;
+import weka.core.converters.ArffLoader.ArffReader;
+
+import static android.os.SystemClock.elapsedRealtime;
+//import weka.core.;
 
 public class MainActivity extends Activity implements SensorEventListener, LocationListener {
 
@@ -49,6 +70,22 @@ public class MainActivity extends Activity implements SensorEventListener, Locat
     private String[] rotationStr = new String[3];
     private String[] linaccStr = new String[3];
     private String[] gravityStr = new String[3];
+
+    Classifier mClassifier = null;
+    final List<String> classes = new ArrayList<String>() {
+        {
+            add("Standing");
+            add("Walking");
+            add("Running");
+            add("Others");
+        }
+    };
+
+    File path = Environment.getExternalStoragePublicDirectory(
+            Environment.DIRECTORY_DOWNLOADS);
+
+    long startCollectingTime;
+    long stopCollectingTime;
 
     @Override
     public void onAccuracyChanged(Sensor sensor, int accuracy) {
@@ -101,7 +138,7 @@ public class MainActivity extends Activity implements SensorEventListener, Locat
             accelerometerStr[1] = "" + event.values[1] + "";
             accelerometerStr[2] = "" + event.values[2] + "";
             accelerometertxtView = new TextView(this);
-            accelerometertxtView =(TextView)findViewById(R.id.textView2);
+            accelerometertxtView = (TextView) findViewById(R.id.textView2);
             accelerometertxtView.setText(accelerometerStr[0] + " " + accelerometerStr[1] + " " + accelerometerStr[2]);
 
         } else if (sensor.getType() == Sensor.TYPE_MAGNETIC_FIELD) {
@@ -119,7 +156,7 @@ public class MainActivity extends Activity implements SensorEventListener, Locat
             rotationStr[1] = "" + event.values[1] + "";
             rotationStr[2] = "" + event.values[2] + "";
             rotationtxtView = new TextView(this);
-            rotationtxtView =(TextView)findViewById(R.id.textView5);
+            rotationtxtView = (TextView) findViewById(R.id.textView5);
             rotationtxtView.setText(rotationStr[0] + " " + rotationStr[1] + " " + rotationStr[2]);
 
         } else if (sensor.getType() == Sensor.TYPE_LINEAR_ACCELERATION) {
@@ -141,11 +178,9 @@ public class MainActivity extends Activity implements SensorEventListener, Locat
                 gpsCoordinatesView = (TextView) findViewById(R.id.textView7);
                 gpsCoordinatesView.setText(location.getLatitude() + " " + location.getLongitude());
             }
-        }
-        else {
+        } else {
             lastLocation = location;
         }
-
 
 
         // The light sensor returns a single value.
@@ -161,15 +196,17 @@ public class MainActivity extends Activity implements SensorEventListener, Locat
         mSensorManager.registerListener(this, mRotation, SensorManager.SENSOR_DELAY_NORMAL);
         mSensorManager.registerListener(this, mLineAcc, SensorManager.SENSOR_DELAY_NORMAL);
         mSensorManager.registerListener(this, mGravity, SensorManager.SENSOR_DELAY_NORMAL);
-
+        startCollectingTime = elapsedRealtime();
     }
 
     public void stopCollectingData(View v) {
         mSensorManager.unregisterListener(this);
+        stopCollectingTime = elapsedRealtime();
+
     }
 
 
-    public void trainDecisionTree(View v){
+    public void trainDecisionTree(View v) {
         Intent intent = new Intent(this, BuildClassifier.class);
         startActivity(intent);
     }
@@ -194,53 +231,73 @@ public class MainActivity extends Activity implements SensorEventListener, Locat
     }
 
 
-
     public void onLocationChanged(Location location) {
         // Called when a new location is found by the network location provider.
-        double latitude=location.getLatitude();
-        double longitude=location.getLongitude();
-        String msg="New Latitude: "+latitude + "New Longitude: "+longitude;
+        double latitude = location.getLatitude();
+        double longitude = location.getLongitude();
+        String msg = "New Latitude: " + latitude + "New Longitude: " + longitude;
     }
 
-    public void onProviderEnabled(String provider) {}
-    public void onProviderDisabled(String provider) {}
-    public void onStatusChanged(String provider, int status, Bundle extras) {}
+    public void onProviderEnabled(String provider) {
+    }
+
+    public void onProviderDisabled(String provider) {
+    }
+
+    public void onStatusChanged(String provider, int status, Bundle extras) {
+    }
 
     LocationListener locationListener = new LocationListener() {
         public void onLocationChanged(Location location) {
             // Called when a new location is found by the network location provider.
-            double latitude=location.getLatitude();
-            double longitude=location.getLongitude();
-            String msg="New Latitude: "+latitude + "New Longitude: "+longitude;
+            double latitude = location.getLatitude();
+            double longitude = location.getLongitude();
+            String msg = "New Latitude: " + latitude + "New Longitude: " + longitude;
         }
 
-        public void onStatusChanged(String provider, int status, Bundle extras) {}
+        public void onStatusChanged(String provider, int status, Bundle extras) {
+        }
 
-        public void onProviderEnabled(String provider) {}
+        public void onProviderEnabled(String provider) {
+        }
 
-        public void onProviderDisabled(String provider) {}
+        public void onProviderDisabled(String provider) {
+        }
     };
 
-    private Location getMostAccurateLocation(){
+    private Location getMostAccurateLocation() {
         LocationManager locationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
         //LocationListener locationListener = new LocationListener();
         LocationListener locationListener = new LocationListener() {
             @Override
             public void onLocationChanged(Location location) {
                 // Called when a new location is found by the network location provider.
-                double latitude=location.getLatitude();
-                double longitude=location.getLongitude();
-                String msg="New Latitude: "+latitude + "New Longitude: "+longitude;
+                double latitude = location.getLatitude();
+                double longitude = location.getLongitude();
+                String msg = "New Latitude: " + latitude + "New Longitude: " + longitude;
             }
 
-            public void onStatusChanged(String provider, int status, Bundle extras) {}
+            public void onStatusChanged(String provider, int status, Bundle extras) {
+            }
 
-            public void onProviderEnabled(String provider) {}
+            public void onProviderEnabled(String provider) {
+            }
 
-            public void onProviderDisabled(String provider) {}
+            public void onProviderDisabled(String provider) {
+            }
         };
 
         //locationManager.requestLocationUpdates();
+        if (ActivityCompat.checkSelfPermission(this, permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+//            return TODO;
+        }
         locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0L, 0.0f, locationListener);
 
         boolean gps_enabled = false;
@@ -282,6 +339,116 @@ public class MainActivity extends Activity implements SensorEventListener, Locat
             }
         }
         return finalLoc;
+    }
+
+    public void classifyCurrentSessionClick(View v) {
+        try {
+            path.mkdirs();
+            String dtFName = "DecisionTreeModel.model";
+            String naiveBayesFName = "NaiveBayesModel.model";
+            //we want to pick one of these
+            //start with naive Bayes for now
+            File modelFile = new File(path,naiveBayesFName);
+            FileInputStream inStream = new FileInputStream(modelFile);
+            mClassifier = (Classifier) weka.core.SerializationHelper.read(inStream);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (Exception e) {
+            // Weka "catch'em all!"
+            e.printStackTrace();
+        }
+        Toast.makeText(this, "Model loaded.", Toast.LENGTH_SHORT).show();
+
+
+        try {
+            path.mkdirs();
+            ArffReader arff;
+            String unlabeledDataFileName = "UnlabeledData.arff";
+            File unlabeledData = new File(path, unlabeledDataFileName);
+            BufferedReader reader = new BufferedReader(new FileReader(unlabeledData));
+            arff = new ArffReader(reader, 1000);
+
+            Instances data = arff.getStructure();
+            data.setClassIndex(data.numAttributes() - 1);
+
+            Instance inst;
+            ArrayList<Integer> classifiedVals = new ArrayList<Integer>();
+//            inst = arff.readInstance(data);
+//            Log.d("VIMIG", "instance" + inst.toString());
+            while((inst = arff.readInstance(data)) != null) {
+                //convert from double to int, double values are classifications
+                classifiedVals.add(new Double(mClassifier.classifyInstance(inst)).intValue());
+
+                //don't need data right now
+                //data.add(inst);
+            }
+
+            if(classifiedVals.size() > 0){
+                int summaryClassification = mode(classifiedVals);
+                String classificationLabel = classes.get(summaryClassification);
+
+                String summaryFileName = "SummaryStats.csv";
+                path.mkdirs();
+                File summaryData = new File(path, summaryFileName);
+                if (!summaryData.exists()) {
+                    summaryData.createNewFile();
+                }
+                CSVWriter writer = new CSVWriter(new FileWriter(summaryData, true));
+                long timeElapsed = stopCollectingTime - startCollectingTime;
+                double timeDouble = timeElapsed / 1000.0;
+                startCollectingTime = stopCollectingTime = 0;
+                String records = Double.toString(timeDouble)+","+classificationLabel;
+                String[] record = records.split(",");
+
+                //write to file
+                writer.writeNext(record);
+                writer.close();
+
+                //delete unlabeled data file after classification
+                unlabeledData.delete();
+                Toast.makeText(this, "Classified Data!", Toast.LENGTH_SHORT).show();
+            }
+
+
+        } catch (IOException e) {
+            Log.d("VIMIG", "caught2");
+            Toast.makeText(this, "Couldn't find Unlabeled Data File :(", Toast.LENGTH_SHORT).show();
+            e.printStackTrace();
+        } catch (Exception e) {
+            Log.d("VIMIG", "caught1");
+            Toast.makeText(this, "Couldn't classify for some reason :(", Toast.LENGTH_SHORT).show();
+            e.printStackTrace();
+        }
+
+    }
+
+    public static int mode(ArrayList<Integer> arr)
+    {
+        HashMap arrayVals = new HashMap();
+        int maxOccurences = 1;
+        int mode = arr.get(0);
+
+        for(int i = 0; i<arr.size(); i++)
+        {
+            int currentIndexVal = arr.get(i);
+            if(arrayVals.containsKey(currentIndexVal)){
+                int currentOccurencesNum = (Integer) arrayVals.get(currentIndexVal);
+                currentOccurencesNum++;
+                arrayVals.put(currentIndexVal, currentOccurencesNum );
+                if(currentOccurencesNum >= maxOccurences)
+                {
+                    mode = currentIndexVal;
+                    maxOccurences = currentOccurencesNum;
+                }
+            }
+            else{
+                arrayVals.put(arr.get(i), 1);
+            }
+        }
+
+
+        return mode;
     }
 
     public static void verifyLocationPermissions(Activity activity){

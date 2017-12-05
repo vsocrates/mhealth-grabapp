@@ -10,4 +10,5 @@
     <string name = "clusterer_file">Choose the file(arff) for clusterer</string>
     <string name = "wrong_file_warn">Sorry, you do not choose right file, please choose arff file!</string>
     <string name="train_decision_tree">Train Models</string>
+    <string name="classify_new_data">Classify Current Session</string>
 </resources>
