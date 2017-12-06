@@ -1,9 +1,5 @@
 [
     {
-        "merged": "/Users/vsocrates/AndroidStudioProjects/ImageGrab/Lab2/BluetoothChat/Application/build/intermediates/res/merged/debug/layout-w720dp-v13/activity_main.xml",
-        "source": "/Users/vsocrates/AndroidStudioProjects/ImageGrab/Lab2/BluetoothChat/Application/src/main/res/layout-w720dp/activity_main.xml"
-    },
-    {
         "merged": "/Users/dinabenayad-cherif/mhealth-grabapp/Lab2/BluetoothChat/Application/build/intermediates/res/merged/debug/layout-w720dp-v13/activity_main.xml",
         "source": "/Users/dinabenayad-cherif/mhealth-grabapp/Lab2/BluetoothChat/Application/src/main/res/layout-w720dp/activity_main.xml"
     }

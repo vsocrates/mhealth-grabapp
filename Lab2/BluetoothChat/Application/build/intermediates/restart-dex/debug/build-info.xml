@@ -2,13 +2,13 @@
 <instant-run
     abi="armeabi-v7a,armeabi"
     api-level="25"
-    build-mode="COLD"
+    build-mode="FULL"
     density="560dpi"
     format="10"
     plugin-version="2.3.3"
-    timestamp="1507777852409"
-    token="7254590523370223224"
-    verifier="COLD_SWAP_REQUESTED" >
+    timestamp="1512533434609"
+    token="5042400024567480130"
+    verifier="FULL_BUILD_REQUESTED" >
 
     <task
         name="javac"
@@ -23,61 +23,83 @@
         name="verifier"
         duration="0" />
 
+    <artifact
+        location="/Users/dinabenayad-cherif/mhealth-grabapp/Lab2/BluetoothChat/Application/build/intermediates/split-apk/debug/slices/slice_9.apk"
+        type="SPLIT" />
+    <artifact
+        location="/Users/dinabenayad-cherif/mhealth-grabapp/Lab2/BluetoothChat/Application/build/intermediates/split-apk/debug/slices/slice_8.apk"
+        type="SPLIT" />
+    <artifact
+        location="/Users/dinabenayad-cherif/mhealth-grabapp/Lab2/BluetoothChat/Application/build/intermediates/split-apk/debug/slices/slice_6.apk"
+        type="SPLIT" />
+    <artifact
+        location="/Users/dinabenayad-cherif/mhealth-grabapp/Lab2/BluetoothChat/Application/build/intermediates/split-apk/debug/slices/slice_1.apk"
+        type="SPLIT" />
+    <artifact
+        location="/Users/dinabenayad-cherif/mhealth-grabapp/Lab2/BluetoothChat/Application/build/intermediates/split-apk/debug/slices/slice_0.apk"
+        type="SPLIT" />
+    <artifact
+        location="/Users/dinabenayad-cherif/mhealth-grabapp/Lab2/BluetoothChat/Application/build/intermediates/split-apk/debug/slices/slice_7.apk"
+        type="SPLIT" />
+    <artifact
+        location="/Users/dinabenayad-cherif/mhealth-grabapp/Lab2/BluetoothChat/Application/build/intermediates/split-apk/debug/dep/dependencies.apk"
+        type="SPLIT" />
+    <artifact
+        location="/Users/dinabenayad-cherif/mhealth-grabapp/Lab2/BluetoothChat/Application/build/intermediates/split-apk/debug/slices/slice_2.apk"
+        type="SPLIT" />
+    <artifact
+        location="/Users/dinabenayad-cherif/mhealth-grabapp/Lab2/BluetoothChat/Application/build/intermediates/split-apk/debug/slices/slice_5.apk"
+        type="SPLIT" />
+    <artifact
+        location="/Users/dinabenayad-cherif/mhealth-grabapp/Lab2/BluetoothChat/Application/build/intermediates/split-apk/debug/slices/slice_4.apk"
+        type="SPLIT" />
+    <artifact
+        location="/Users/dinabenayad-cherif/mhealth-grabapp/Lab2/BluetoothChat/Application/build/intermediates/split-apk/debug/slices/slice_3.apk"
+        type="SPLIT" />
+    <artifact
+        location="/Users/dinabenayad-cherif/mhealth-grabapp/Lab2/BluetoothChat/Application/build/outputs/apk/Application-debug.apk"
+        type="SPLIT_MAIN" />
+
     <build
         build-mode="FULL"
-        timestamp="1507775568010"
+        timestamp="1512533434609"
         verifier="FULL_BUILD_REQUESTED" >
         <artifact
-            location="/Users/vsocrates/AndroidStudioProjects/ImageGrab/Lab2/BluetoothChat/Application/build/intermediates/split-apk/debug/slices/slice_6.apk"
+            location="/Users/dinabenayad-cherif/mhealth-grabapp/Lab2/BluetoothChat/Application/build/intermediates/split-apk/debug/slices/slice_9.apk"
             type="SPLIT" />
         <artifact
-            location="/Users/vsocrates/AndroidStudioProjects/ImageGrab/Lab2/BluetoothChat/Application/build/outputs/apk/Application-debug.apk"
-            type="SPLIT_MAIN" />
-        <artifact
-            location="/Users/vsocrates/AndroidStudioProjects/ImageGrab/Lab2/BluetoothChat/Application/build/intermediates/split-apk/debug/dep/dependencies.apk"
+            location="/Users/dinabenayad-cherif/mhealth-grabapp/Lab2/BluetoothChat/Application/build/intermediates/split-apk/debug/slices/slice_8.apk"
             type="SPLIT" />
         <artifact
-            location="/Users/vsocrates/AndroidStudioProjects/ImageGrab/Lab2/BluetoothChat/Application/build/intermediates/split-apk/debug/slices/slice_4.apk"
+            location="/Users/dinabenayad-cherif/mhealth-grabapp/Lab2/BluetoothChat/Application/build/intermediates/split-apk/debug/slices/slice_6.apk"
             type="SPLIT" />
         <artifact
-            location="/Users/vsocrates/AndroidStudioProjects/ImageGrab/Lab2/BluetoothChat/Application/build/intermediates/split-apk/debug/slices/slice_5.apk"
+            location="/Users/dinabenayad-cherif/mhealth-grabapp/Lab2/BluetoothChat/Application/build/intermediates/split-apk/debug/slices/slice_1.apk"
             type="SPLIT" />
         <artifact
-            location="/Users/vsocrates/AndroidStudioProjects/ImageGrab/Lab2/BluetoothChat/Application/build/intermediates/split-apk/debug/slices/slice_9.apk"
+            location="/Users/dinabenayad-cherif/mhealth-grabapp/Lab2/BluetoothChat/Application/build/intermediates/split-apk/debug/slices/slice_0.apk"
             type="SPLIT" />
         <artifact
-            location="/Users/vsocrates/AndroidStudioProjects/ImageGrab/Lab2/BluetoothChat/Application/build/intermediates/split-apk/debug/slices/slice_8.apk"
+            location="/Users/dinabenayad-cherif/mhealth-grabapp/Lab2/BluetoothChat/Application/build/intermediates/split-apk/debug/slices/slice_7.apk"
             type="SPLIT" />
         <artifact
-            location="/Users/vsocrates/AndroidStudioProjects/ImageGrab/Lab2/BluetoothChat/Application/build/intermediates/split-apk/debug/slices/slice_7.apk"
+            location="/Users/dinabenayad-cherif/mhealth-grabapp/Lab2/BluetoothChat/Application/build/intermediates/split-apk/debug/dep/dependencies.apk"
             type="SPLIT" />
         <artifact
-            location="/Users/vsocrates/AndroidStudioProjects/ImageGrab/Lab2/BluetoothChat/Application/build/intermediates/split-apk/debug/slices/slice_3.apk"
+            location="/Users/dinabenayad-cherif/mhealth-grabapp/Lab2/BluetoothChat/Application/build/intermediates/split-apk/debug/slices/slice_2.apk"
             type="SPLIT" />
         <artifact
-            location="/Users/vsocrates/AndroidStudioProjects/ImageGrab/Lab2/BluetoothChat/Application/build/intermediates/split-apk/debug/slices/slice_0.apk"
+            location="/Users/dinabenayad-cherif/mhealth-grabapp/Lab2/BluetoothChat/Application/build/intermediates/split-apk/debug/slices/slice_5.apk"
             type="SPLIT" />
         <artifact
-            location="/Users/vsocrates/AndroidStudioProjects/ImageGrab/Lab2/BluetoothChat/Application/build/intermediates/split-apk/debug/slices/slice_1.apk"
+            location="/Users/dinabenayad-cherif/mhealth-grabapp/Lab2/BluetoothChat/Application/build/intermediates/split-apk/debug/slices/slice_4.apk"
             type="SPLIT" />
         <artifact
-            location="/Users/vsocrates/AndroidStudioProjects/ImageGrab/Lab2/BluetoothChat/Application/build/intermediates/split-apk/debug/slices/slice_2.apk"
-            type="SPLIT" />
-    </build>
-    <build
-        build-mode="COLD"
-        timestamp="1507777722481"
-        verifier="COLD_SWAP_REQUESTED" >
-        <artifact
-            location="/Users/vsocrates/AndroidStudioProjects/ImageGrab/Lab2/BluetoothChat/Application/build/intermediates/split-apk/debug/slices/slice_6.apk"
+            location="/Users/dinabenayad-cherif/mhealth-grabapp/Lab2/BluetoothChat/Application/build/intermediates/split-apk/debug/slices/slice_3.apk"
             type="SPLIT" />
         <artifact
-            location="/Users/vsocrates/AndroidStudioProjects/ImageGrab/Lab2/BluetoothChat/Application/build/outputs/apk/Application-debug.apk"
+            location="/Users/dinabenayad-cherif/mhealth-grabapp/Lab2/BluetoothChat/Application/build/outputs/apk/Application-debug.apk"
             type="SPLIT_MAIN" />
     </build>
-    <build
-        build-mode="COLD"
-        timestamp="1507777852409"
-        verifier="COLD_SWAP_REQUESTED" />
 
 </instant-run>

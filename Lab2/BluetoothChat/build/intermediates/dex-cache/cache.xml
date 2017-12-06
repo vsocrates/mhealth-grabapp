@@ -2,141 +2,67 @@
 <items version="2" >
 
     <item
-        jar="/Users/vsocrates/Library/Android/sdk/extras/android/m2repository/com/android/support/support-annotations/23.0.0/support-annotations-23.0.0.jar"
-        jumboMode="false"
+        is-multidex="true"
+        jar="/Users/dinabenayad-cherif/.android/build-cache/2728e1ec305fdb185e5543aeb610d2cc785354e3/output/jars/classes.jar"
+        jumboMode="true"
         optimize="true"
-        revision="23.0.0"
-        sha1="990e7f98a7bad86a40b1f0bcfeb039023afd0839">
-        <dex dex="/Users/vsocrates/AndroidStudioProjects/ImageGrab/Lab2/BluetoothChat/Application/build/intermediates/pre-dexed/debug/support-annotations-23.0.0-13cbeafe8a605e15e83f8ec71d2548aa37943ca0.jar" />
-    </item>
-    <item
-        jar="/Users/vsocrates/AndroidStudioProjects/ImageGrab/Lab2/BluetoothChat/Application/build/intermediates/exploded-aar/com.android.support/gridlayout-v7/23.0.0/jars/classes.jar"
-        jumboMode="false"
-        optimize="true"
-        revision="23.0.0"
+        revision="25.0.0"
         sha1="1618fd467fb5971c394741e8976ededb97aaee0a">
-        <dex dex="/Users/vsocrates/AndroidStudioProjects/ImageGrab/Lab2/BluetoothChat/Application/build/intermediates/pre-dexed/debug/classes-d27e3a81bb30be0e4c3c6b5041604c15b02bbf3c.jar" />
-    </item>
-    <item
-        jar="/Users/vsocrates/AndroidStudioProjects/ImageGrab/Lab2/BluetoothChat/Application/build/intermediates/exploded-aar/com.android.support/cardview-v7/23.0.0/jars/classes.jar"
-        jumboMode="false"
-        optimize="true"
-        revision="23.0.0"
-        sha1="1ccbc26be2c465c622a48310e8092241b01abe80">
-        <dex dex="/Users/vsocrates/AndroidStudioProjects/ImageGrab/Lab2/BluetoothChat/Application/build/intermediates/pre-dexed/debug/classes-2ea776101858741f6809fc6a0e282ed8af5b221a.jar" />
+        <dex dex="/Users/dinabenayad-cherif/mhealth-grabapp/Lab2/BluetoothChat/Application/build/intermediates/transforms/dex/debug/folders/1000/10/classes_16d1b9c5bcd475b8169feaf900b314d506343958/classes.dex" />
     </item>
     <item
         is-multidex="true"
-        jar="/Users/vsocrates/AndroidStudioProjects/ImageGrab/Lab2/BluetoothChat/Application/build/intermediates/incremental-classes/debug/instant-run-bootstrap.jar"
+        jar="/Users/dinabenayad-cherif/.android/build-cache/6f7ab32ea58165f06ec4472f846bcaf4ad5d9da0/output/jars/classes.jar"
         jumboMode="true"
         optimize="true"
         revision="25.0.0"
-        sha1="e5a5e101eac66aaa6494b20ae45500fb1f808e91">
-        <dex dex="/Users/vsocrates/AndroidStudioProjects/ImageGrab/Lab2/BluetoothChat/Application/build/intermediates/transforms/dex/debug/folders/1000/10000/instant-run-bootstrap_7f337c420bd7091209a289ebe272f7d7d25028cd/classes.dex" />
+        sha1="8413c27b45b7fe61dca4a98159f65e2cee215f5a">
+        <dex dex="/Users/dinabenayad-cherif/mhealth-grabapp/Lab2/BluetoothChat/Application/build/intermediates/transforms/dex/debug/folders/1000/10/classes_d1468d90c754510c903ad14f36cfe8a3fbf503b6/classes.dex" />
     </item>
     <item
         is-multidex="true"
-        jar="/Users/vsocrates/.gradle/caches/modules-2/files-2.1/org.apache.commons/commons-lang3/3.3.2/90a3822c38ec8c996e84c16a3477ef632cbc87a3/commons-lang3-3.3.2.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="25.0.0"
-        sha1="90a3822c38ec8c996e84c16a3477ef632cbc87a3">
-        <dex dex="/Users/vsocrates/AndroidStudioProjects/ImageGrab/Lab2/BluetoothChat/Application/build/intermediates/transforms/dex/debug/folders/1000/10/commons-lang3-3.3.2_4f387cd2df69ce5afcbc48a56ace8378d4a1cd1a/classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="/Users/vsocrates/AndroidStudioProjects/ImageGrab/Lab2/BluetoothChat/Application/build/intermediates/incremental-runtime-classes/debug/instant-run.jar"
+        jar="/Users/dinabenayad-cherif/mhealth-grabapp/Lab2/BluetoothChat/Application/build/intermediates/incremental-runtime-classes/debug/instant-run.jar"
         jumboMode="true"
         optimize="true"
         revision="25.0.0"
         sha1="3be78ebc2706b2e1fe2f12d5726887a92d6c183b">
-        <dex dex="/Users/vsocrates/AndroidStudioProjects/ImageGrab/Lab2/BluetoothChat/Application/build/intermediates/transforms/dex/debug/folders/1000/10000/instant-run_f1d81654ae4614ef197b0a44219409fdb257f4a0/classes.dex" />
-    </item>
-    <item
-        jar="/Users/vsocrates/.gradle/caches/modules-2/files-2.1/org.apache.commons/commons-lang3/3.3.2/90a3822c38ec8c996e84c16a3477ef632cbc87a3/commons-lang3-3.3.2.jar"
-        jumboMode="false"
-        optimize="true"
-        revision="23.0.0"
-        sha1="90a3822c38ec8c996e84c16a3477ef632cbc87a3">
-        <dex dex="/Users/vsocrates/AndroidStudioProjects/ImageGrab/Lab2/BluetoothChat/Application/build/intermediates/pre-dexed/debug/commons-lang3-3.3.2-4f387cd2df69ce5afcbc48a56ace8378d4a1cd1a.jar" />
+        <dex dex="/Users/dinabenayad-cherif/mhealth-grabapp/Lab2/BluetoothChat/Application/build/intermediates/transforms/dex/debug/folders/1000/10000/instant-run_fb403a95f78419329d0aa4563d5e23ee545c7886/classes.dex" />
     </item>
     <item
         is-multidex="true"
-        jar="/Users/vsocrates/.android/build-cache/0420b8e22b48613cecc704c39ef0a4bfe2a71e5d/output/jars/classes.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="25.0.0"
-        sha1="8413c27b45b7fe61dca4a98159f65e2cee215f5a">
-        <dex dex="/Users/vsocrates/AndroidStudioProjects/ImageGrab/Lab2/BluetoothChat/Application/build/intermediates/transforms/dex/debug/folders/1000/10/classes_d171db6ece0d7999fe2c54eff3e93543faa64050/classes.dex" />
-    </item>
-    <item
-        jar="/Users/vsocrates/AndroidStudioProjects/ImageGrab/Lab2/BluetoothChat/Application/build/intermediates/exploded-aar/com.android.support/support-v4/23.0.0/jars/classes.jar"
-        jumboMode="false"
-        optimize="true"
-        revision="23.0.0"
-        sha1="8413c27b45b7fe61dca4a98159f65e2cee215f5a">
-        <dex dex="/Users/vsocrates/AndroidStudioProjects/ImageGrab/Lab2/BluetoothChat/Application/build/intermediates/pre-dexed/debug/classes-42be00dcb5ec1713bf178a930b741118423dab1b.jar" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="/Users/vsocrates/.android/build-cache/0420b8e22b48613cecc704c39ef0a4bfe2a71e5d/output/jars/libs/internal_impl-23.0.0.jar"
+        jar="/Users/dinabenayad-cherif/.android/build-cache/6f7ab32ea58165f06ec4472f846bcaf4ad5d9da0/output/jars/libs/internal_impl-23.0.0.jar"
         jumboMode="true"
         optimize="true"
         revision="25.0.0"
         sha1="8bd336eeae661e8311330284897ee07f8ebaa297">
-        <dex dex="/Users/vsocrates/AndroidStudioProjects/ImageGrab/Lab2/BluetoothChat/Application/build/intermediates/transforms/dex/debug/folders/1000/10/internal_impl-23.0.0_562419de038dfe634532a615ddb221e873d982d9/classes.dex" />
+        <dex dex="/Users/dinabenayad-cherif/mhealth-grabapp/Lab2/BluetoothChat/Application/build/intermediates/transforms/dex/debug/folders/1000/10/internal_impl-23.0.0_c5e6e061a88e1b53e791a2a1d590024ce1316d89/classes.dex" />
     </item>
     <item
         is-multidex="true"
-        jar="/Users/vsocrates/Library/Android/sdk/extras/android/m2repository/com/android/support/support-annotations/23.0.0/support-annotations-23.0.0.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="25.0.0"
-        sha1="990e7f98a7bad86a40b1f0bcfeb039023afd0839">
-        <dex dex="/Users/vsocrates/AndroidStudioProjects/ImageGrab/Lab2/BluetoothChat/Application/build/intermediates/transforms/dex/debug/folders/1000/10/support-annotations-23.0.0_13cbeafe8a605e15e83f8ec71d2548aa37943ca0/classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="/Users/vsocrates/.android/build-cache/fac0cb47d700dfae7e3715e911b35da771daf286/output/jars/classes.jar"
+        jar="/Users/dinabenayad-cherif/.android/build-cache/e26656dd1344414d4a5cc2d0605e215f9b62cb19/output/jars/classes.jar"
         jumboMode="true"
         optimize="true"
         revision="25.0.0"
         sha1="1ccbc26be2c465c622a48310e8092241b01abe80">
-        <dex dex="/Users/vsocrates/AndroidStudioProjects/ImageGrab/Lab2/BluetoothChat/Application/build/intermediates/transforms/dex/debug/folders/1000/10/classes_eaadd8567bb297931dab675b0980b11a7198ccce/classes.dex" />
-    </item>
-    <item
-        jar="/Users/vsocrates/AndroidStudioProjects/ImageGrab/Lab2/BluetoothChat/Application/build/intermediates/exploded-aar/com.android.support/support-v4/23.0.0/jars/libs/internal_impl-23.0.0.jar"
-        jumboMode="false"
-        optimize="true"
-        revision="23.0.0"
-        sha1="8bd336eeae661e8311330284897ee07f8ebaa297">
-        <dex dex="/Users/vsocrates/AndroidStudioProjects/ImageGrab/Lab2/BluetoothChat/Application/build/intermediates/pre-dexed/debug/internal_impl-23.0.0-44a159899db57f0ee9ad8c71513edbfc336736aa.jar" />
+        <dex dex="/Users/dinabenayad-cherif/mhealth-grabapp/Lab2/BluetoothChat/Application/build/intermediates/transforms/dex/debug/folders/1000/10/classes_9057e26cad09f93221acbbd38102bab18e82a194/classes.dex" />
     </item>
     <item
         is-multidex="true"
-        jar="/Users/vsocrates/.android/build-cache/89265dbd7ed2968a7bf519c05d9e356a993c066d/output/jars/classes.jar"
+        jar="/Users/dinabenayad-cherif/mhealth-grabapp/Lab2/BluetoothChat/Application/build/intermediates/incremental-classes/debug/instant-run-bootstrap.jar"
         jumboMode="true"
         optimize="true"
         revision="25.0.0"
-        sha1="1618fd467fb5971c394741e8976ededb97aaee0a">
-        <dex dex="/Users/vsocrates/AndroidStudioProjects/ImageGrab/Lab2/BluetoothChat/Application/build/intermediates/transforms/dex/debug/folders/1000/10/classes_c493e97b25863aae94fa8fd1520b91df00036972/classes.dex" />
-    </item>
-    <item
-        jar="/Users/vsocrates/.gradle/caches/modules-2/files-2.1/com.opencsv/opencsv/3.5/2e88bd2818506573280599398f4198a04b2b2c8c/opencsv-3.5.jar"
-        jumboMode="false"
-        optimize="true"
-        revision="23.0.0"
-        sha1="2e88bd2818506573280599398f4198a04b2b2c8c">
-        <dex dex="/Users/vsocrates/AndroidStudioProjects/ImageGrab/Lab2/BluetoothChat/Application/build/intermediates/pre-dexed/debug/opencsv-3.5-bdb1aaa9dad3325e3bf14a5eeaebfb2c468930b3.jar" />
+        sha1="0098a33a83aef304db42030869374ba5c2954fb1">
+        <dex dex="/Users/dinabenayad-cherif/mhealth-grabapp/Lab2/BluetoothChat/Application/build/intermediates/transforms/dex/debug/folders/1000/10000/instant-run-bootstrap_55dd91947f325cbfddd5fd9a860705d6fbdd7b06/classes.dex" />
     </item>
     <item
         is-multidex="true"
-        jar="/Users/vsocrates/.gradle/caches/modules-2/files-2.1/com.opencsv/opencsv/3.5/2e88bd2818506573280599398f4198a04b2b2c8c/opencsv-3.5.jar"
+        jar="/Users/dinabenayad-cherif/Library/Android/sdk/extras/android/m2repository/com/android/support/support-annotations/23.0.0/support-annotations-23.0.0.jar"
         jumboMode="true"
         optimize="true"
         revision="25.0.0"
-        sha1="2e88bd2818506573280599398f4198a04b2b2c8c">
-        <dex dex="/Users/vsocrates/AndroidStudioProjects/ImageGrab/Lab2/BluetoothChat/Application/build/intermediates/transforms/dex/debug/folders/1000/10/opencsv-3.5_bdb1aaa9dad3325e3bf14a5eeaebfb2c468930b3/classes.dex" />
+        sha1="990e7f98a7bad86a40b1f0bcfeb039023afd0839">
+        <dex dex="/Users/dinabenayad-cherif/mhealth-grabapp/Lab2/BluetoothChat/Application/build/intermediates/transforms/dex/debug/folders/1000/10/support-annotations-23.0.0_ec9f2fb36743acfa7ab6a661067310e0492fa58e/classes.dex" />
     </item>
 
 </items>

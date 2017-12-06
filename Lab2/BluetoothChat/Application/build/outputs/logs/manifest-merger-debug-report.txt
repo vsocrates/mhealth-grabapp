@@ -31,9 +31,9 @@ ADDED from /Users/dinabenayad-cherif/mhealth-grabapp/Lab2/BluetoothChat/Applicat
 		ADDED from /Users/dinabenayad-cherif/mhealth-grabapp/Lab2/BluetoothChat/Application/src/main/AndroidManifest.xml:29:22-77
 application
 ADDED from /Users/dinabenayad-cherif/mhealth-grabapp/Lab2/BluetoothChat/Application/src/main/AndroidManifest.xml:31:5-53:19
-MERGED from [com.android.support:gridlayout-v7:23.0.0] /Users/dinabenayad-cherif/.android/build-cache/8dce0139f083a62015fd51f170a3d417ad2ddd6e/output/AndroidManifest.xml:22:5-20
-MERGED from [com.android.support:support-v4:23.0.0] /Users/dinabenayad-cherif/.android/build-cache/629b92dbc743cbddc27755166e048333534fcb5f/output/AndroidManifest.xml:22:5-20
-MERGED from [com.android.support:cardview-v7:23.0.0] /Users/dinabenayad-cherif/.android/build-cache/c3410e90c325236f47ce94612ddac2fc8773840a/output/AndroidManifest.xml:22:5-20
+MERGED from [com.android.support:gridlayout-v7:23.0.0] /Users/dinabenayad-cherif/.android/build-cache/2728e1ec305fdb185e5543aeb610d2cc785354e3/output/AndroidManifest.xml:22:5-20
+MERGED from [com.android.support:support-v4:23.0.0] /Users/dinabenayad-cherif/.android/build-cache/6f7ab32ea58165f06ec4472f846bcaf4ad5d9da0/output/AndroidManifest.xml:22:5-20
+MERGED from [com.android.support:cardview-v7:23.0.0] /Users/dinabenayad-cherif/.android/build-cache/e26656dd1344414d4a5cc2d0605e215f9b62cb19/output/AndroidManifest.xml:22:5-20
 	android:label
 		ADDED from /Users/dinabenayad-cherif/mhealth-grabapp/Lab2/BluetoothChat/Application/src/main/AndroidManifest.xml:34:9-41
 	android:allowBackup
@@ -72,9 +72,9 @@ ADDED from /Users/dinabenayad-cherif/mhealth-grabapp/Lab2/BluetoothChat/Applicat
 		ADDED from /Users/dinabenayad-cherif/mhealth-grabapp/Lab2/BluetoothChat/Application/src/main/AndroidManifest.xml:48:13-47
 uses-sdk
 INJECTED from /Users/dinabenayad-cherif/mhealth-grabapp/Lab2/BluetoothChat/Application/src/main/AndroidManifest.xml reason: use-sdk injection requested
-MERGED from [com.android.support:gridlayout-v7:23.0.0] /Users/dinabenayad-cherif/.android/build-cache/8dce0139f083a62015fd51f170a3d417ad2ddd6e/output/AndroidManifest.xml:20:5-43
-MERGED from [com.android.support:support-v4:23.0.0] /Users/dinabenayad-cherif/.android/build-cache/629b92dbc743cbddc27755166e048333534fcb5f/output/AndroidManifest.xml:20:5-43
-MERGED from [com.android.support:cardview-v7:23.0.0] /Users/dinabenayad-cherif/.android/build-cache/c3410e90c325236f47ce94612ddac2fc8773840a/output/AndroidManifest.xml:20:5-43
+MERGED from [com.android.support:gridlayout-v7:23.0.0] /Users/dinabenayad-cherif/.android/build-cache/2728e1ec305fdb185e5543aeb610d2cc785354e3/output/AndroidManifest.xml:20:5-43
+MERGED from [com.android.support:support-v4:23.0.0] /Users/dinabenayad-cherif/.android/build-cache/6f7ab32ea58165f06ec4472f846bcaf4ad5d9da0/output/AndroidManifest.xml:20:5-43
+MERGED from [com.android.support:cardview-v7:23.0.0] /Users/dinabenayad-cherif/.android/build-cache/e26656dd1344414d4a5cc2d0605e215f9b62cb19/output/AndroidManifest.xml:20:5-43
 	android:targetSdkVersion
 		INJECTED from /Users/dinabenayad-cherif/mhealth-grabapp/Lab2/BluetoothChat/Application/src/main/AndroidManifest.xml
 		INJECTED from /Users/dinabenayad-cherif/mhealth-grabapp/Lab2/BluetoothChat/Application/src/main/AndroidManifest.xml

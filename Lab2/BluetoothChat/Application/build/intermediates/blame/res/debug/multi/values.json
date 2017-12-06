@@ -1,575 +1,5 @@
 [
     {
-        "outputFile": "/Users/vsocrates/AndroidStudioProjects/ImageGrab/Lab2/BluetoothChat/Application/build/intermediates/incremental/mergeDebugResources/merged.dir/values/values.xml",
-        "map": [
-            {
-                "to": {
-                    "startLine": 2,
-                    "startColumn": 4,
-                    "startOffset": 105,
-                    "endColumn": 60,
-                    "endOffset": 161
-                },
-                "from": {
-                    "file": "/Users/vsocrates/.android/build-cache/fac0cb47d700dfae7e3715e911b35da771daf286/output/res/values/values.xml"
-                }
-            },
-            {
-                "to": {
-                    "startLine": 3,
-                    "startColumn": 4,
-                    "startOffset": 166,
-                    "endColumn": 61,
-                    "endOffset": 223
-                },
-                "from": {
-                    "file": "/Users/vsocrates/.android/build-cache/fac0cb47d700dfae7e3715e911b35da771daf286/output/res/values/values.xml"
-                }
-            },
-            {
-                "to": {
-                    "startLine": 4,
-                    "startColumn": 4,
-                    "startOffset": 228,
-                    "endColumn": 61,
-                    "endOffset": 285
-                },
-                "from": {
-                    "file": "/Users/vsocrates/.android/build-cache/fac0cb47d700dfae7e3715e911b35da771daf286/output/res/values/values.xml"
-                }
-            },
-            {
-                "to": {
-                    "startLine": 5,
-                    "startColumn": 4,
-                    "startOffset": 290,
-                    "endColumn": 63,
-                    "endOffset": 349
-                },
-                "from": {
-                    "file": "/Users/vsocrates/.android/build-cache/fac0cb47d700dfae7e3715e911b35da771daf286/output/res/values/values.xml"
-                }
-            },
-            {
-                "to": {
-                    "startLine": 9,
-                    "startColumn": 4,
-                    "startOffset": 2672,
-                    "endColumn": 58,
-                    "endOffset": 2726
-                },
-                "from": {
-                    "file": "/Users/vsocrates/.android/build-cache/fac0cb47d700dfae7e3715e911b35da771daf286/output/res/values/values.xml"
-                }
-            },
-            {
-                "to": {
-                    "startLine": 10,
-                    "startColumn": 4,
-                    "startOffset": 2731,
-                    "endColumn": 56,
-                    "endOffset": 2783
-                },
-                "from": {
-                    "file": "/Users/vsocrates/.android/build-cache/fac0cb47d700dfae7e3715e911b35da771daf286/output/res/values/values.xml"
-                }
-            },
-            {
-                "to": {
-                    "startLine": 11,
-                    "startColumn": 4,
-                    "startOffset": 2788,
-                    "endColumn": 53,
-                    "endOffset": 2837
-                },
-                "from": {
-                    "file": "/Users/vsocrates/.android/build-cache/fac0cb47d700dfae7e3715e911b35da771daf286/output/res/values/values.xml"
-                }
-            },
-            {
-                "to": {
-                    "startLine": 12,
-                    "startColumn": 4,
-                    "startOffset": 2842,
-                    "endColumn": 42,
-                    "endOffset": 2880
-                },
-                "from": {
-                    "file": "/Users/vsocrates/.android/build-cache/89265dbd7ed2968a7bf519c05d9e356a993c066d/output/res/values/values.xml"
-                }
-            },
-            {
-                "to": {
-                    "startLine": 13,
-                    "startColumn": 4,
-                    "startOffset": 2885,
-                    "endColumn": 69,
-                    "endOffset": 2950
-                },
-                "from": {
-                    "file": "/Users/vsocrates/AndroidStudioProjects/ImageGrab/Lab2/BluetoothChat/Application/src/main/res/values/template-dimens.xml"
-                }
-            },
-            {
-                "to": {
-                    "startLine": 14,
-                    "startColumn": 4,
-                    "startOffset": 2955,
-                    "endColumn": 42,
-                    "endOffset": 2993
-                },
-                "from": {
-                    "file": "/Users/vsocrates/AndroidStudioProjects/ImageGrab/Lab2/BluetoothChat/Application/src/main/res/values/template-dimens.xml"
-                }
-            },
-            {
-                "to": {
-                    "startLine": 15,
-                    "startColumn": 4,
-                    "startOffset": 2998,
-                    "endColumn": 43,
-                    "endOffset": 3037
-                },
-                "from": {
-                    "file": "/Users/vsocrates/AndroidStudioProjects/ImageGrab/Lab2/BluetoothChat/Application/src/main/res/values/template-dimens.xml"
-                }
-            },
-            {
-                "to": {
-                    "startLine": 16,
-                    "startColumn": 4,
-                    "startOffset": 3042,
-                    "endColumn": 44,
-                    "endOffset": 3082
-                },
-                "from": {
-                    "file": "/Users/vsocrates/AndroidStudioProjects/ImageGrab/Lab2/BluetoothChat/Application/src/main/res/values/template-dimens.xml"
-                }
-            },
-            {
-                "to": {
-                    "startLine": 17,
-                    "startColumn": 4,
-                    "startOffset": 3087,
-                    "endColumn": 42,
-                    "endOffset": 3125
-                },
-                "from": {
-                    "file": "/Users/vsocrates/AndroidStudioProjects/ImageGrab/Lab2/BluetoothChat/Application/src/main/res/values/template-dimens.xml"
-                }
-            },
-            {
-                "to": {
-                    "startLine": 18,
-                    "startColumn": 4,
-                    "startOffset": 3130,
-                    "endColumn": 41,
-                    "endOffset": 3167
-                },
-                "from": {
-                    "file": "/Users/vsocrates/AndroidStudioProjects/ImageGrab/Lab2/BluetoothChat/Application/src/main/res/values/template-dimens.xml"
-                }
-            },
-            {
-                "to": {
-                    "startLine": 19,
-                    "startColumn": 4,
-                    "startOffset": 3172,
-                    "endColumn": 67,
-                    "endOffset": 3235
-                },
-                "from": {
-                    "file": "/Users/vsocrates/AndroidStudioProjects/ImageGrab/Lab2/BluetoothChat/Application/src/main/res/values/template-dimens.xml"
-                }
-            },
-            {
-                "to": {
-                    "startLine": 20,
-                    "startColumn": 4,
-                    "startOffset": 3240,
-                    "endColumn": 55,
-                    "endOffset": 3291
-                },
-                "from": {
-                    "file": "/Users/vsocrates/AndroidStudioProjects/ImageGrab/Lab2/BluetoothChat/Application/src/main/res/values/base-strings.xml",
-                    "position": {
-                        "startLine": 18,
-                        "startColumn": 4,
-                        "startOffset": 665,
-                        "endColumn": 55,
-                        "endOffset": 716
-                    }
-                }
-            },
-            {
-                "to": {
-                    "startLine": 21,
-                    "startColumn": 4,
-                    "startOffset": 3296,
-                    "endColumn": 101,
-                    "endOffset": 3393
-                },
-                "from": {
-                    "file": "/Users/vsocrates/AndroidStudioProjects/ImageGrab/Lab2/BluetoothChat/Application/src/main/res/values/strings.xml"
-                }
-            },
-            {
-                "to": {
-                    "startLine": 22,
-                    "startColumn": 4,
-                    "startOffset": 3398,
-                    "endColumn": 56,
-                    "endOffset": 3450
-                },
-                "from": {
-                    "file": "/Users/vsocrates/AndroidStudioProjects/ImageGrab/Lab2/BluetoothChat/Application/src/main/res/values/strings.xml"
-                }
-            },
-            {
-                "to": {
-                    "startLine": 23,
-                    "startColumn": 4,
-                    "startOffset": 3455,
-                    "endColumn": 58,
-                    "endOffset": 3509
-                },
-                "from": {
-                    "file": "/Users/vsocrates/AndroidStudioProjects/ImageGrab/Lab2/BluetoothChat/Application/src/main/res/values/strings.xml"
-                }
-            },
-            {
-                "to": {
-                    "startLine": 24,
-                    "startColumn": 4,
-                    "startOffset": 3514,
-                    "endColumn": 72,
-                    "endOffset": 3582
-                },
-                "from": {
-                    "file": "/Users/vsocrates/AndroidStudioProjects/ImageGrab/Lab2/BluetoothChat/Application/src/main/res/values/strings.xml"
-                }
-            },
-            {
-                "to": {
-                    "startLine": 25,
-                    "startColumn": 4,
-                    "startOffset": 3587,
-                    "endLine": 39,
-                    "endColumn": 13,
-                    "endOffset": 4171
-                },
-                "from": {
-                    "file": "/Users/vsocrates/AndroidStudioProjects/ImageGrab/Lab2/BluetoothChat/Application/src/main/res/values/base-strings.xml"
-                }
-            },
-            {
-                "to": {
-                    "startLine": 40,
-                    "startColumn": 4,
-                    "startOffset": 4176,
-                    "endColumn": 55,
-                    "endOffset": 4227
-                },
-                "from": {
-                    "file": "/Users/vsocrates/AndroidStudioProjects/ImageGrab/Lab2/BluetoothChat/Application/src/main/res/values/strings.xml"
-                }
-            },
-            {
-                "to": {
-                    "startLine": 41,
-                    "startColumn": 4,
-                    "startOffset": 4232,
-                    "endColumn": 67,
-                    "endOffset": 4295
-                },
-                "from": {
-                    "file": "/Users/vsocrates/AndroidStudioProjects/ImageGrab/Lab2/BluetoothChat/Application/src/main/res/values/strings.xml"
-                }
-            },
-            {
-                "to": {
-                    "startLine": 42,
-                    "startColumn": 4,
-                    "startOffset": 4300,
-                    "endColumn": 75,
-                    "endOffset": 4371
-                },
-                "from": {
-                    "file": "/Users/vsocrates/AndroidStudioProjects/ImageGrab/Lab2/BluetoothChat/Application/src/main/res/values/strings.xml"
-                }
-            },
-            {
-                "to": {
-                    "startLine": 43,
-                    "startColumn": 4,
-                    "startOffset": 4376,
-                    "endColumn": 49,
-                    "endOffset": 4421
-                },
-                "from": {
-                    "file": "/Users/vsocrates/AndroidStudioProjects/ImageGrab/Lab2/BluetoothChat/Application/src/main/res/values/strings.xml"
-                }
-            },
-            {
-                "to": {
-                    "startLine": 44,
-                    "startColumn": 4,
-                    "startOffset": 4426,
-                    "endColumn": 52,
-                    "endOffset": 4474
-                },
-                "from": {
-                    "file": "/Users/vsocrates/AndroidStudioProjects/ImageGrab/Lab2/BluetoothChat/Application/src/main/res/values/fragmentview_strings.xml"
-                }
-            },
-            {
-                "to": {
-                    "startLine": 45,
-                    "startColumn": 4,
-                    "startOffset": 4479,
-                    "endColumn": 52,
-                    "endOffset": 4527
-                },
-                "from": {
-                    "file": "/Users/vsocrates/AndroidStudioProjects/ImageGrab/Lab2/BluetoothChat/Application/src/main/res/values/fragmentview_strings.xml"
-                }
-            },
-            {
-                "to": {
-                    "startLine": 46,
-                    "startColumn": 4,
-                    "startOffset": 4532,
-                    "endColumn": 60,
-                    "endOffset": 4588
-                },
-                "from": {
-                    "file": "/Users/vsocrates/AndroidStudioProjects/ImageGrab/Lab2/BluetoothChat/Application/src/main/res/values/strings.xml"
-                }
-            },
-            {
-                "to": {
-                    "startLine": 47,
-                    "startColumn": 4,
-                    "startOffset": 4593,
-                    "endColumn": 68,
-                    "endOffset": 4657
-                },
-                "from": {
-                    "file": "/Users/vsocrates/AndroidStudioProjects/ImageGrab/Lab2/BluetoothChat/Application/src/main/res/values/strings.xml"
-                }
-            },
-            {
-                "to": {
-                    "startLine": 48,
-                    "startColumn": 4,
-                    "startOffset": 4662,
-                    "endColumn": 68,
-                    "endOffset": 4726
-                },
-                "from": {
-                    "file": "/Users/vsocrates/AndroidStudioProjects/ImageGrab/Lab2/BluetoothChat/Application/src/main/res/values/strings.xml"
-                }
-            },
-            {
-                "to": {
-                    "startLine": 49,
-                    "startColumn": 4,
-                    "startOffset": 4731,
-                    "endColumn": 96,
-                    "endOffset": 4823
-                },
-                "from": {
-                    "file": "/Users/vsocrates/AndroidStudioProjects/ImageGrab/Lab2/BluetoothChat/Application/src/main/res/values/strings.xml"
-                }
-            },
-            {
-                "to": {
-                    "startLine": 50,
-                    "startColumn": 4,
-                    "startOffset": 4828,
-                    "endColumn": 58,
-                    "endOffset": 4882
-                },
-                "from": {
-                    "file": "/Users/vsocrates/AndroidStudioProjects/ImageGrab/Lab2/BluetoothChat/Application/src/main/res/values/strings.xml"
-                }
-            },
-            {
-                "to": {
-                    "startLine": 51,
-                    "startColumn": 4,
-                    "startOffset": 4887,
-                    "endColumn": 61,
-                    "endOffset": 4944
-                },
-                "from": {
-                    "file": "/Users/vsocrates/AndroidStudioProjects/ImageGrab/Lab2/BluetoothChat/Application/src/main/res/values/strings.xml"
-                }
-            },
-            {
-                "to": {
-                    "startLine": 52,
-                    "startColumn": 4,
-                    "startOffset": 4949,
-                    "endColumn": 71,
-                    "endOffset": 5016
-                },
-                "from": {
-                    "file": "/Users/vsocrates/AndroidStudioProjects/ImageGrab/Lab2/BluetoothChat/Application/src/main/res/values/strings.xml"
-                }
-            },
-            {
-                "to": {
-                    "startLine": 53,
-                    "startColumn": 4,
-                    "startOffset": 5021,
-                    "endColumn": 63,
-                    "endOffset": 5080
-                },
-                "from": {
-                    "file": "/Users/vsocrates/AndroidStudioProjects/ImageGrab/Lab2/BluetoothChat/Application/src/main/res/values/strings.xml"
-                }
-            },
-            {
-                "to": {
-                    "startLine": 54,
-                    "startColumn": 4,
-                    "startOffset": 5085,
-                    "endColumn": 49,
-                    "endOffset": 5130
-                },
-                "from": {
-                    "file": "/Users/vsocrates/AndroidStudioProjects/ImageGrab/Lab2/BluetoothChat/Application/src/main/res/values/strings.xml"
-                }
-            },
-            {
-                "to": {
-                    "startLine": 55,
-                    "startColumn": 4,
-                    "startOffset": 5135,
-                    "endColumn": 47,
-                    "endOffset": 5178
-                },
-                "from": {
-                    "file": "/Users/vsocrates/AndroidStudioProjects/ImageGrab/Lab2/BluetoothChat/Application/src/main/res/values/strings.xml"
-                }
-            },
-            {
-                "to": {
-                    "startLine": 56,
-                    "startColumn": 4,
-                    "startOffset": 5183,
-                    "endColumn": 50,
-                    "endOffset": 5229
-                },
-                "from": {
-                    "file": "/Users/vsocrates/AndroidStudioProjects/ImageGrab/Lab2/BluetoothChat/Application/src/main/res/values/template-styles.xml"
-                }
-            },
-            {
-                "to": {
-                    "startLine": 57,
-                    "startColumn": 4,
-                    "startOffset": 5234,
-                    "endLine": 64,
-                    "endColumn": 12,
-                    "endOffset": 5695
-                },
-                "from": {
-                    "file": "/Users/vsocrates/.android/build-cache/fac0cb47d700dfae7e3715e911b35da771daf286/output/res/values/values.xml"
-                }
-            },
-            {
-                "to": {
-                    "startLine": 65,
-                    "startColumn": 4,
-                    "startOffset": 5700,
-                    "endLine": 67,
-                    "endColumn": 12,
-                    "endOffset": 5821
-                },
-                "from": {
-                    "file": "/Users/vsocrates/.android/build-cache/fac0cb47d700dfae7e3715e911b35da771daf286/output/res/values/values.xml"
-                }
-            },
-            {
-                "to": {
-                    "startLine": 68,
-                    "startColumn": 4,
-                    "startOffset": 5826,
-                    "endLine": 70,
-                    "endColumn": 12,
-                    "endOffset": 5949
-                },
-                "from": {
-                    "file": "/Users/vsocrates/.android/build-cache/fac0cb47d700dfae7e3715e911b35da771daf286/output/res/values/values.xml"
-                }
-            },
-            {
-                "to": {
-                    "startLine": 71,
-                    "startColumn": 4,
-                    "startOffset": 5954,
-                    "endColumn": 59,
-                    "endOffset": 6009
-                },
-                "from": {
-                    "file": "/Users/vsocrates/AndroidStudioProjects/ImageGrab/Lab2/BluetoothChat/Application/src/main/res/values/template-styles.xml"
-                }
-            },
-            {
-                "to": {
-                    "startLine": 72,
-                    "startColumn": 4,
-                    "startOffset": 6014,
-                    "endColumn": 52,
-                    "endOffset": 6062
-                },
-                "from": {
-                    "file": "/Users/vsocrates/AndroidStudioProjects/ImageGrab/Lab2/BluetoothChat/Application/src/main/res/values/template-styles.xml"
-                }
-            },
-            {
-                "to": {
-                    "startLine": 73,
-                    "startColumn": 4,
-                    "startOffset": 6067,
-                    "endColumn": 26,
-                    "endOffset": 6089
-                },
-                "from": {
-                    "file": "/Users/vsocrates/AndroidStudioProjects/ImageGrab/Lab2/BluetoothChat/Application/src/main/res/values/template-styles.xml"
-                }
-            },
-            {
-                "to": {
-                    "startLine": 74,
-                    "startColumn": 4,
-                    "startOffset": 6094,
-                    "endLine": 77,
-                    "endColumn": 12,
-                    "endOffset": 6285
-                },
-                "from": {
-                    "file": "/Users/vsocrates/AndroidStudioProjects/ImageGrab/Lab2/BluetoothChat/Application/src/main/res/values/template-styles.xml"
-                }
-            },
-            {
-                "to": {
-                    "startLine": 78,
-                    "startColumn": 4,
-                    "startOffset": 6290,
-                    "endLine": 83,
-                    "endColumn": 12,
-                    "endOffset": 6563
-                },
-                "from": {
-                    "file": "/Users/vsocrates/AndroidStudioProjects/ImageGrab/Lab2/BluetoothChat/Application/src/main/res/values/template-styles.xml"
-                }
-            }
-        ]
-    },
-    {
         "outputFile": "/Users/dinabenayad-cherif/mhealth-grabapp/Lab2/BluetoothChat/Application/build/intermediates/incremental/mergeDebugResources/merged.dir/values/values.xml",
         "map": [
             {
@@ -581,7 +11,7 @@
                     "endOffset": 161
                 },
                 "from": {
-                    "file": "/Users/dinabenayad-cherif/.android/build-cache/c3410e90c325236f47ce94612ddac2fc8773840a/output/res/values/values.xml",
+                    "file": "/Users/dinabenayad-cherif/.android/build-cache/e26656dd1344414d4a5cc2d0605e215f9b62cb19/output/res/values/values.xml",
                     "position": {
                         "startLine": 4,
                         "startColumn": 4,
@@ -600,7 +30,7 @@
                     "endOffset": 223
                 },
                 "from": {
-                    "file": "/Users/dinabenayad-cherif/.android/build-cache/c3410e90c325236f47ce94612ddac2fc8773840a/output/res/values/values.xml",
+                    "file": "/Users/dinabenayad-cherif/.android/build-cache/e26656dd1344414d4a5cc2d0605e215f9b62cb19/output/res/values/values.xml",
                     "position": {
                         "startLine": 5,
                         "startColumn": 4,
@@ -619,7 +49,7 @@
                     "endOffset": 285
                 },
                 "from": {
-                    "file": "/Users/dinabenayad-cherif/.android/build-cache/c3410e90c325236f47ce94612ddac2fc8773840a/output/res/values/values.xml",
+                    "file": "/Users/dinabenayad-cherif/.android/build-cache/e26656dd1344414d4a5cc2d0605e215f9b62cb19/output/res/values/values.xml",
                     "position": {
                         "startLine": 6,
                         "startColumn": 4,
@@ -638,7 +68,7 @@
                     "endOffset": 349
                 },
                 "from": {
-                    "file": "/Users/dinabenayad-cherif/.android/build-cache/c3410e90c325236f47ce94612ddac2fc8773840a/output/res/values/values.xml",
+                    "file": "/Users/dinabenayad-cherif/.android/build-cache/e26656dd1344414d4a5cc2d0605e215f9b62cb19/output/res/values/values.xml",
                     "position": {
                         "startLine": 7,
                         "startColumn": 4,
@@ -657,7 +87,7 @@
                     "endOffset": 2726
                 },
                 "from": {
-                    "file": "/Users/dinabenayad-cherif/.android/build-cache/c3410e90c325236f47ce94612ddac2fc8773840a/output/res/values/values.xml",
+                    "file": "/Users/dinabenayad-cherif/.android/build-cache/e26656dd1344414d4a5cc2d0605e215f9b62cb19/output/res/values/values.xml",
                     "position": {
                         "startLine": 11,
                         "startColumn": 4,
@@ -676,7 +106,7 @@
                     "endOffset": 2783
                 },
                 "from": {
-                    "file": "/Users/dinabenayad-cherif/.android/build-cache/c3410e90c325236f47ce94612ddac2fc8773840a/output/res/values/values.xml",
+                    "file": "/Users/dinabenayad-cherif/.android/build-cache/e26656dd1344414d4a5cc2d0605e215f9b62cb19/output/res/values/values.xml",
                     "position": {
                         "startLine": 12,
                         "startColumn": 4,
@@ -695,7 +125,7 @@
                     "endOffset": 2837
                 },
                 "from": {
-                    "file": "/Users/dinabenayad-cherif/.android/build-cache/c3410e90c325236f47ce94612ddac2fc8773840a/output/res/values/values.xml",
+                    "file": "/Users/dinabenayad-cherif/.android/build-cache/e26656dd1344414d4a5cc2d0605e215f9b62cb19/output/res/values/values.xml",
                     "position": {
                         "startLine": 13,
                         "startColumn": 4,
@@ -714,7 +144,7 @@
                     "endOffset": 2880
                 },
                 "from": {
-                    "file": "/Users/dinabenayad-cherif/.android/build-cache/8dce0139f083a62015fd51f170a3d417ad2ddd6e/output/res/values/values.xml",
+                    "file": "/Users/dinabenayad-cherif/.android/build-cache/2728e1ec305fdb185e5543aeb610d2cc785354e3/output/res/values/values.xml",
                     "position": {
                         "startLine": 6,
                         "startColumn": 4,
@@ -1306,7 +736,7 @@
                     "endOffset": 5695
                 },
                 "from": {
-                    "file": "/Users/dinabenayad-cherif/.android/build-cache/c3410e90c325236f47ce94612ddac2fc8773840a/output/res/values/values.xml",
+                    "file": "/Users/dinabenayad-cherif/.android/build-cache/e26656dd1344414d4a5cc2d0605e215f9b62cb19/output/res/values/values.xml",
                     "position": {
                         "startLine": 16,
                         "startColumn": 4,
@@ -1327,7 +757,7 @@
                     "endOffset": 5821
                 },
                 "from": {
-                    "file": "/Users/dinabenayad-cherif/.android/build-cache/c3410e90c325236f47ce94612ddac2fc8773840a/output/res/values/values.xml",
+                    "file": "/Users/dinabenayad-cherif/.android/build-cache/e26656dd1344414d4a5cc2d0605e215f9b62cb19/output/res/values/values.xml",
                     "position": {
                         "startLine": 24,
                         "startColumn": 4,
@@ -1348,7 +778,7 @@
                     "endOffset": 5949
                 },
                 "from": {
-                    "file": "/Users/dinabenayad-cherif/.android/build-cache/c3410e90c325236f47ce94612ddac2fc8773840a/output/res/values/values.xml",
+                    "file": "/Users/dinabenayad-cherif/.android/build-cache/e26656dd1344414d4a5cc2d0605e215f9b62cb19/output/res/values/values.xml",
                     "position": {
                         "startLine": 27,
                         "startColumn": 4,

@@ -1,8 +1,13 @@
 package com.example.dinabenayad_cherif.finalproject;
 
 import android.Manifest;
+
+import java.io.InputStream;
+import java.util.Set;
 import android.Manifest.permission;
 import android.app.Activity;
+import android.bluetooth.BluetoothAdapter;
+import android.bluetooth.BluetoothSocket;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -16,9 +21,13 @@ import android.location.LocationManager;
 import android.os.AsyncTask;
 //import android.os.Build;
 
+import android.bluetooth.BluetoothAdapter;
+import android.bluetooth.BluetoothDevice;
+
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
@@ -71,6 +80,10 @@ public class MainActivity extends Activity implements SensorEventListener, Locat
     TextView rotationtxtView;
     TextView gpsCoordinatesView;
 
+    private Set<BluetoothDevice>pairedDevices;
+
+    private BluetoothAdapter mBluetoothAdapter = null;
+
     private static final int mFeatLen = Globals.ACCELEROMETER_BLOCK_CAPACITY + 2;
 
     static final int REQUEST_IMAGE_CAPTURE = 1;
@@ -85,6 +98,8 @@ public class MainActivity extends Activity implements SensorEventListener, Locat
     private int mServiceTaskType;
     private File mFeatureFile;
 
+    private int REQUEST_ENABLE_BT = 1;
+
 
     private SensorManager mSensorManager;
     private Sensor mAccelerometer;
@@ -96,6 +111,7 @@ public class MainActivity extends Activity implements SensorEventListener, Locat
 
     private Instances mDataset;
     private Attribute mClassAttribute;
+
 
     //private String mLabel;
 
@@ -244,6 +260,7 @@ public class MainActivity extends Activity implements SensorEventListener, Locat
     }
 
     public void stopCollectingData(View v) {
+        stopCollectingTime = elapsedRealtime();
         mAsyncTask.cancel(true);
         try {
             Thread.sleep(100);
@@ -251,7 +268,7 @@ public class MainActivity extends Activity implements SensorEventListener, Locat
             e.printStackTrace();
         }
         mSensorManager.unregisterListener(this);
-        stopCollectingTime = elapsedRealtime();
+        //stopCollectingTime = elapsedRealtime();
 
     }
 
@@ -276,6 +293,7 @@ public class MainActivity extends Activity implements SensorEventListener, Locat
         mRotation = mSensorManager.getDefaultSensor(Sensor.TYPE_ROTATION_VECTOR);
         mLineAcc = mSensorManager.getDefaultSensor(Sensor.TYPE_LINEAR_ACCELERATION);
         mGravity = mSensorManager.getDefaultSensor(Sensor.TYPE_GRAVITY);
+        mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
 
         mAccBuffer = new ArrayBlockingQueue<Double>(
                 Globals.ACCELEROMETER_BUFFER_CAPACITY);
@@ -306,6 +324,45 @@ public class MainActivity extends Activity implements SensorEventListener, Locat
         mClassAttribute = new Attribute(Globals.CLASS_LABEL_KEY, labelItems);
         allAttr.addElement(mClassAttribute);
         mDataset = new Instances(Globals.FEAT_SET_NAME, allAttr, Globals.FEATURE_SET_CAPACITY);
+
+        if (!mBluetoothAdapter.isEnabled()) {
+            Intent enableBtIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
+            startActivityForResult(enableBtIntent, REQUEST_ENABLE_BT);
+        }
+        String deviceName = "edison";
+        BluetoothDevice result = null;
+        Set<BluetoothDevice> devices = mBluetoothAdapter.getBondedDevices();
+        if (devices != null) {
+            for (BluetoothDevice device : devices) {
+                if (deviceName.equals(device.getName())) {
+                    result = device;
+                    break;
+                }
+            }
+        }
+
+        BluetoothSocket socket;
+        Log.d("device is", result.getAddress());
+        try {
+            // Use the UUID of the device that discovered // TODO Maybe need extra device object
+            if (result != null) {
+                Log.i("checking bluetooth", "Device Name: " + result.getName());
+                Log.i("checking bluetooth", "Device UUID: " + result.getUuids()[0].getUuid());
+                socket = result.createRfcommSocketToServiceRecord(result.getUuids()[0].getUuid());
+                socket.connect();
+                InputStream in = socket.getInputStream();
+                Log.d("getting input stream", in.toString());
+
+
+
+            }
+            else Log.d("checking bluetooth", "Device is null.");
+        }
+
+        catch (NullPointerException e) {
+            Log.d ("null pointer", "cannot open socket");
+        }
+        catch (IOException e) { }
 
 
 
