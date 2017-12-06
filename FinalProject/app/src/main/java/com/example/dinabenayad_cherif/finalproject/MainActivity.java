@@ -14,8 +14,6 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.AsyncTask;
-//import android.os.Build;
-
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.v4.app.ActivityCompat;
@@ -24,25 +22,7 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
-
-//import com.meapsoft.FFT;
-
-import weka.core.Attribute;
-//import weka.core.DenseInstance;
-import weka.core.Instance;
-import weka.core.FastVector;
-import weka.core.Instances;
-import weka.core.converters.ArffSaver;
-import weka.core.converters.ConverterUtils.DataSource;
-
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.sql.Timestamp;
-import java.text.DecimalFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.concurrent.ArrayBlockingQueue;
+import com.opencsv.CSVReader;
 import com.opencsv.CSVWriter;
 
 import java.io.BufferedReader;
@@ -51,18 +31,27 @@ import java.io.FileInputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.sql.Timestamp;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.concurrent.ArrayBlockingQueue;
+import java.util.concurrent.TimeUnit;
 
 import weka.classifiers.Classifier;
+import weka.core.Attribute;
+import weka.core.FastVector;
 import weka.core.Instance;
 import weka.core.Instances;
 import weka.core.converters.ArffLoader.ArffReader;
+import weka.core.converters.ArffSaver;
+import weka.core.converters.ConverterUtils.DataSource;
 
 import static android.os.SystemClock.elapsedRealtime;
+
+//import android.os.Build;
+//import com.meapsoft.FFT;
+//import weka.core.DenseInstance;
 //import weka.core.;
 
 public class MainActivity extends Activity implements SensorEventListener, LocationListener {
@@ -123,6 +112,17 @@ public class MainActivity extends Activity implements SensorEventListener, Locat
 
     long startCollectingTime;
     long stopCollectingTime;
+
+    private TextView walkingSummaryText;
+    private TextView runningSummaryText;
+    private TextView bikingSummaryText;
+    private TextView drivingSummaryText;
+
+    String summaryFileName = "SummaryStats.csv";
+    String unlabeledDataFileName = "UnlabeledData.arff";
+    String dtFName = "DecisionTreeModel.model";
+    String naiveBayesFName = "NaiveBayesModel.model";
+
 
     @Override
     public void onAccuracyChanged(Sensor sensor, int accuracy) {
@@ -268,8 +268,68 @@ public class MainActivity extends Activity implements SensorEventListener, Locat
         verifyLocationPermissions(MainActivity.this);
         verifyStoragePermissions(MainActivity.this);
 
+        walkingSummaryText = (TextView) findViewById(R.id.walkingsummarytextview);
+        runningSummaryText = (TextView) findViewById(R.id.runningsummaryview);
+        bikingSummaryText = (TextView) findViewById(R.id.bikingsummaryview);
+        drivingSummaryText = (TextView) findViewById(R.id.drivingsummaryview);
+
+
         Intent intent = new Intent(this, RecommendationsActivity.class);
         startActivity(intent);
+
+        try {
+            path.mkdirs();
+            File summaryfile = new File(path, summaryFileName);
+            CSVReader reader = new CSVReader(new FileReader(summaryfile));
+            HashMap<String, Double> classCounts = new HashMap<>();
+            String [] nextLine;
+
+
+            while ((nextLine = reader.readNext()) != null) {
+                // nextLine[] is an array of values from the line
+                //we want the classifications and then add up all the time, placed into the hashmap
+                double currentVal = 0d;
+
+                if(classCounts.containsKey(nextLine[1])){
+                    currentVal = classCounts.get(nextLine[1]);
+                    currentVal += Double.parseDouble(nextLine[0]);
+                    classCounts.put(nextLine[1], currentVal);
+                } else {
+                    classCounts.put(nextLine[1], Double.parseDouble(nextLine[0]));
+                }
+            }
+
+            Log.d("VIMIG", classCounts.toString());
+            if(classCounts.containsKey("Walking"))
+                walkingSummaryText.setText(convertSecondsToDisplay(classCounts.get("Walking")));
+            else
+                walkingSummaryText.setText(String.format("%d days", 0));
+
+            if(classCounts.containsKey("Running"))
+                runningSummaryText.setText(convertSecondsToDisplay(classCounts.get("Running")));
+            else
+                runningSummaryText.setText(String.format("%d days", 0));
+
+            if(classCounts.containsKey("Biking"))
+                bikingSummaryText.setText(convertSecondsToDisplay(classCounts.get("Biking")));
+            else
+                bikingSummaryText.setText(String.format("%d days", 0));
+
+            if(classCounts.containsKey("Driving"))
+                drivingSummaryText.setText(convertSecondsToDisplay(classCounts.get("Driving")));
+            else
+                drivingSummaryText.setText(String.format("%d days", 0));
+
+
+
+        } catch(IOException e){
+            Log.d("VIMIG", "io");
+            walkingSummaryText.setText("No Data Available!");
+            runningSummaryText.setText("No Data Available!");
+            bikingSummaryText.setText("No Data Available!");
+            drivingSummaryText.setText("No Data Available!");
+            e.printStackTrace();
+        }
 
         mSensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
         mAccelerometer = mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
@@ -314,6 +374,33 @@ public class MainActivity extends Activity implements SensorEventListener, Locat
 
     }
 
+    private String convertSecondsToDisplay(double seconds) {
+
+        long secondsRounded = Math.round(seconds);
+        Log.d("VIMIG", Long.toString(secondsRounded));
+        long days = TimeUnit.SECONDS
+                .toDays(secondsRounded);
+        Log.d("VIMIG", Long.toString(days));
+        secondsRounded -= TimeUnit.DAYS.toSeconds(days);
+
+        long hours = TimeUnit.SECONDS
+                .toHours(secondsRounded);
+        secondsRounded -= TimeUnit.HOURS.toSeconds(hours);
+
+        long minutes = TimeUnit.SECONDS
+                .toMinutes(secondsRounded);
+        secondsRounded -= TimeUnit.MINUTES.toSeconds(minutes);
+
+        String displayTime;
+        if(days == 0)
+            displayTime = String.format("%d hrs, %d min.", hours, minutes);
+        else if (hours == 0)
+            displayTime = String.format("%d min.", minutes);
+        else
+            displayTime = String.format("%d days, %d hrs, %d min.", days, hours, minutes);
+
+        return displayTime;
+    }
 
     public void onLocationChanged(Location location) {
         // Called when a new location is found by the network location provider.
@@ -428,8 +515,6 @@ public class MainActivity extends Activity implements SensorEventListener, Locat
     public void classifyCurrentSessionClick(View v) {
         try {
             path.mkdirs();
-            String dtFName = "DecisionTreeModel.model";
-            String naiveBayesFName = "NaiveBayesModel.model";
             //we want to pick one of these
             //start with naive Bayes for now
             File modelFile = new File(path,naiveBayesFName);
@@ -448,7 +533,6 @@ public class MainActivity extends Activity implements SensorEventListener, Locat
         try {
             path.mkdirs();
             ArffReader arff;
-            String unlabeledDataFileName = "UnlabeledData.arff";
             File unlabeledData = new File(path, unlabeledDataFileName);
             BufferedReader reader = new BufferedReader(new FileReader(unlabeledData));
             arff = new ArffReader(reader, 1000);
@@ -472,7 +556,6 @@ public class MainActivity extends Activity implements SensorEventListener, Locat
                 int summaryClassification = mode(classifiedVals);
                 String classificationLabel = classes.get(summaryClassification);
 
-                String summaryFileName = "SummaryStats.csv";
                 path.mkdirs();
                 File summaryData = new File(path, summaryFileName);
                 if (!summaryData.exists()) {
@@ -720,8 +803,6 @@ public class MainActivity extends Activity implements SensorEventListener, Locat
             accelerometerStr[1] = "" + event.values[1] + "";
             accelerometerStr[2] = "" + event.values[2] + "";
 
-            accelerometertxtView = new TextView(this);
-           accelerometertxtView =(TextView)findViewById(R.id.textView2);
             accelerometertxtView.setText(accelerometerStr[0] + " " + accelerometerStr[1] + " " + accelerometerStr[2]);
 
 
