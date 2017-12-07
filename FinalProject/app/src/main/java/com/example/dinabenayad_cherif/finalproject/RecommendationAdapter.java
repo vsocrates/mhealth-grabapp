@@ -18,10 +18,10 @@ public class RecommendationAdapter extends BaseAdapter {
 
     ArrayList<String> recommendations;
     Context context;
-    int [] images;
+    ArrayList<Integer> images;
     private static LayoutInflater inflater=null;
 
-    public RecommendationAdapter(RecommendationsActivity activity, ArrayList<String> aRecommendations, int[] aIcons){
+    public RecommendationAdapter(RecommendationsActivity activity, ArrayList<String> aRecommendations, ArrayList<Integer> aIcons){
         recommendations = aRecommendations;
         context = activity;
         images = aIcons;
@@ -62,7 +62,7 @@ public class RecommendationAdapter extends BaseAdapter {
         holder.img= rowView.findViewById(R.id.recommendation_icon);
 
         holder.tv.setText(recommendations.get(position));
-        holder.img.setImageResource(images[position]);
+        holder.img.setImageResource(images.get(position));
 
         return rowView;
     }

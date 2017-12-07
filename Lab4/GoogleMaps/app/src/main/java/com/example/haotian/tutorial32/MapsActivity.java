@@ -126,7 +126,6 @@ public class MapsActivity extends FragmentActivity implements LocationListener {
 
     }
 
-
     public void launchCamera(View v){
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         if (takePictureIntent.resolveActivity(getPackageManager()) != null) {

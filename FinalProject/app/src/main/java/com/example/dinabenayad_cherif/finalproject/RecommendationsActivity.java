@@ -17,7 +17,7 @@ import java.util.ArrayList;
 
 public class RecommendationsActivity extends ListActivity {
 
-    public static int [] prgmImages={R.drawable.ic_directions_bike_black_36dp,R.drawable.ic_directions_walk_black_36dp,R.drawable.ic_time_to_leave_black_36dp};
+    public static ArrayList<Integer> prgmImages = new ArrayList<Integer>();
     public static ArrayList<String> prgmNameList= new ArrayList<String>();
     //{"It's sunny outside, let's bike!","You've been driving a lot, maybe take a walk","It's probably raining, drive to work!"};
     private GoogleApiClient mGoogleApiClient;
@@ -105,23 +105,26 @@ public class RecommendationsActivity extends ListActivity {
 
         if (clearconditions) {
             prgmNameList.add("It's nice out, you should go biking!");
+            prgmImages.add(R.drawable.ic_directions_bike_black_36dp);
         }
 
         if (drivingSeconds > bikingSeconds && clearconditions && temperature > 40) {
             prgmNameList.add("You have been driving a lot, it's nice out, try biking.");
+            prgmImages.add(R.drawable.ic_directions_bike_black_36dp);
         }
         if (rainyconditions) {
             prgmNameList.add("It's raining today, drive to work.");
+            prgmImages.add(R.drawable.ic_time_to_leave_black_36dp);
         }
         else {
             prgmNameList.add("It's sunny outside, let's bike!");
+            prgmImages.add(R.drawable.ic_directions_bike_black_36dp);
             prgmNameList.add("You've been driving a lot, maybe take a walk");
+            prgmImages.add(R.drawable.ic_directions_walk_black_36dp);
             prgmNameList.add("It's probably raining, drive to work!");
+            prgmImages.add(R.drawable.ic_time_to_leave_black_36dp);
 
         }
-
-
-
 
     }
 

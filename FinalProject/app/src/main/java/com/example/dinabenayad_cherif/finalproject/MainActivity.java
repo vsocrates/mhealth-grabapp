@@ -1,14 +1,10 @@
 package com.example.dinabenayad_cherif.finalproject;
 
 import android.Manifest;
-
-import java.io.InputStream;
-import java.util.Set;
 import android.Manifest.permission;
 import android.app.Activity;
 import android.bluetooth.BluetoothAdapter;
-import android.bluetooth.BluetoothSocket;
-import com.google.android.gms.common.api.GoogleApiClient;
+import android.bluetooth.BluetoothDevice;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -20,22 +16,15 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.AsyncTask;
-import com.google.android.gms.awareness.*;
-import com.google.android.gms.awareness.state.*;
-//import android.os.Build;
-
-import android.bluetooth.BluetoothAdapter;
-import android.bluetooth.BluetoothDevice;
-
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.v4.app.ActivityCompat;
-import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.common.api.GoogleApiClient;
 import com.opencsv.CSVReader;
 import com.opencsv.CSVWriter;
 
@@ -49,6 +38,7 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Set;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.TimeUnit;
 
@@ -62,6 +52,8 @@ import weka.core.converters.ArffSaver;
 import weka.core.converters.ConverterUtils.DataSource;
 
 import static android.os.SystemClock.elapsedRealtime;
+
+//import android.os.Build;
 
 //import android.os.Build;
 //import com.meapsoft.FFT;
@@ -170,87 +162,6 @@ public class MainActivity extends Activity implements SensorEventListener, Locat
         }
     }
 
-
-
-
-
-
-//    @Override
-//    public final void onSensorChanged(SensorEvent event) {
-//        Log.d("Changing in sensor data", "sensor data changed");
-//        if (allData()) {
-//            //this.writer = new CSVWriter(new FileWriter(file, true), ',', CSVWriter.NO_QUOTE_CHARACTER, CSVWriter.NO_ESCAPE_CHARACTER, CSVWriter.DEFAULT_LINE_END);
-//            Date date = new Date();
-//            String[] row = {(new Timestamp(date.getTime())).toString(), accelerometerStr[0], accelerometerStr[1], accelerometerStr[2], magnetometerStr[0], magnetometerStr[1], magnetometerStr[2],
-//                    gyroscopeStr[0], gyroscopeStr[1], gyroscopeStr[2], rotationStr[0], rotationStr[1], rotationStr[2], linaccStr[0],
-//                    linaccStr[1], linaccStr[2], gravityStr[0], gravityStr[1], gravityStr[2]};
-//            Log.d("Printing out row values", accelerometerStr[0]);
-//            //this.writer.writeNext(row);
-//            accelerometerStr = new String[3];
-//            magnetometerStr = new String[3];
-//            gyroscopeStr = new String[3];
-//            rotationStr = new String[3];
-//            linaccStr = new String[3];
-//            gravityStr = new String[3];
-//            //writer.close();
-//        }
-//
-//        Sensor sensor = event.sensor;
-//        if (sensor.getType() == Sensor.TYPE_ACCELEROMETER) {
-//            accelerometerStr[0] = "" + event.values[0] + "";
-//            accelerometerStr[1] = "" + event.values[1] + "";
-//            accelerometerStr[2] = "" + event.values[2] + "";
-//            accelerometertxtView = new TextView(this);
-//            accelerometertxtView = (TextView) findViewById(R.id.textView2);
-//            accelerometertxtView.setText(accelerometerStr[0] + " " + accelerometerStr[1] + " " + accelerometerStr[2]);
-//
-//        } else if (sensor.getType() == Sensor.TYPE_MAGNETIC_FIELD) {
-//            magnetometerStr[0] = "" + event.values[0] + "";
-//            magnetometerStr[1] = "" + event.values[1] + "";
-//            magnetometerStr[2] = "" + event.values[2] + "";
-//
-//        } else if (sensor.getType() == Sensor.TYPE_GYROSCOPE) {
-//            gyroscopeStr[0] = "" + event.values[0] + "";
-//            gyroscopeStr[1] = "" + event.values[1] + "";
-//            gyroscopeStr[2] = "" + event.values[2] + "";
-//
-//        } else if (sensor.getType() == Sensor.TYPE_ROTATION_VECTOR) {
-//            rotationStr[0] = "" + event.values[0] + "";
-//            rotationStr[1] = "" + event.values[1] + "";
-//            rotationStr[2] = "" + event.values[2] + "";
-//            rotationtxtView = new TextView(this);
-//            rotationtxtView = (TextView) findViewById(R.id.textView5);
-//            rotationtxtView.setText(rotationStr[0] + " " + rotationStr[1] + " " + rotationStr[2]);
-//
-//        } else if (sensor.getType() == Sensor.TYPE_LINEAR_ACCELERATION) {
-//            linaccStr[0] = "" + event.values[0] + "";
-//            linaccStr[1] = "" + event.values[1] + "";
-//            linaccStr[2] = "" + event.values[2] + "";
-//
-//        } else {
-//            gravityStr[0] = "" + event.values[0] + "";
-//            gravityStr[1] = "" + event.values[1] + "";
-//            gravityStr[2] = "" + event.values[2] + "";
-//        }
-//
-//        Location location = getMostAccurateLocation();
-//        if (lastLocation != null) {
-//            if (location.getLongitude() != lastLocation.getLongitude() || lastLocation.getLatitude() != location.getLongitude()) {
-//                lastLocation = location;
-//                gpsCoordinatesView = new TextView(this);
-//                gpsCoordinatesView = (TextView) findViewById(R.id.textView7);
-//                gpsCoordinatesView.setText(location.getLatitude() + " " + location.getLongitude());
-//            }
-//        } else {
-//            lastLocation = location;
-//        }
-//
-//
-//        // The light sensor returns a single value.
-//        // Many sensors return 3 values, one for each axis.
-//        //float lux = event.values[0];
-//        // Do something with this sensor value.
-//    }
 
     public void startCollectingData(View v) {
         Toast.makeText(this, "Started Collecting Data!", Toast.LENGTH_SHORT).show();
