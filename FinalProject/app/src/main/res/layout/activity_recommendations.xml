@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    tools:context="com.example.dinabenayad_cherif.finalproject.RecommendationsActivity"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <TextView
+        android:paddingLeft="10dp"
+        android:paddingTop="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/rec_title"
+        android:textSize="24sp"/>
+
+
+    <ListView android:id="@id/android:list"
+              android:layout_height="0dip"
+              android:layout_width="match_parent"
+              android:layout_weight="1" />
+
+    <Button android:id="@+id/btn"
+            android:onClick="continueClick"
+            android:text="@string/recommendation_continue"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+</LinearLayout>

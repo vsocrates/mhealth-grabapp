@@ -8,6 +8,7 @@ import android.Manifest.permission;
 import android.app.Activity;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothSocket;
+import com.google.android.gms.common.api.GoogleApiClient;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -19,6 +20,8 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.AsyncTask;
+import com.google.android.gms.awareness.*;
+import com.google.android.gms.awareness.state.*;
 //import android.os.Build;
 
 import android.bluetooth.BluetoothAdapter;
@@ -33,25 +36,7 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
-
-//import com.meapsoft.FFT;
-
-import weka.core.Attribute;
-//import weka.core.DenseInstance;
-import weka.core.Instance;
-import weka.core.FastVector;
-import weka.core.Instances;
-import weka.core.converters.ArffSaver;
-import weka.core.converters.ConverterUtils.DataSource;
-
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.sql.Timestamp;
-import java.text.DecimalFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.concurrent.ArrayBlockingQueue;
+import com.opencsv.CSVReader;
 import com.opencsv.CSVWriter;
 
 import java.io.BufferedReader;
@@ -60,23 +45,31 @@ import java.io.FileInputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.sql.Timestamp;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.concurrent.ArrayBlockingQueue;
+import java.util.concurrent.TimeUnit;
 
 import weka.classifiers.Classifier;
+import weka.core.Attribute;
+import weka.core.FastVector;
 import weka.core.Instance;
 import weka.core.Instances;
 import weka.core.converters.ArffLoader.ArffReader;
+import weka.core.converters.ArffSaver;
+import weka.core.converters.ConverterUtils.DataSource;
 
 import static android.os.SystemClock.elapsedRealtime;
+
+//import android.os.Build;
+//import com.meapsoft.FFT;
+//import weka.core.DenseInstance;
 //import weka.core.;
 
 public class MainActivity extends Activity implements SensorEventListener, LocationListener {
 
-    TextView accelerometertxtView;
     TextView rotationtxtView;
     TextView gpsCoordinatesView;
 
@@ -109,6 +102,8 @@ public class MainActivity extends Activity implements SensorEventListener, Locat
     private Sensor mLineAcc;
     private Sensor mGravity;
 
+    private GoogleApiClient mGoogleApiClient;
+
     private Instances mDataset;
     private Attribute mClassAttribute;
 
@@ -140,6 +135,17 @@ public class MainActivity extends Activity implements SensorEventListener, Locat
     long startCollectingTime;
     long stopCollectingTime;
 
+    private TextView walkingSummaryText;
+    private TextView runningSummaryText;
+    private TextView bikingSummaryText;
+    private TextView drivingSummaryText;
+
+    String summaryFileName = "SummaryStats.csv";
+    String unlabeledDataFileName = "UnlabeledData.arff";
+    String dtFName = "DecisionTreeModel.model";
+    String naiveBayesFName = "NaiveBayesModel.model";
+
+
     @Override
     public void onAccuracyChanged(Sensor sensor, int accuracy) {
 
@@ -163,6 +169,9 @@ public class MainActivity extends Activity implements SensorEventListener, Locat
             return true;
         }
     }
+
+
+
 
 
 
@@ -244,6 +253,8 @@ public class MainActivity extends Activity implements SensorEventListener, Locat
 //    }
 
     public void startCollectingData(View v) {
+        Toast.makeText(this, "Started Collecting Data!", Toast.LENGTH_SHORT).show();
+
         mSensorManager.registerListener(this, mAccelerometer, SensorManager.SENSOR_DELAY_NORMAL);
         mSensorManager.registerListener(this, mMagnetometer, SensorManager.SENSOR_DELAY_NORMAL);
         mSensorManager.registerListener(this, mGyroscope, SensorManager.SENSOR_DELAY_NORMAL);
@@ -260,6 +271,7 @@ public class MainActivity extends Activity implements SensorEventListener, Locat
     }
 
     public void stopCollectingData(View v) {
+        Toast.makeText(this, "Stopped Collecting Data!", Toast.LENGTH_SHORT).show();
         stopCollectingTime = elapsedRealtime();
         mAsyncTask.cancel(true);
         try {
@@ -286,6 +298,99 @@ public class MainActivity extends Activity implements SensorEventListener, Locat
         verifyLocationPermissions(MainActivity.this);
         verifyStoragePermissions(MainActivity.this);
 
+        walkingSummaryText = (TextView) findViewById(R.id.walkingsummarytextview);
+        runningSummaryText = (TextView) findViewById(R.id.runningsummaryview);
+        bikingSummaryText = (TextView) findViewById(R.id.bikingsummaryview);
+        drivingSummaryText = (TextView) findViewById(R.id.drivingsummaryview);
+
+//
+//        Intent intent = new Intent(this, RecommendationsActivity.class);
+//        startActivity(intent);
+
+        double walkingSeconds =0;
+        double bikingSeconds =0;
+        double runningSeconds =0;
+        double drivingSeconds =0;
+
+
+
+        try {
+            path.mkdirs();
+            File summaryfile = new File(path, summaryFileName);
+            CSVReader reader = new CSVReader(new FileReader(summaryfile));
+            HashMap<String, Double> classCounts = new HashMap<>();
+            String [] nextLine;
+
+
+            while ((nextLine = reader.readNext()) != null) {
+                // nextLine[] is an array of values from the line
+                //we want the classifications and then add up all the time, placed into the hashmap
+                double currentVal = 0d;
+
+                if(classCounts.containsKey(nextLine[1])){
+                    currentVal = classCounts.get(nextLine[1]);
+                    currentVal += Double.parseDouble(nextLine[0]);
+                    classCounts.put(nextLine[1], currentVal);
+                } else {
+                    classCounts.put(nextLine[1], Double.parseDouble(nextLine[0]));
+                }
+            }
+
+            Log.d("VIMIG", classCounts.toString());
+            if(classCounts.containsKey("Walking")) {
+                walkingSeconds = classCounts.get("Walking");
+                walkingSummaryText.setText(convertSecondsToDisplay(classCounts.get("Walking")));
+            }
+            else {
+                walkingSeconds = 0;
+                walkingSummaryText.setText(String.format("%d days", 0));
+            }
+
+            if(classCounts.containsKey("Running")) {
+                runningSeconds = classCounts.get("Running");
+                runningSummaryText.setText(convertSecondsToDisplay(classCounts.get("Running")));
+            }
+            else {
+                runningSeconds = 0;
+                runningSummaryText.setText(String.format("%d days", 0));
+            }
+
+            if(classCounts.containsKey("Biking")) {
+                bikingSeconds = classCounts.get("Biking");
+                bikingSummaryText.setText(convertSecondsToDisplay(classCounts.get("Biking")));
+            }
+            else {
+                bikingSeconds = 0;
+                bikingSummaryText.setText(String.format("%d days", 0));
+            }
+
+            if(classCounts.containsKey("Driving")) {
+                drivingSeconds = classCounts.get("Driving");
+                drivingSummaryText.setText(convertSecondsToDisplay(classCounts.get("Driving")));
+            }
+            else {
+                drivingSeconds = 0;
+                drivingSummaryText.setText(String.format("%d days", 0));
+            }
+
+
+
+        } catch(IOException e){
+            Log.d("VIMIG", "io");
+            walkingSummaryText.setText("No Data Available!");
+            runningSummaryText.setText("No Data Available!");
+            bikingSummaryText.setText("No Data Available!");
+            drivingSummaryText.setText("No Data Available!");
+            e.printStackTrace();
+        }
+
+        Intent intent = new Intent(this, RecommendationsActivity.class);
+        intent.putExtra("walking", walkingSeconds);
+        intent.putExtra("biking", bikingSeconds);
+        intent.putExtra("driving", drivingSeconds);
+        intent.putExtra("running", runningSeconds);
+        startActivity(intent);
+
         mSensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
         mAccelerometer = mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
         mMagnetometer = mSensorManager.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD);
@@ -298,7 +403,8 @@ public class MainActivity extends Activity implements SensorEventListener, Locat
         mAccBuffer = new ArrayBlockingQueue<Double>(
                 Globals.ACCELEROMETER_BUFFER_CAPACITY);
 
-        mFeatureFile = new File(getExternalFilesDir(null), Globals.FEATURE_FILE_NAME);
+        path.mkdirs();
+        mFeatureFile = new File(path, Globals.FEATURE_FILE_NAME);
 
         //ArrayList<Attribute> allAttr = new ArrayList<Attribute>();
         FastVector allAttr = new FastVector();
@@ -325,50 +431,84 @@ public class MainActivity extends Activity implements SensorEventListener, Locat
         allAttr.addElement(mClassAttribute);
         mDataset = new Instances(Globals.FEAT_SET_NAME, allAttr, Globals.FEATURE_SET_CAPACITY);
 
-        if (!mBluetoothAdapter.isEnabled()) {
-            Intent enableBtIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
-            startActivityForResult(enableBtIntent, REQUEST_ENABLE_BT);
-        }
-        String deviceName = "edison";
-        BluetoothDevice result = null;
-        Set<BluetoothDevice> devices = mBluetoothAdapter.getBondedDevices();
-        if (devices != null) {
-            for (BluetoothDevice device : devices) {
-                if (deviceName.equals(device.getName())) {
-                    result = device;
-                    break;
-                }
-            }
-        }
-
-        BluetoothSocket socket;
-        Log.d("device is", result.getAddress());
-        try {
-            // Use the UUID of the device that discovered // TODO Maybe need extra device object
-            if (result != null) {
-                Log.i("checking bluetooth", "Device Name: " + result.getName());
-                Log.i("checking bluetooth", "Device UUID: " + result.getUuids()[0].getUuid());
-                socket = result.createRfcommSocketToServiceRecord(result.getUuids()[0].getUuid());
-                socket.connect();
-                InputStream in = socket.getInputStream();
-                Log.d("getting input stream", in.toString());
-
-
-
-            }
-            else Log.d("checking bluetooth", "Device is null.");
-        }
-
-        catch (NullPointerException e) {
-            Log.d ("null pointer", "cannot open socket");
-        }
-        catch (IOException e) { }
-
+//        if (!mBluetoothAdapter.isEnabled()) {
+//            Intent enableBtIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
+//            startActivityForResult(enableBtIntent, REQUEST_ENABLE_BT);
+//        }
+//        String deviceName = "edison";
+//        BluetoothDevice result = null;
+//        Set<BluetoothDevice> devices = mBluetoothAdapter.getBondedDevices();
+//        if (devices != null) {
+//            for (BluetoothDevice device : devices) {
+//                if (deviceName.equals(device.getName())) {
+//                    result = device;
+//                    break;
+//                }
+//            }
+//        }
+//
+//        BluetoothSocket socket;
+//        Log.d("device is", result.getAddress());
+//        try {
+//            // Use the UUID of the device that discovered // TODO Maybe need extra device object
+//            if (result != null) {
+//                Log.i("checking bluetooth", "Device Name: " + result.getName());
+//                Log.i("checking bluetooth", "Device UUID: " + result.getUuids()[0].getUuid());
+//                socket = result.createRfcommSocketToServiceRecord(result.getUuids()[0].getUuid());
+//                socket.connect();
+//                InputStream in = socket.getInputStream();
+//                Log.d("getting input stream", in.toString());
+//
+//
+//
+//            }
+//            else Log.d("checking bluetooth", "Device is null.");
+//        }
+//
+//        catch (NullPointerException e) {
+//            Log.d ("null pointer", "cannot open socket");
+//        }
+//        catch (IOException e) { }
+//
 
 
 
     }
 
+    public int[] getConditions() {
+        int[] i = new int[1];
+        i[0] = 5;
+        return i;
+
+    }
+
+    private String convertSecondsToDisplay(double seconds) {
+
+        long secondsRounded = Math.round(seconds);
+        Log.d("VIMIG", Long.toString(secondsRounded));
+        long days = TimeUnit.SECONDS
+                .toDays(secondsRounded);
+        Log.d("VIMIG", Long.toString(days));
+        secondsRounded -= TimeUnit.DAYS.toSeconds(days);
+
+        long hours = TimeUnit.SECONDS
+                .toHours(secondsRounded);
+        secondsRounded -= TimeUnit.HOURS.toSeconds(hours);
+
+        long minutes = TimeUnit.SECONDS
+                .toMinutes(secondsRounded);
+        secondsRounded -= TimeUnit.MINUTES.toSeconds(minutes);
+
+        String displayTime;
+        if(days == 0)
+            displayTime = String.format("%d hrs, %d min.", hours, minutes);
+        else if (hours == 0)
+            displayTime = String.format("%d min.", minutes);
+        else
+            displayTime = String.format("%d days, %d hrs, %d min.", days, hours, minutes);
+
+        return displayTime;
+    }
 
     public void onLocationChanged(Location location) {
         // Called when a new location is found by the network location provider.
@@ -483,8 +623,6 @@ public class MainActivity extends Activity implements SensorEventListener, Locat
     public void classifyCurrentSessionClick(View v) {
         try {
             path.mkdirs();
-            String dtFName = "DecisionTreeModel.model";
-            String naiveBayesFName = "NaiveBayesModel.model";
             //we want to pick one of these
             //start with naive Bayes for now
             File modelFile = new File(path,naiveBayesFName);
@@ -503,7 +641,6 @@ public class MainActivity extends Activity implements SensorEventListener, Locat
         try {
             path.mkdirs();
             ArffReader arff;
-            String unlabeledDataFileName = "UnlabeledData.arff";
             File unlabeledData = new File(path, unlabeledDataFileName);
             BufferedReader reader = new BufferedReader(new FileReader(unlabeledData));
             arff = new ArffReader(reader, 1000);
@@ -527,7 +664,6 @@ public class MainActivity extends Activity implements SensorEventListener, Locat
                 int summaryClassification = mode(classifiedVals);
                 String classificationLabel = classes.get(summaryClassification);
 
-                String summaryFileName = "SummaryStats.csv";
                 path.mkdirs();
                 File summaryData = new File(path, summaryFileName);
                 if (!summaryData.exists()) {
@@ -775,9 +911,7 @@ public class MainActivity extends Activity implements SensorEventListener, Locat
             accelerometerStr[1] = "" + event.values[1] + "";
             accelerometerStr[2] = "" + event.values[2] + "";
 
-            accelerometertxtView = new TextView(this);
-           accelerometertxtView =(TextView)findViewById(R.id.textView2);
-            accelerometertxtView.setText(accelerometerStr[0] + " " + accelerometerStr[1] + " " + accelerometerStr[2]);
+            //accelerometertxtView.setText(accelerometerStr[0] + " " + accelerometerStr[1] + " " + accelerometerStr[2]);
 
 
             double m = Math.sqrt(event.values[0] * event.values[0]

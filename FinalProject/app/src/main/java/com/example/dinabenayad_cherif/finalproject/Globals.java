@@ -40,7 +40,7 @@ public abstract class Globals {
 	public static final String FEAT_MAX_LABEL = "max";
 	public static final String FEAT_SET_NAME = "accelerometer_features";
 
-	public static final String FEATURE_FILE_NAME = "features123.arff";
+	public static final String FEATURE_FILE_NAME = "UnlabeledData.arff";
 	public static final String RAW_DATA_NAME = "raw_data.txt";
 	public static final int FEATURE_SET_CAPACITY = 10000;
 	
