@@ -36,13 +36,7 @@
                 android:value=".MainActivity"/>
             <meta-data
                 android:name="com.google.android.awareness.API_KEY"
-                android:value="AIzaSyCgCVVLK1s0TcCDYY1AYWW9NKLNDf-Kr9I" />
-            <meta-data
-                android:name="com.google.android.geo.API_KEY"
-                android:value="AIzaSyCgCVVLK1s0TcCDYY1AYWW9NKLNDf-Kr9I" />
-            <meta-data
-                android:name="com.google.android.nearby.messages.API_KEY"
-                android:value="AIzaSyCgCVVLK1s0TcCDYY1AYWW9NKLNDf-Kr9I" />
+                android:value="AIzaSyBF2NlIIZfBj2mdKL9tBVAXFjAd_gYXL-8" />
 
         </activity>
         <activity android:name=".RecommendationsActivity">

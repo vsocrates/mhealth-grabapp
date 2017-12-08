@@ -57,7 +57,6 @@ public class BuildClassifier extends TabActivity{
 	private static final int promptDialog = 1;
 	private static final int FileDetailDialog = 2;
 	private static final int SaveModelDialog = 3;
-	private static final int ChooseFileDialog = 4;
 
 	private static final int NAIVEBAYES = 0;
 //	private static final int RBFNETWORK = 1;
@@ -131,7 +130,6 @@ public class BuildClassifier extends TabActivity{
 		show_state.setText("");
 		progress.setVisibility(View.GONE);
 
-//		showDialog(ChooseFileDialog);
 	}
 
 	private Handler mHandler = new Handler() {
@@ -498,109 +496,6 @@ public class BuildClassifier extends TabActivity{
 		return builder.create();
 	}
 
-    private Dialog ChooseFileDialog (Context context) {
-		Log.d("VIMIG", "made here.");
-		LayoutInflater inflater = LayoutInflater.from(this);
-		final View textEntryView = inflater.inflate(
-				R.layout.choosefile, (ViewGroup)findViewById(R.id.choosefile_layout));
-//        Log.d("VIMIG", textEntryView.toString());
-		AlertDialog.Builder builder = new AlertDialog.Builder(context);
-//        Log.d("VIMIG", "made here2.");
-		builder.setTitle("Choose Train File");
-//		builder.setIcon(R.drawable.weka);
-		list = (ListView) textEntryView.findViewById(R.id.list);
-//        Log.d("VIMIG", "made here4.");
-//        getFileDir("/sdcard/");
-//        Log.d("VIMIG", "made here3.");
-
-//		list.setOnItemClickListener(new OnItemClickListener(){
-//			@Override
-//			public void onItemClick(AdapterView<?> arg0, View v, int position, long id) {
-//                Log.d("VIMIG", "inside onitemclick.");
-//
-//                File file = new File(paths.get(position));
-//				if (file.isDirectory()) {
-//					if (vv != null)
-//						vv.setBackgroundColor(Color.WHITE);
-//					curPath = paths.get(position);
-//					getFileDir(paths.get(position));
-//				} else {
-//					v.setBackgroundColor(Color.GRAY);
-//					if (vv != null)
-//						vv.setBackgroundColor(Color.WHITE);
-//					vv = v;
-//					curPath = paths.get(position);
-//				}
-//			}
-//		});
-        Log.d("VIMIG", "b4 button make.");
-
-//        Button confirmbutton = (Button)textEntryView.findViewById(R.id.buttonfileConfirm);
-//		Button canclebutton = (Button)textEntryView.findViewById(R.id.buttonfileCancle);
-        Log.d("VIMIG", "button make.");
-
-
-
-
-//		confirmbutton.setOnClickListener(new OnClickListener() {
-//			public void onClick(View arg0) {
-//				if (curPath.endsWith(".arff")&&(TypeFile == 0||TypeFile == 1)) {
-//					running = true;
-//					dismissDialog(ChooseFileDialog);
-//					progress.setVisibility(View.VISIBLE);
-//					show_state.setText("  Opening File,Waiting.");
-//					if (TypeFile == 0) {
-//						TrainfileName = curPath;
-//						classifier_trainflie.setText(TrainfileName);
-//					}
-//					else if (TypeFile == 1) {
-//						TestfileName = curPath;
-//						classifier_testfile.setText(TestfileName);
-//					}
-//					new Thread(new Runnable(){
-//			            @Override
-//			            public void run() {
-//			            	Readfile();
-//			            	Message message = Message.obtain();
-//			                message.what = 1;
-//			                mHandler.sendMessage(message);
-//			                running = false;
-//			            }
-//			         }){ }.start();
-//				} else if (curPath.endsWith(".model")&&TypeFile == 2) {
-//					running = true;
-//					dismissDialog(ChooseFileDialog);
-//					ModelPathName = curPath;
-//					new Thread(new Runnable(){
-//			            @Override
-//			            public void run() {
-//			            	Readfile();
-//			            	Message message = Message.obtain();
-//			                message.what = 1;
-//			                mHandler.sendMessage(message);
-//			                running = false;
-//			            }
-//			         }){ }.start();
-//				}else {
-//					TypePrompt = 0;
-//					showDialog(promptDialog);
-//				}
-//			}
-//		});
-//		canclebutton.setOnClickListener(new OnClickListener() {
-//			@Override
-//			public void onClick(View arg0) {
-//				if (TrainfileName == null){
-//					TypePrompt = 1;
-//					showDialog(promptDialog);
-//				}else
-//					dismissDialog(ChooseFileDialog);
-//			}
-//
-//		});
-		builder.setView(textEntryView);
-		return builder.create();
-	}
 
     private Dialog promptDialog(Context context) {
     	AlertDialog.Builder builder = new AlertDialog.Builder(context);
@@ -638,9 +533,7 @@ public class BuildClassifier extends TabActivity{
 	}
 
 	protected Dialog onCreateDialog(int id) {
-		if (id == ChooseFileDialog)
-			return ChooseFileDialog(BuildClassifier.this);
-		else if (id == FileDetailDialog)
+		if (id == FileDetailDialog)
 			return FileDetailDialog(BuildClassifier.this);
 		else if (id == promptDialog)
 			return promptDialog(BuildClassifier.this);
@@ -651,15 +544,7 @@ public class BuildClassifier extends TabActivity{
 	}
 
 	protected void onPrepareDialog(int id, Dialog dialog){
-		if (id == ChooseFileDialog){
-			if (TypeFile == 0) {
-				dialog.setTitle("Choose Train File");
-			}else if (TypeFile == 1){
-				dialog.setTitle("Choose Test File");
-			}else if (TypeFile == 2){
-				dialog.setTitle("Choose Model");
-			}
-		}else if (id == FileDetailDialog){
+		if (id == FileDetailDialog){
 			if (TypeFile == 0) {
 				dialog.setTitle("Train File");
 				file_detail.setText(TrainSummaryString);
