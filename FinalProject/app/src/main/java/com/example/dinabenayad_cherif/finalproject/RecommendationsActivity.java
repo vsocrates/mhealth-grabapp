@@ -10,12 +10,15 @@ import android.Manifest;
 import com.google.android.gms.awareness.Awareness;
 import com.google.android.gms.awareness.snapshot.WeatherResult;
 import com.google.android.gms.awareness.state.Weather;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.GoogleApiAvailability;
 import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.GoogleApiClient;
+import android.util.Log;
 
 import java.util.ArrayList;
 
-public class RecommendationsActivity extends ListActivity {
+public class RecommendationsActivity extends ListActivity implements GoogleApiClient.OnConnectionFailedListener{
 
     public static ArrayList<Integer> prgmImages = new ArrayList<Integer>();
     public static ArrayList<String> prgmNameList= new ArrayList<String>();
@@ -43,6 +46,9 @@ public class RecommendationsActivity extends ListActivity {
         runningSeconds = i.getExtras().getDouble("running");
         bikingSeconds = i.getExtras().getDouble("biking");
         drivingSeconds = i.getExtras().getDouble("driving");
+        int k = GoogleApiAvailability.getInstance().isGooglePlayServicesAvailable(getApplicationContext());
+        Log.d("GOOGLE AWARE", "" + k + "");
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_recommendations);
 
@@ -103,6 +109,11 @@ public class RecommendationsActivity extends ListActivity {
                     }
                 });
 
+        if (walkingSeconds > drivingSeconds && temperature < 50) {
+            prgmNameList.add("You've been walking a lot, you must be tired!");
+            prgmImages.add(R.drawable.ic_time_to_leave_black_36dp);
+        }
+
         if (clearconditions) {
             prgmNameList.add("It's nice out, you should go biking!");
             prgmImages.add(R.drawable.ic_directions_bike_black_36dp);
@@ -125,6 +136,12 @@ public class RecommendationsActivity extends ListActivity {
             prgmImages.add(R.drawable.ic_time_to_leave_black_36dp);
 
         }
+
+    }
+
+    @Override
+    public void onConnectionFailed(ConnectionResult result) {
+        Log.d("Checking if failed", result.toString());
 
     }
 

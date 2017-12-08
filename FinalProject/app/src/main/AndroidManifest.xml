@@ -36,7 +36,7 @@
                 android:value=".MainActivity"/>
             <meta-data
                 android:name="com.google.android.awareness.API_KEY"
-                android:value="AIzaSyBF2NlIIZfBj2mdKL9tBVAXFjAd_gYXL-8" />
+                android:value="AIzaSyDKAFv04zQz4id0ZYCEJk1G2-jNl_lfA7A" />
 
         </activity>
         <activity android:name=".RecommendationsActivity">
